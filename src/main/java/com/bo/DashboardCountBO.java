@@ -1,28 +1,48 @@
 package com.bo;
-import java.util.List;
+
 public class DashboardCountBO {
 	
-	private Integer countSummayType;
+	private BookCountBO bookCountBO;
 	
-	private List<AllCountBO> allCounts;
-
+	private BookCategoryCountBO bookCategoryCountBO;
 	
+	private UserCountBO userCountBO;
+	
+	private LibraryCountBO libraryCountBO;
 
-	public Integer getCountSummayType() {
-		return countSummayType;
+	public BookCountBO getBookCountBO() {
+		return bookCountBO;
 	}
 
-	public void setCountSummayType(Integer countSummayType) {
-		this.countSummayType = countSummayType;
+	public void setBookCountBO(BookCountBO bookCountBO) {
+		this.bookCountBO = bookCountBO;
 	}
 
-	public List<AllCountBO> getAllCounts() {
-		return allCounts;
+	public BookCategoryCountBO getBookCategoryCountBO() {
+		return bookCategoryCountBO;
 	}
 
-	public void setAllCounts(List<AllCountBO> allCounts) {
-		this.allCounts = allCounts;
+	public void setBookCategoryCountBO(BookCategoryCountBO bookCategoryCountBO) {
+		this.bookCategoryCountBO = bookCategoryCountBO;
 	}
+
+	public UserCountBO getUserCountBO() {
+		return userCountBO;
+	}
+
+	public void setUserCountBO(UserCountBO userCountBO) {
+		this.userCountBO = userCountBO;
+	}
+
+	public LibraryCountBO getLibraryCountBO() {
+		return libraryCountBO;
+	}
+
+	public void setLibraryCountBO(LibraryCountBO libraryCountBO) {
+		this.libraryCountBO = libraryCountBO;
+	}
+	
+	
 	
 	
 

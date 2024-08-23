@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
-
-import com.bo.AllCountBO;
 import com.bo.DashboardCountBO;
 import com.dao.DashboardDao;
 import com.helper.TypeConstants;
@@ -41,17 +39,8 @@ public class DashboardDaoImpl implements DashboardDao{
 			 ps=con.prepareStatement(query.toString());
 			 rs=ps.executeQuery();
 			 dashboardCountBO=new DashboardCountBO();
-			 dashboardCountBO.setCountSummayType(TypeConstants.BOOK);
-			 AllCountBO allBookCounts=new AllCountBO();
-			 List<AllCountBO> allCountList=new ArrayList();
-			 while(rs.next()) {
-				 allBookCounts.setTotalActive(rs.getLong("total_active_stock"));
-				 allBookCounts.setTotalInActive(rs.getLong("total_inactive_stock"));
-				 allBookCounts.setAvialableActive(rs.getLong("active_available_stock"));
-				 allBookCounts.setAvialableInActive(rs.getLong("inactive_available_stock"));
-				 allCountList.add(allBookCounts);
-			 }
-			 dashboardCountBO.setAllCounts(allCountList);
+
+			
 			
 		}
 		catch(Exception e) {
