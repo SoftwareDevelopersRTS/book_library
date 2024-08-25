@@ -29,6 +29,7 @@ public class BookServiceImpl implements BookService {
 		Response response = new Response();
 		try {
 			if (bookNullChecker("ADD", book)) {
+				book.setBookId(null);
 				Library library = objectDao.getObjectById(Library.class, book.getLibId());
 				book.setLibrary(library);
 				book.setBookUniqueUid(RandomCreator.generateUID(AppConstants.BOOK_UID_PREFIX, 8));
