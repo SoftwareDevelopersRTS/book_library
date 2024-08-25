@@ -18,7 +18,7 @@ public class UserInterestServiceImpl implements UserInterestService {
 		} catch (Exception e) {
 
 		}
-		return userInterestList;
+		return userInterestList; 
 	}
 
 }
