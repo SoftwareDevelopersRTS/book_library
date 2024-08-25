@@ -48,6 +48,9 @@ public class BookCategory  implements Serializable{
     @Column(name="category_image_path")
     private String categoryImagePath;
     
+    @Column(name="is_active")
+    private Boolean isActive;
+    
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;

@@ -10,7 +10,7 @@ import com.bo.PaginationBO;
 import com.bo.Response;
 import com.dao.BookCategoryDao;
 import com.helper.CommonMessages;
-import com.helper.ErrorConstatnts;
+import com.helper.ErrorConstants;
 import com.model.BookCategory;
 import com.service.BookCategoryService;
 
@@ -36,7 +36,7 @@ public class BookCategoryController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
@@ -48,14 +48,14 @@ public class BookCategoryController {
 	public Response getBookCategoryList(@RequestBody PaginationBO pagination) {
 		Response response=new Response();
 		try {
-			response.setStatus(ErrorConstatnts.SUCESS);
+			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("BooKcategory Get Sucessfullly..");
 			response.setResult(bookCategoryDao.getBookCategoryList(pagination));
 			response.setListCount(bookCategoryDao.getBookCategoryCount(pagination));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;

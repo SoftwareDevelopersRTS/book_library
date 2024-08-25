@@ -1,49 +1,49 @@
 package com.bo;
 
 public class DashboardCountBO {
+
+	private String booksTotalCount;
+
+	private String booksAvailableCount;
 	
-	private BookCountBO bookCountBO;
+	private String bookCategoryTotalCount;
 	
-	private BookCategoryCountBO bookCategoryCountBO;
+	private String userCount;
 	
-	private UserCountBO userCountBO;
-	
-	private LibraryCountBO libraryCountBO;
 
-	public BookCountBO getBookCountBO() {
-		return bookCountBO;
+
+	public String getBooksTotalCount() {
+		return booksTotalCount;
 	}
 
-	public void setBookCountBO(BookCountBO bookCountBO) {
-		this.bookCountBO = bookCountBO;
+	public void setBooksTotalCount(String booksTotalCount) {
+		this.booksTotalCount = booksTotalCount;
 	}
 
-	public BookCategoryCountBO getBookCategoryCountBO() {
-		return bookCategoryCountBO;
+	public String getBooksAvailableCount() {
+		return booksAvailableCount;
 	}
 
-	public void setBookCategoryCountBO(BookCategoryCountBO bookCategoryCountBO) {
-		this.bookCategoryCountBO = bookCategoryCountBO;
+	public void setBooksAvailableCount(String booksAvailableCount) {
+		this.booksAvailableCount = booksAvailableCount;
 	}
 
-	public UserCountBO getUserCountBO() {
-		return userCountBO;
+	public String getBookCategoryTotalCount() {
+		return bookCategoryTotalCount;
 	}
 
-	public void setUserCountBO(UserCountBO userCountBO) {
-		this.userCountBO = userCountBO;
+	public void setBookCategoryTotalCount(String bookCategoryTotalCount) {
+		this.bookCategoryTotalCount = bookCategoryTotalCount;
 	}
 
-	public LibraryCountBO getLibraryCountBO() {
-		return libraryCountBO;
+	public String getUserCount() {
+		return userCount;
 	}
 
-	public void setLibraryCountBO(LibraryCountBO libraryCountBO) {
-		this.libraryCountBO = libraryCountBO;
+	public void setUserCount(String userCount) {
+		this.userCount = userCount;
 	}
-	
-	
-	
+
 	
 
 }

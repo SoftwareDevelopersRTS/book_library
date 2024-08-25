@@ -8,12 +8,14 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.bo.PaginationBO;
 import com.dao.BookCategoryDao;
 import com.model.BookCategory;
 
 
+@Repository
 public class BookCategoryDaoImpl implements BookCategoryDao {
 
 	@Autowired

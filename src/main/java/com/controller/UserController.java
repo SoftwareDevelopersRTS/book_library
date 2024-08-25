@@ -13,7 +13,7 @@ import com.bo.PaginationBO;
 import com.bo.Response;
 import com.dao.UserDao;
 import com.helper.CommonMessages;
-import com.helper.ErrorConstatnts;
+import com.helper.ErrorConstants;
 import com.model.User;
 import com.service.UserService;
 
@@ -37,7 +37,7 @@ public class UserController {
 			return userService.addUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
@@ -51,7 +51,7 @@ public class UserController {
 				return userService.editUser(user);
 			} catch (Exception e) {
 				e.printStackTrace();
-				response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+				response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 				response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 			}
 			return response;
@@ -66,7 +66,7 @@ public class UserController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
@@ -76,14 +76,14 @@ public class UserController {
 	public Response getUserList(@RequestBody PaginationBO pagination,@RequestHeader String timeZone) {
 		Response response=new Response();
 		try {
-			response.setStatus(ErrorConstatnts.SUCESS);
+			response.setStatus(ErrorConstants.SUCESS);
 			response.setListCount(userDao.getUserCount(pagination));
 			response.setResult(userDao.getUserList(pagination));
 			response.setMessage("Users get sucessfully");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;

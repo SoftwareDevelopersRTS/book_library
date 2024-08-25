@@ -12,7 +12,7 @@ import com.bo.PaginationBO;
 import com.bo.Response;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
-import com.helper.ErrorConstatnts;
+import com.helper.ErrorConstants;
 import com.model.Library;
 import com.service.LibraryService;
 import com.utils.MailUtility;
@@ -37,7 +37,7 @@ public class LibraryController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
@@ -53,7 +53,7 @@ public class LibraryController {
 		catch(Exception e) {
 			e.printStackTrace();
 			MailUtility.sendExceptionEmailToDeveloper(AppConstants.DEVELOPER_EMAILS, e.getMessage(), e.toString());
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
@@ -63,14 +63,14 @@ public class LibraryController {
 	public Response getLibraryList(@RequestBody PaginationBO pagination) {
 		Response response=new Response();
 		try {
-			response.setStatus(ErrorConstatnts.SUCESS);
+			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("Libraries Get Sucessfully...");
 			response.setListCount(libraryService.getLibraryCount(pagination));
 			response.setResult(libraryService.getLibraryList(pagination));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			response.setStatus(ErrorConstatnts.INTERNAL_SERVER_ERROR);
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;

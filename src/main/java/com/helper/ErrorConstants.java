@@ -2,7 +2,7 @@ package com.helper;
 
 import org.springframework.http.HttpStatus;
 
-public class ErrorConstatnts {
+public class ErrorConstants {
 	
 	public static final Integer SUCESS=HttpStatus.OK.value();
 	

@@ -12,7 +12,7 @@ import com.dao.LibraryDao;
 import com.dao.ObjectDao;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
-import com.helper.ErrorConstatnts;
+import com.helper.ErrorConstants;
 import com.model.Library;
 import com.service.LibraryService;
 import com.utils.RandomCreator;
@@ -42,7 +42,7 @@ public class LibraryServiceImpl implements LibraryService {
 				Library existingLibraryByName = objectDao.getObjectByParam(Library.class, "libraryName",
 						library.getLibraryName());
 				if (null != existingLibraryByName) {
-					response.setStatus(ErrorConstatnts.ALREADY_EXIST);
+					response.setStatus(ErrorConstants.ALREADY_EXIST);
 					response.setMessage("Library Name Already Exist Try With Another Name...");
 				} else {
 					library.setLibraryUniqueUid(RandomCreator.generateUID(AppConstants.LIBRARY_UID_PREFIX, 8));
@@ -51,13 +51,13 @@ public class LibraryServiceImpl implements LibraryService {
 					objectDao.saveObject(library.getAddress());
 					library.setAddress(library.getAddress());
 					objectDao.saveObject(library);
-					response.setStatus(ErrorConstatnts.SUCESS);
+					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Library Added Sucuessfully..");
 					response.setResult(library.getLibraryId());
 
 				}
 			} else {
-				response.setStatus(ErrorConstatnts.BAD_REQUEST);
+				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
 		} catch (Exception e) {
@@ -73,15 +73,15 @@ public class LibraryServiceImpl implements LibraryService {
 			if (null != libraryId && libraryId > 0) {
 				Library library = objectDao.getObjectById(Library.class, libraryId);
 				if (null != library) {
-					response.setStatus(ErrorConstatnts.SUCESS);
+					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Library Get Sucessfully..");
 					response.setResult(library);
 				} else {
-					response.setStatus(ErrorConstatnts.NOT_FOUND);
+					response.setStatus(ErrorConstants.NOT_FOUND);
 					response.setMessage("Library Not Found...");
 				}
 			} else {
-				response.setStatus(ErrorConstatnts.BAD_REQUEST);
+				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
 		} catch (Exception e) {

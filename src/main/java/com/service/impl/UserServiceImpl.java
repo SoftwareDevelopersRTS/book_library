@@ -8,7 +8,7 @@ import com.dao.ObjectDao;
 
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
-import com.helper.ErrorConstatnts;
+import com.helper.ErrorConstants;
 import com.model.Address;
 import com.model.User;
 import com.service.UserService;
@@ -35,14 +35,14 @@ public class UserServiceImpl implements UserService {
 			if (userNullChecker("ADD", user)) {
 				User existingUserByEmail = objectDao.getObjectByParam(User.class, "email", user.getEmail());
 				if (null != existingUserByEmail) {
-					response.setStatus(ErrorConstatnts.ALREADY_EXIST);
+					response.setStatus(ErrorConstants.ALREADY_EXIST);
 					response.setMessage("Email Already Registerd Try Again With Another");
 					return response;
 				}
 
 				User existingUserByMobile = objectDao.getObjectByParam(User.class, "mobile", user.getMobile());
 				if (null != existingUserByMobile) {
-					response.setStatus(ErrorConstatnts.ALREADY_EXIST);
+					response.setStatus(ErrorConstants.ALREADY_EXIST);
 					response.setMessage("Mobile Number Already Registerd Try Again With Another");
 					return response;
 				}
@@ -62,12 +62,12 @@ public class UserServiceImpl implements UserService {
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 				objectDao.saveObject(user);
-				response.setStatus(ErrorConstatnts.SUCESS);
+				response.setStatus(ErrorConstants.SUCESS);
 				response.setMessage("User Added Sucessfully");
 				response.setResult(user.getUserId());
 
 			} else {
-				response.setStatus(ErrorConstatnts.BAD_REQUEST);
+				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 					if (null != user.getEmail()) {
 						User exstingUserByEmail = objectDao.getObjectByParam(User.class, "email", user.getEmail());
 						if (null != exstingUserByEmail && existingUser.getUserId() != exstingUserByEmail.getUserId()) {
-							response.setStatus(ErrorConstatnts.ALREADY_EXIST);
+							response.setStatus(ErrorConstants.ALREADY_EXIST);
 							response.setMessage("Email Already Registered Try With Another");
 							return response;
 						}else {
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 						User exstingUserByMobile = objectDao.getObjectByParam(User.class, "mobile", user.getMobile());
 						if (null != exstingUserByMobile
 								&& existingUser.getUserId() != exstingUserByMobile.getUserId()) {
-							response.setStatus(ErrorConstatnts.ALREADY_EXIST);
+							response.setStatus(ErrorConstants.ALREADY_EXIST);
 							response.setMessage("Mobile Number Already Registered Try With Another");
 							return response;
 						}else {
@@ -157,11 +157,11 @@ public class UserServiceImpl implements UserService {
 						}
 					}
 					objectDao.updateObject(existingUser);
-					response.setStatus(ErrorConstatnts.SUCESS);
+					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("User Updated Sucessfully");
 
 				} else {
-					response.setStatus(ErrorConstatnts.NOT_FOUND);
+					response.setStatus(ErrorConstants.NOT_FOUND);
 					response.setMessage("User Not Found with id:" + user.getUserId());
 				}
 
@@ -181,14 +181,14 @@ public class UserServiceImpl implements UserService {
 				if(null!=user) {
 					user.setPassword(null);
 					response.setResult(user);
-					response.setStatus(ErrorConstatnts.SUCESS);
+					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("User get sucessfully..");
 				}else {
-					response.setStatus(ErrorConstatnts.NOT_FOUND);
+					response.setStatus(ErrorConstants.NOT_FOUND);
 					response.setMessage("User Not Found");
 				}
 			}else {
-				response.setStatus(ErrorConstatnts.BAD_REQUEST);
+				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
 		}

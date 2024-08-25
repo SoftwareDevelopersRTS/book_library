@@ -6,7 +6,7 @@ import com.bo.Response;
 import com.dao.ObjectDao;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
-import com.helper.ErrorConstatnts;
+import com.helper.ErrorConstants;
 import com.model.BookCategory;
 import com.service.BookCategoryService;
 import com.utils.RandomCreator;
@@ -28,18 +28,18 @@ public class BookCategoryServieImpl implements BookCategoryService{
 			if(null!=bookCategory && null!=bookCategory.getBookCategoryName() && !bookCategory.getBookCategoryName().isEmpty()&& !bookCategory.getBookCategoryName().trim().isEmpty()) {
 				BookCategory existingCategoryByName=objectDao.getObjectByParam(BookCategory.class, "bookCategoryName", bookCategory.getBookCategoryName());
 				if(null!=existingCategoryByName) {
-					response.setStatus(ErrorConstatnts.ALREADY_EXIST);
+					response.setStatus(ErrorConstants.ALREADY_EXIST);
 					response.setMessage("Category Name Already Present..");
 				}else {
 					bookCategory.setBookCategoryUniqueId(RandomCreator.generateUID(AppConstants.BOOK_CATEGORY_UID_PREFIX, 8));
 					bookCategory.setBookCategoryName(Utils.normalizeAndCapitalize(bookCategory.getBookCategoryName()));
 					objectDao.saveObject(bookCategory);
-					response.setStatus(ErrorConstatnts.SUCESS);
+					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Category Added Sucessfully..");
 					response.setResult(bookCategory.getBookCategoryId());
 				}
 			}else {
-				response.setStatus(ErrorConstatnts.BAD_REQUEST);
+				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
 			
