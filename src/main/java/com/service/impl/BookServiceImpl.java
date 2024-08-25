@@ -10,6 +10,10 @@ import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.Book;
+import com.model.BookAndBookCategory;
+import com.model.BookCategory;
+import com.model.BookHashTags;
+import com.model.Library;
 import com.service.BookService;
 import com.utils.RandomCreator;
 
@@ -23,8 +27,21 @@ public class BookServiceImpl implements BookService {
 		Response response = new Response();
 		try {
 			if (bookNullChecker("ADD", book)) {
+				Library library = objectDao.getObjectById(Library.class, book.getLibId());
+				book.setLibrary(library);
 				book.setBookUniqueUid(RandomCreator.generateUID(AppConstants.BOOK_UID_PREFIX, 8));
 				objectDao.saveObject(book);
+
+				if (null != book.getHashTags() && book.getHashTags().size() > 0) {
+					saveBookHashtags(book.getHashTags(), book);
+				}
+				if (null != book.getBookCategoryList() && book.getBookCategoryList().size() > 0) {
+					saveBookAndBookCategory(book.getBookCategoryList(), book);
+				}
+				response.setStatus(ErrorConstants.SUCESS);
+				response.setMessage("Book Added Sucessfully");
+				response.setResult(book.getBookId());
+
 			} else {
 				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
@@ -63,9 +80,37 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Boolean bookNullChecker(String operationType, Book book) throws Exception {
 		if ("ADD".equalsIgnoreCase(operationType)) {
-			return null != book;
+			return null != book && null != book.getLibId();
 		} else {
 			return null != book && null != book.getBookId();
+		}
+	}
+
+	@Override
+	public void saveBookAndBookCategory(List<Long> bookcategoryIdList, Book book) throws Exception {
+		BookAndBookCategory bookAndBookCategory = null;
+		for (Long bookCategoryId : bookcategoryIdList) {
+			if (null != bookCategoryId) {
+				BookCategory bookCategory = objectDao.getObjectById(BookCategory.class, bookCategoryId);
+				bookAndBookCategory = new BookAndBookCategory();
+				bookAndBookCategory.setBookCategory(bookCategory);
+				bookAndBookCategory.setBook(book);
+				objectDao.saveObject(bookAndBookCategory);
+			}
+		}
+
+	}
+
+	@Override
+	public void saveBookHashtags(List<String> hashTags, Book book) throws Exception {
+		BookHashTags bookHashTag = null;
+		for (String hashtag : hashTags) {
+			if (null != hashtag) {
+				bookHashTag = new BookHashTags();
+				bookHashTag.setHashtag(hashtag);
+				bookHashTag.setBook(book);
+				objectDao.saveObject(bookHashTag);
+			}
 		}
 	}
 

@@ -10,5 +10,9 @@ public interface BookService {
 	Response addMultipleBook(List<Book> bookList) throws Exception;
 	
 	Boolean bookNullChecker(String operationType,Book book) throws Exception;
+	
+	void saveBookAndBookCategory(List<Long> bookcategoryIdList,Book book) throws Exception;
+	
+	void saveBookHashtags(List<String> hashTags,Book book) throws Exception;
 
 }

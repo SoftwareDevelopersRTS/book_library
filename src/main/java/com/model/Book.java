@@ -60,11 +60,15 @@ public class Book implements Serializable{
 	private Library library;
 	
 
-	@ManyToOne
-	@JoinColumn(name = "book_category_id")
-	private BookCategory bookCategory;
+	
 	
 	@Transient
 	private List<String> hashTags;
+	
+	@Transient
+	private List<Long> bookCategoryList;
+	
+	@Transient
+	private Long libId;
 
 }
