@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -95,4 +96,7 @@ public class UserInterest implements Serializable {
 	@Column(name="is_active")
 	private Boolean isActive;
 	
+	
+	@Transient
+	private Long userId;
 }

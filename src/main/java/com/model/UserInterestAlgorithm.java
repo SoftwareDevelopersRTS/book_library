@@ -12,9 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="user_interest_algorithm")
+@Getter
+@Setter
 public class UserInterestAlgorithm  implements Serializable {
 	
 	/**
@@ -39,6 +44,7 @@ public class UserInterestAlgorithm  implements Serializable {
 	@UpdateTimestamp
 	@Column(name="updated_at")
 	private LocalDateTime updatedAt;
+	
 	
 	
 	
