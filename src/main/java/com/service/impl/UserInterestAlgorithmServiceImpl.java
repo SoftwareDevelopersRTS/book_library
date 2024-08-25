@@ -23,7 +23,7 @@ public class UserInterestAlgorithmServiceImpl implements UserInterestAlgorithmSe
 	private static final String NOT_INTERESTED_IN_BOOK_CATEGORY = "NOT_INTERESTED_IN_BOOK_CATEGORY";
 	private static final String NOT_INTERESTED_IN_LIBRARY = "NOT_INTERESTED_IN_LIBRARY";
 
-	public Map<String, List<Long>> createUserInterestAlgorithm(List<UserInterest> userInterestList) {
+	public Map<String, List<Long>> createUserInterestAlgorithm(List<UserInterest> userInterestList) throws Exception {
 		HashMap<String, List<Long>> subHashMap = new HashMap<>();
 
 		ArrayList<Long> interestedInBookArrayList = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.service.impl;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -98,7 +100,7 @@ public class UserServiceImpl implements UserService {
 							response.setStatus(ErrorConstants.ALREADY_EXIST);
 							response.setMessage("Email Already Registered Try With Another");
 							return response;
-						}else {
+						} else {
 							existingUser.setEmail(user.getEmail());
 						}
 					}
@@ -109,7 +111,7 @@ public class UserServiceImpl implements UserService {
 							response.setStatus(ErrorConstants.ALREADY_EXIST);
 							response.setMessage("Mobile Number Already Registered Try With Another");
 							return response;
-						}else {
+						} else {
 							existingUser.setMobile(user.getMobile());
 						}
 					}
@@ -123,29 +125,31 @@ public class UserServiceImpl implements UserService {
 					if (user.getLastName() != null) {
 						existingUser.setLastName(user.getLastName());
 					}
-					
+
 					if (null != user.getAddress()) {
-						if (null != user.getAddress().getAddressId()) { Address existingAddress = objectDao.getObjectById(Address.class, user.getAddress().getAddressId());
-                        if (existingAddress != null) {
-                            if (user.getAddress().getStreet() != null) {
-                                existingAddress.setStreet(user.getAddress().getStreet());
-                            }
-                            if (user.getAddress().getCity() != null) {
-                                existingAddress.setCity(user.getAddress().getCity());
-                            }
-                            if (user.getAddress().getState() != null) {
-                                existingAddress.setState(user.getAddress().getState());
-                            }
-                            if (user.getAddress().getCountry() != null) {
-                                existingAddress.setCountry(user.getAddress().getCountry());
-                            }
-                            if (user.getAddress().getZipCode() != null) {
-                                existingAddress.setZipCode(user.getAddress().getZipCode());
-                            }
-                            objectDao.updateObject(existingAddress);
-                            existingUser.setAddress(existingAddress);
-                        }
-                    }  else {
+						if (null != user.getAddress().getAddressId()) {
+							Address existingAddress = objectDao.getObjectById(Address.class,
+									user.getAddress().getAddressId());
+							if (existingAddress != null) {
+								if (user.getAddress().getStreet() != null) {
+									existingAddress.setStreet(user.getAddress().getStreet());
+								}
+								if (user.getAddress().getCity() != null) {
+									existingAddress.setCity(user.getAddress().getCity());
+								}
+								if (user.getAddress().getState() != null) {
+									existingAddress.setState(user.getAddress().getState());
+								}
+								if (user.getAddress().getCountry() != null) {
+									existingAddress.setCountry(user.getAddress().getCountry());
+								}
+								if (user.getAddress().getZipCode() != null) {
+									existingAddress.setZipCode(user.getAddress().getZipCode());
+								}
+								objectDao.updateObject(existingAddress);
+								existingUser.setAddress(existingAddress);
+							}
+						} else {
 							Address address = new Address();
 							address.setStreet(user.getAddress().getStreet());
 							address.setCity(user.getAddress().getCity());
@@ -174,28 +178,54 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Response getUserDetailsById(Long userId) throws Exception {
-		Response response=new Response();
+		Response response = new Response();
 		try {
-			if(null!=userId && userId>0) {
-				User user=objectDao.getObjectById(User.class, userId);
-				if(null!=user) {
+			if (null != userId && userId > 0) {
+				User user = objectDao.getObjectById(User.class, userId);
+				if (null != user) {
 					user.setPassword(null);
 					response.setResult(user);
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("User get sucessfully..");
-				}else {
+				} else {
 					response.setStatus(ErrorConstants.NOT_FOUND);
 					response.setMessage("User Not Found");
 				}
-			}else {
+			} else {
 				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
 		return response;
+	}
+
+	@Override
+	public Response addMultipleUser(List<User> userList) throws Exception {
+		Response response = new Response();
+		Long sucessCount=0L;
+		Long errorCount=0L;
+		if (null != userList && userList.size() > 0) {
+			for (User user : userList) {
+				try {
+					response=addUser(user);
+					if(response.getStatus()==ErrorConstants.SUCESS) {
+						sucessCount++;
+					}else {
+						errorCount++;
+					}
+				} catch (Exception e) {
+
+				}
+			}
+		}
+
+		response.setResult(null);
+		response.setStatus(ErrorConstants.SUCESS);
+		response.setMessage("Users Added Sucessfully...sucess("+sucessCount+"),failure("+errorCount+")");
+		return response;
+
 	}
 
 }

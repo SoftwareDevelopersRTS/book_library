@@ -10,8 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,6 +43,9 @@ public class Book implements Serializable{
 	@Column(name = "rating")
 	private String rating;
 	
+	@Column(name="book_unique_uid",unique=true)
+	private String bookUniqueUid;
+	
 	@Column(name="total_stock")
 	private Integer totalStock;
 	
@@ -57,7 +60,11 @@ public class Book implements Serializable{
 	private Library library;
 	
 
-	@OneToMany(mappedBy = "book")
-	private List<BookAndCategory> bookAndCategory;
+	@ManyToOne
+	@JoinColumn(name = "book_category_id")
+	private BookCategory bookCategory;
+	
+	@Transient
+	private List<String> hashTags;
 
 }

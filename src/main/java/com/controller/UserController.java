@@ -16,7 +16,7 @@ import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.User;
 import com.service.UserService;
-
+import java.util.List;
 @RestController
 @RequestMapping("api/user/")
 public class UserController {
@@ -35,6 +35,19 @@ public class UserController {
 		Response response = new Response();
 		try {
 			return userService.addUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
+	@PostMapping("add-multiple")
+	public Response addMutltipleUser(@RequestBody List<User> user) {
+		Response response = new Response();
+		try {
+			return userService.addMultipleUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);

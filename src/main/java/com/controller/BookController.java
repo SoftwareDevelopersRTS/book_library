@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -8,13 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bo.PaginationBO;
 import com.bo.Response;
+import com.helper.CommonMessages;
+import com.helper.ErrorConstants;
+import com.model.Book;
+import com.service.BookService;
 
 @RestController
 @RequestMapping("/api/book/")
 public class BookController {
 
+	@Autowired
+	private BookService bookService;
+
 	@PostMapping("list")
-	public Response bookList(@RequestBody PaginationBO pagination,@RequestHeader String timezone) {
+	public Response bookList(@RequestBody PaginationBO pagination, @RequestHeader String timezone) {
 		Response response = new Response();
 		try {
 
@@ -23,5 +33,33 @@ public class BookController {
 		}
 		return response;
 
+	}
+
+	@PostMapping("add")
+	public Response addBook(@RequestBody Book book) {
+		Response response = new Response();
+		try {
+			return bookService.addBook(book);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+
+	@PostMapping("add-multiple")
+	public Response addBook(@RequestBody List<Book> bookList) {
+		Response response = new Response();
+		try {
+			return bookService.addMultipleBook(bookList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
 	}
 }

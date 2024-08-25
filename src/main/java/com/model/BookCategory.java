@@ -55,8 +55,7 @@ public class BookCategory  implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
     
-    @OneToMany(mappedBy = "bookCategory")
-	private List<BookAndCategory> bookAndCategory;
+    
 
   
 }
