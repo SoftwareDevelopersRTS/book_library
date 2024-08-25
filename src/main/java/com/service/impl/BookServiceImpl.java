@@ -3,6 +3,7 @@ package com.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bo.Response;
 import com.dao.ObjectDao;
@@ -17,6 +18,7 @@ import com.model.Library;
 import com.service.BookService;
 import com.utils.RandomCreator;
 
+@Service
 public class BookServiceImpl implements BookService {
 
 	@Autowired
@@ -68,7 +70,9 @@ public class BookServiceImpl implements BookService {
 				}
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
+				response.setResult(e.getMessage());
+				return response;
 			}
 		}
 		response.setResult(null);
