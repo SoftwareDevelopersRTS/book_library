@@ -69,7 +69,7 @@ public class UserInterest implements Serializable {
 	
 	@JoinColumn(name = "library_id")
 	@ManyToOne
-	private Library libraryId;
+	private Library library;
 
 	@Column(name = "is_interested")
 	private Boolean isInterested;
@@ -99,4 +99,13 @@ public class UserInterest implements Serializable {
 	
 	@Transient
 	private Long userId;
+	
+	@Transient
+	private Long bookId;
+	
+	@Transient
+	private Long bookCategoryId;
+	
+	@Transient 
+	private Long libraryId;
 }

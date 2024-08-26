@@ -17,5 +17,7 @@ public class PaginationBO {
 	
 	private String searchKey;
 	
+	private Long userId;
+	
 	
 }

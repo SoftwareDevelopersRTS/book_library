@@ -52,7 +52,7 @@ public class UserInterestAlgorithmServiceImpl implements UserInterestAlgorithmSe
 					} else if (interest.getInterestOn() == InterestOn.BOOKCATEGORY) {
 						interestedInBookCategoryArrayList.add(interest.getBookCategory().getBookCategoryId());
 					} else {
-						interestedInLibraryArrayList.add(interest.getLibraryId().getLibraryId());
+						interestedInLibraryArrayList.add(interest.getLibrary().getLibraryId());
 					}
 				}
 			} else {
@@ -61,7 +61,7 @@ public class UserInterestAlgorithmServiceImpl implements UserInterestAlgorithmSe
 				} else if (interest.getInterestOn() == InterestOn.BOOKCATEGORY) {
 					notInterestedInBookCategoryArrayList.add(interest.getBookCategory().getBookCategoryId());
 				} else {
-					notInterestedInLibraryArrayList.add(interest.getLibraryId().getLibraryId());
+					notInterestedInLibraryArrayList.add(interest.getLibrary().getLibraryId());
 				}
 
 			}
