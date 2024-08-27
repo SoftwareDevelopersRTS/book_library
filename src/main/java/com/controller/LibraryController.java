@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,9 +44,10 @@ public class LibraryController {
 	}
 
 	@PostMapping("add-multiple")
-	public Response addMultipleLibrary() {
+	public Response addMultipleLibrary(@RequestBody List<Library> libraryList) {
 		Response response = new Response();
 		try {
+			return libraryService.addMultipleLibrary(libraryList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

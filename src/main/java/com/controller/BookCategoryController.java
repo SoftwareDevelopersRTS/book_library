@@ -48,7 +48,7 @@ public class BookCategoryController {
 	public Response addMultipleBookCategory(@RequestBody List<BookCategory> bookCategories) {
 		Response response=new Response();
 		try {
-			
+			return bookCategoryService.addMultipleBookCategory(bookCategories);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
