@@ -2,6 +2,8 @@ package com.service;
 
 import com.bo.Response;
 import com.model.Book;
+import com.model.BookLike;
+
 import java.util.List;
 public interface BookService {
 	
@@ -14,5 +16,7 @@ public interface BookService {
 	void saveBookAndBookCategory(List<Long> bookcategoryIdList,Book book) throws Exception;
 	
 	void saveBookHashtags(List<String> hashTags,Book book) throws Exception;
+	
+	Response bookLike(BookLike bookLike) throws Exception;
 
 }

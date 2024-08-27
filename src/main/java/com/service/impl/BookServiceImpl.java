@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bo.Response;
 import com.dao.ObjectDao;
+import com.exceptions.DuplicateEntryException;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
@@ -14,7 +15,9 @@ import com.model.Book;
 import com.model.BookAndBookCategory;
 import com.model.BookCategory;
 import com.model.BookHashTags;
+import com.model.BookLike;
 import com.model.Library;
+import com.model.User;
 import com.service.BookService;
 import com.utils.RandomCreator;
 
@@ -118,5 +121,51 @@ public class BookServiceImpl implements BookService {
 			}
 		}
 	}
+
+	@Override
+	public Response bookLike(BookLike bookLike) throws Exception {
+		Response response =new Response();
+		try {
+			if(null!=bookLike && null!=bookLike.getUserId() && null!=bookLike.getBookId()) {
+				Book book=objectDao.getObjectById(Book.class,bookLike.getBookId());
+				User user=objectDao.getObjectById(User.class,bookLike.getUserId());
+				if(book!=null && user!=null) {
+					BookLike existingBookLike=objectDao.getObjectByTwoParams(BookLike.class,"book",book,"user",user);
+					if(null!=existingBookLike) {
+						if(bookLike.getIsLiked()==existingBookLike.getIsLiked()) {
+							throw new DuplicateEntryException("Already " + (bookLike.getIsLiked() ? "Liked" : "Disliked") + " the Book");
+						}else {
+							existingBookLike.setIsLiked(bookLike.getIsLiked());
+							objectDao.updateObject(existingBookLike);
+							response.setStatus(ErrorConstants.SUCESS);
+							return response;
+						}
+					}
+					bookLike.setBookLikeDislikeId(null);
+					bookLike.setBook(book);
+					bookLike.setUser(user);
+					if(bookLike.getIsLiked()==null) {
+						bookLike.setIsLiked(true);
+					}
+					objectDao.saveObject(bookLike);
+					response.setStatus(ErrorConstants.SUCESS);
+					response.setMessage("Book "+(bookLike.getIsLiked() ? "Liked" : "Disliked")+" Sucessfully...");
+					return response;
+				}else {
+					response.setStatus(ErrorConstants.NOT_FOUND);
+					response.setMessage(CommonMessages.NOT_FOUND);
+				}
+				
+			}else {
+				response.setStatus(ErrorConstants.BAD_REQUEST);
+				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
+			}
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		return response;
+	}
+	
 
 }

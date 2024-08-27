@@ -83,7 +83,7 @@ public class UserInterestAlgorithmServiceImpl implements UserInterestAlgorithmSe
 	public void changeInAlgorithmAccordingToUserAction(UserInterest userInterest) throws Exception {
 		try {
 			UserInterestAlgorithm existingUserInterestedAlgorithm=objectDao.getObjectByParam(UserInterestAlgorithm.class,"userId", userInterest.getUserId());
-			HashMap<String, List<Long>> subHashMap = null;
+			HashMap<String, TreeSet<Long>> subHashMap = null;
 			if(null!=existingUserInterestedAlgorithm && null!=existingUserInterestedAlgorithm.getInterestAlgorithm()) {
 				 java.lang.reflect.Type type = new TypeToken<HashMap<String, List<Long>>>() {}.getType();
 				 subHashMap = new Gson().fromJson(existingUserInterestedAlgorithm.getInterestAlgorithm(), type);

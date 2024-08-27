@@ -11,5 +11,10 @@ public interface ObjectDao {
 	public <T> T getObjectById(Class<T> entityClass, Serializable id);
 
 	public <T> T getObjectByParam(Class<T> entity, String param, Object paramValue);
+	
+	public <T> T getObjectByTwoParams(Class<T> entity, String param1, Object paramValue1, String param2, Object paramValue2);
+	
+	public void deleteObject(Object entity);
+
 
 }

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bo.PaginationBO;
 import com.bo.Response;
+import com.exceptions.DuplicateEntryException;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.Book;
+import com.model.BookLike;
 import com.service.BookService;
 
 @RestController
@@ -56,6 +58,24 @@ public class BookController {
 			return bookService.addMultipleBook(bookList);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
+	@PostMapping("like")
+	public Response likeBook(@RequestBody BookLike bookLike) {
+		Response response =new Response();
+		try {
+			return bookService.bookLike(bookLike);
+		}
+		catch(DuplicateEntryException de) {
+			response.setStatus(ErrorConstants.ALREADY_EXIST);
+			response.setMessage(de.getMessage());
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
