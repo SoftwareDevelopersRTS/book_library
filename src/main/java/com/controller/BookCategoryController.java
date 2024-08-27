@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +35,20 @@ public class BookCategoryController {
 		Response response=new Response();
 		try {
 			return bookCategoryService.addBookCategory(bookCategory);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
+	@PostMapping("add-multiple")
+	public Response addMultipleBookCategory(@RequestBody List<BookCategory> bookCategories) {
+		Response response=new Response();
+		try {
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
