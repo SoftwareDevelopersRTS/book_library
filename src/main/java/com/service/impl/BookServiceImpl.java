@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bo.Response;
 import com.dao.ObjectDao;
 import com.exceptions.DuplicateEntryException;
+import com.exceptions.NotFoundException;
 import com.exceptions.RequiredFieldsMissingException;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
@@ -179,19 +180,29 @@ public class BookServiceImpl implements BookService {
 				Book book = objectDao.getObjectById(Book.class, bookComment.getBookId());
 				User user = objectDao.getObjectById(User.class, bookComment.getUserId());
 				if (null != user && null != book) {
-					bookComment.setBookCommentId(null);
-					bookComment.setBook(book);
-					bookComment.setUser(user);
-					objectDao.saveObject(bookComment);
-					response.setStatus(ErrorConstants.SUCESS);
-					response.setMessage("Comment Added Sucessfully...");
+					if (null != bookComment.getBookCommentId()) {
+						BookComment comment = objectDao.getObjectById(BookComment.class,
+								bookComment.getBookCommentId());
+						comment.setBook(book);
+						comment.setUser(user);
+						comment.setCommentText(bookComment.getCommentText());
+						objectDao.updateObject(comment);
+						response.setStatus(ErrorConstants.SUCESS);
+						response.setMessage("Comment Updated Sucessfully...");
+					} else {
+
+						bookComment.setBook(book);
+						bookComment.setUser(user);
+						objectDao.saveObject(bookComment);
+						response.setStatus(ErrorConstants.SUCESS);
+						response.setMessage("Comment Added Sucessfully...");
+					}
 				} else {
-					throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING); 
+					throw new NotFoundException(CommonMessages.NOT_FOUND);
 				}
 
 			} else {
-				response.setStatus(ErrorConstants.BAD_REQUEST);
-				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
+				throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
 		} catch (Exception e) {
 			throw e;

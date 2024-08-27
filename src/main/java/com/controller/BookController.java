@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bo.PaginationBO;
 import com.bo.Response;
 import com.exceptions.DuplicateEntryException;
+import com.exceptions.NotFoundException;
 import com.exceptions.RequiredFieldsMissingException;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
@@ -85,7 +86,7 @@ public class BookController {
 		return response;
 	}
 	
-	@PostMapping("comment")
+	@PostMapping("add-edit-comment")
 	public Response commentBook(@RequestBody BookComment bookComment) {
 		Response response=new Response();
 		try {
@@ -94,8 +95,13 @@ public class BookController {
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		}
+		catch(NotFoundException nfe) {
+			response.setStatus(ErrorConstants.NOT_FOUND);
+			response.setMessage(nfe.getMessage());
+		}
 		catch(Exception e) {
-			
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
