@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bo.PaginationBO;
 import com.bo.Response;
 import com.exceptions.DuplicateEntryException;
+import com.exceptions.RequiredFieldsMissingException;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.Book;
+import com.model.BookComment;
 import com.model.BookLike;
 import com.service.BookService;
 
@@ -79,6 +81,21 @@ public class BookController {
 			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
+	@PostMapping("comment")
+	public Response commentBook(@RequestBody BookComment bookComment) {
+		Response response=new Response();
+		try {
+			return bookService.bookComment(bookComment);
+		}catch(RequiredFieldsMissingException rme) {
+			response.setStatus(ErrorConstants.BAD_REQUEST);
+			response.setMessage(rme.getMessage());
+		}
+		catch(Exception e) {
+			
 		}
 		return response;
 	}
