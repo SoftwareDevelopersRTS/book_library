@@ -21,5 +21,7 @@ public interface BookService {
 	Response bookLike(BookLike bookLike) throws Exception;
 	
 	Response bookComment(BookComment bookComment) throws Exception;
+	
+	Response deleteBookComment(Long commentId) throws Exception;
 
 }

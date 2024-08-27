@@ -3,6 +3,8 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -92,6 +94,27 @@ public class BookController {
 		try {
 			return bookService.bookComment(bookComment);
 		}catch(RequiredFieldsMissingException rme) {
+			response.setStatus(ErrorConstants.BAD_REQUEST);
+			response.setMessage(rme.getMessage());
+		}
+		catch(NotFoundException nfe) {
+			response.setStatus(ErrorConstants.NOT_FOUND);
+			response.setMessage(nfe.getMessage());
+		}
+		catch(Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
+	@DeleteMapping("delete-comment")
+	public Response deleteComment(@PathVariable Long commentId) {
+		Response response=new Response();
+		try {
+			return bookService.deleteBookComment(commentId);
+		}
+		catch(RequiredFieldsMissingException rme) {
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		}

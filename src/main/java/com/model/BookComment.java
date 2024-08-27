@@ -1,6 +1,10 @@
 package com.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +43,15 @@ public class BookComment  implements Serializable{
 	
 	@Column(name = "comment_text", columnDefinition = "LONGTEXT")
 	private String commentText;
+	
+	@CreationTimestamp
+	@Column(name="created_at")
+	private LocalDateTime createdAt;
+	
+	
+	@UpdateTimestamp
+	@Column(name="updated_at")
+	private LocalDateTime updatedAt;
 	
 	@Transient
 	private Long bookId;

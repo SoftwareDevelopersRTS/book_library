@@ -210,4 +210,28 @@ public class BookServiceImpl implements BookService {
 		return response;
 	}
 
+	@Override
+	public Response deleteBookComment(Long commentId) throws Exception {
+		Response response=new Response();
+		try {
+			if(null!=commentId && commentId>0) {
+				BookComment comment=objectDao.getObjectById(BookComment.class, commentId);
+				if(null!=comment) {
+					objectDao.deleteObject(comment);
+					response.setStatus(ErrorConstants.SUCESS);
+					response.setMessage("Comment Deleted Sucessfully...");
+				}else {
+					throw new NotFoundException("Comment Not Found...");
+				}
+				
+			}else {
+				throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
+			}
+			
+		}catch(Exception e) {
+			throw e;
+		}
+		return response;
+	}
+
 }
