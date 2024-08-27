@@ -13,6 +13,7 @@ import com.dao.ObjectDao;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
+import com.model.BookCategory;
 import com.model.Library;
 import com.service.LibraryService;
 import com.utils.RandomCreator;
@@ -23,12 +24,11 @@ public class LibraryServiceImpl implements LibraryService {
 
 	private final ObjectDao objectDao;
 
-	
 	private final LibraryDao libraryDao;
 
-	public LibraryServiceImpl(ObjectDao objectDao, DataSource dataSource,LibraryDao libraryDao) {
+	public LibraryServiceImpl(ObjectDao objectDao, DataSource dataSource, LibraryDao libraryDao) {
 		this.objectDao = objectDao;
-		this.libraryDao= libraryDao;
+		this.libraryDao = libraryDao;
 	}
 
 	@Override
@@ -60,6 +60,38 @@ public class LibraryServiceImpl implements LibraryService {
 				response.setStatus(ErrorConstants.BAD_REQUEST);
 				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return response;
+	}
+
+	@Override
+	public Response addMultipleLibrary(List<Library> libraryList) throws Exception {
+		Response response = new Response();
+		int sucessCount = 0;
+		int errorCount = 0;
+		int length=0;
+		try {
+			if (null != libraryList && libraryList.size() > 0) {
+				length=libraryList.size();
+				for (Library library : libraryList) {
+					response = addLibrary(library);
+					if (response.getStatus() == ErrorConstants.SUCESS) {
+						sucessCount++;
+					} else {
+						errorCount++;
+					}
+				}
+
+			} else {
+				response.setStatus(ErrorConstants.BAD_REQUEST);
+				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
+			}
+			response.setResult(null);
+			response.setStatus(ErrorConstants.SUCESS);
+			response.setMessage(
+					"Libraries Added Sucessfully...Total("+length+"),Sucess(" + sucessCount + "),Failure(" + errorCount + ")");
 		} catch (Exception e) {
 			throw e;
 		}

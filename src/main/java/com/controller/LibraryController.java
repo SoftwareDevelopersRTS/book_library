@@ -24,33 +24,43 @@ public class LibraryController {
 
 	private final LibraryService libraryService;
 
-
 	public LibraryController(LibraryService libraryService) {
-		this.libraryService =libraryService;
+		this.libraryService = libraryService;
 	}
-	
+
 	@PostMapping("add")
 	public Response addLibrary(@RequestBody Library library) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
 			return libraryService.addLibrary(library);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
+
+	@PostMapping("add-multiple")
+	public Response addMultipleLibrary() {
+		Response response = new Response();
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+
 	@GetMapping("details-by-id/{libraryId}")
 	public Response getLibraryById(@PathVariable Long libraryId) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
-			//return libraryService.getLibraryById(libraryId);
-			int a=2/0;
-		}
-		catch(Exception e) {
+			// return libraryService.getLibraryById(libraryId);
+			int a = 2 / 0;
+		} catch (Exception e) {
 			e.printStackTrace();
 			MailUtility.sendExceptionEmailToDeveloper(AppConstants.DEVELOPER_EMAILS, e.getMessage(), e.toString());
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
@@ -61,14 +71,13 @@ public class LibraryController {
 
 	@PostMapping("list")
 	public Response getLibraryList(@RequestBody PaginationBO pagination) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("Libraries Get Sucessfully...");
 			response.setListCount(libraryService.getLibraryCount(pagination));
 			response.setResult(libraryService.getLibraryList(pagination));
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
