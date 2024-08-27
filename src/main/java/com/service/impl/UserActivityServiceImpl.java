@@ -28,8 +28,10 @@ public class UserActivityServiceImpl implements UserActivityService {
 			if (null != pagination && pagination.getActivityOn() != null && null != pagination.getActivityId()
 					&& null != pagination.getActivityType()) {
 				UserInterest userinterest = new UserInterest();
+				userinterest.setIsInterested(true);
 				if (pagination.getActivityType() == TypeConstants.LIKE) {
 					userinterest.setInterestLevel(TypeConstants.EXTREMELY_INTERESTED);
+					
 				} else if (pagination.getActivityType() == TypeConstants.SHARE) {
 					userinterest.setInterestLevel(TypeConstants.MODERATE_INTEREST);
 				} else if (pagination.getActivityType() == TypeConstants.COMMENT) {
@@ -41,6 +43,7 @@ public class UserActivityServiceImpl implements UserActivityService {
 						userinterest.setInterestLevel(TypeConstants.EXTREMELY_INTERESTED);
 					}
 				} else if (pagination.getActivityType() == TypeConstants.NOT_INTERESTED) {
+					userinterest.setIsInterested(false);
 					if (null != pagination.getInterestLevel()) {
 						userinterest.setInterestLevel(pagination.getInterestLevel());
 					} else {
