@@ -20,4 +20,14 @@ public class PaginationBO {
 	private Long userId;
 	
 	
+	//Required to capture user activty like,comment ,dislike
+	private Integer activityType;
+	
+	private Integer activityOn;
+	
+	private Long activityId;
+	
+	private Double interestLevel;
+	
+	
 }

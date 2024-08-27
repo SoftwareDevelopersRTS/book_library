@@ -38,6 +38,7 @@ public class UserInterestServiceImpl implements UserInterestService {
 			if(CommonChecks.paginationPageNumberCheck(pagination)) {
 				query.append(" LIMIT ? OFFSET ? ");
 			}
+			
 			ps=con.prepareStatement(query.toString());
 			int count=1;
 			if(null!=pagination.getUserId()) {

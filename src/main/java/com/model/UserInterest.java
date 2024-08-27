@@ -77,6 +77,7 @@ public class UserInterest implements Serializable {
 	
 	
 	//This will simply usefull for getting how much times user viewed or commented on current category or book
+	//Not using right now will use later
 	@Column(name="count")
 	private Integer count;
 
