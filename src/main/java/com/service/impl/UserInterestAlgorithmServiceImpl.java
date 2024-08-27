@@ -3,6 +3,8 @@ package com.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.dao.ObjectDao;
 import com.google.gson.Gson;
@@ -33,15 +35,15 @@ public class UserInterestAlgorithmServiceImpl implements UserInterestAlgorithmSe
 	private static final String NOT_INTERESTED_IN_BOOK_CATEGORY = "NOT_INTERESTED_IN_BOOK_CATEGORY";
 	private static final String NOT_INTERESTED_IN_LIBRARY = "NOT_INTERESTED_IN_LIBRARY";
 
-	public Map<String, List<Long>> createUserInterestAlgorithm(List<UserInterest> userInterestList) throws Exception {
-		HashMap<String, List<Long>> subHashMap = new HashMap<>();
+	public Map<String, TreeSet<Long>> createUserInterestAlgorithm(List<UserInterest> userInterestList) throws Exception {
+		HashMap<String, TreeSet<Long>> subHashMap = new HashMap<>();
 
-		ArrayList<Long> interestedInBookArrayList = new ArrayList<>();
-		ArrayList<Long> interestedInBookCategoryArrayList = new ArrayList<>();
-		ArrayList<Long> interestedInLibraryArrayList = new ArrayList<>();
-		ArrayList<Long> notInterestedInBookArrayList = new ArrayList<>();
-		ArrayList<Long> notInterestedInBookCategoryArrayList = new ArrayList<>();
-		ArrayList<Long> notInterestedInLibraryArrayList = new ArrayList<>();
+		TreeSet<Long> interestedInBookArrayList = new TreeSet<>();
+		TreeSet<Long> interestedInBookCategoryArrayList = new TreeSet<>();
+		TreeSet<Long> interestedInLibraryArrayList = new TreeSet<>();
+		TreeSet<Long> notInterestedInBookArrayList = new TreeSet<>();
+		TreeSet<Long> notInterestedInBookCategoryArrayList = new TreeSet<>();
+		TreeSet<Long> notInterestedInLibraryArrayList = new TreeSet<>();
 
 		for (UserInterest interest : userInterestList) {
 			// Comment ,share , like , interested , will considered as insterested = true

@@ -61,8 +61,8 @@ public class LibraryController {
 	public Response getLibraryById(@PathVariable Long libraryId) {
 		Response response = new Response();
 		try {
-			// return libraryService.getLibraryById(libraryId);
-			int a = 2 / 0;
+			return libraryService.getLibraryById(libraryId);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			MailUtility.sendExceptionEmailToDeveloper(AppConstants.DEVELOPER_EMAILS, e.getMessage(), e.toString());
