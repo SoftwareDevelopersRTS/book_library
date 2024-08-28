@@ -140,4 +140,23 @@ public class BookController {
 		}
 		return response;
 	}
+
+	@PostMapping("get-by-id/{bookId}")
+	public Response getBookById(@PathVariable Long bookId) {
+		Response response = new Response();
+		try {
+			return bookService.getBookById(bookId);
+
+		} catch (RequiredFieldsMissingException rme) {
+			response.setStatus(ErrorConstants.BAD_REQUEST);
+			response.setMessage(rme.getMessage());
+		} catch (NotFoundException nfe) {
+			response.setStatus(ErrorConstants.NOT_FOUND);
+			response.setMessage(nfe.getMessage());
+		} catch (Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
 }

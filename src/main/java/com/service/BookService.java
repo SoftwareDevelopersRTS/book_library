@@ -26,5 +26,7 @@ public interface BookService {
 	Response deleteBookComment(Long commentId) throws Exception;
 	
 	Response bookShare(BookShare bookShare) throws Exception;
+	
+	Response getBookById(Long bookId) throws Exception;
 
 }

@@ -264,4 +264,26 @@ public class BookServiceImpl implements BookService {
 		return response;
 	}
 
+	@Override
+	public Response getBookById(Long bookId) throws Exception {
+		Response response=new Response();
+		try {
+			if(null!=bookId && bookId>0) {
+				Book book=objectDao.getObjectById(Book.class,bookId);
+				if(null!=book) {
+					response.setResult(book);
+					response.setStatus(ErrorConstants.SUCESS);
+					response.setMessage("Book Get Sucessfully...");
+				}else {
+					throw new NotFoundException("Book Not Found");
+				}
+			}else {
+				throw new RequiredFieldsMissingException("Book Id is missing");
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return response;
+	}
+
 }
