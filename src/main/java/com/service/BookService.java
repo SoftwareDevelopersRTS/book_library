@@ -4,6 +4,7 @@ import com.bo.Response;
 import com.model.Book;
 import com.model.BookComment;
 import com.model.BookLike;
+import com.model.BookShare;
 
 import java.util.List;
 public interface BookService {
@@ -23,5 +24,7 @@ public interface BookService {
 	Response bookComment(BookComment bookComment) throws Exception;
 	
 	Response deleteBookComment(Long commentId) throws Exception;
+	
+	Response bookShare(BookShare bookShare) throws Exception;
 
 }

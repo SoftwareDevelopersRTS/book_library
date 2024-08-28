@@ -19,6 +19,7 @@ import com.model.BookCategory;
 import com.model.BookComment;
 import com.model.BookHashTags;
 import com.model.BookLike;
+import com.model.BookShare;
 import com.model.Library;
 import com.model.User;
 import com.service.BookService;
@@ -212,23 +213,52 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Response deleteBookComment(Long commentId) throws Exception {
-		Response response=new Response();
+		Response response = new Response();
 		try {
-			if(null!=commentId && commentId>0) {
-				BookComment comment=objectDao.getObjectById(BookComment.class, commentId);
-				if(null!=comment) {
+			if (null != commentId && commentId > 0) {
+				BookComment comment = objectDao.getObjectById(BookComment.class, commentId);
+				if (null != comment) {
 					objectDao.deleteObject(comment);
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Comment Deleted Sucessfully...");
-				}else {
+				} else {
 					throw new NotFoundException("Comment Not Found...");
 				}
-				
-			}else {
+
+			} else {
 				throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
 			}
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return response;
+	}
+
+	@Override
+	public Response bookShare(BookShare bookShare) throws Exception {
+		Response response = new Response();
+		try {
+			if (null != bookShare && bookShare.getUserId() != null && bookShare.getBookId() != null
+					&& null != bookShare.getSharedVia()) {
+				Book book = objectDao.getObjectById(Book.class, bookShare.getBookId());
+				User user = objectDao.getObjectById(User.class, bookShare.getUserId());
+				if (null != user && null != book) {
+					bookShare.setBook(book);
+					bookShare.setUser(user);
+					objectDao.saveObject(bookShare);
+					response.setStatus(ErrorConstants.SUCESS);
+					response.setMessage("Book Share information saved Sucessfully...");
+
+				} else {
+					throw new NotFoundException(CommonMessages.NOT_FOUND);
+				}
+
+			} else {
+				throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
+			}
+
+		} catch (Exception e) {
 			throw e;
 		}
 		return response;

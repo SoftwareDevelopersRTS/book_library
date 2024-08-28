@@ -21,6 +21,7 @@ import com.helper.ErrorConstants;
 import com.model.Book;
 import com.model.BookComment;
 import com.model.BookLike;
+import com.model.BookShare;
 import com.service.BookService;
 
 @RestController
@@ -69,60 +70,71 @@ public class BookController {
 		}
 		return response;
 	}
-	
+
 	@PostMapping("like")
 	public Response likeBook(@RequestBody BookLike bookLike) {
-		Response response =new Response();
+		Response response = new Response();
 		try {
 			return bookService.bookLike(bookLike);
-		}
-		catch(DuplicateEntryException de) {
+		} catch (DuplicateEntryException de) {
 			response.setStatus(ErrorConstants.ALREADY_EXIST);
 			response.setMessage(de.getMessage());
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
+
 	@PostMapping("add-edit-comment")
 	public Response commentBook(@RequestBody BookComment bookComment) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
 			return bookService.bookComment(bookComment);
-		}catch(RequiredFieldsMissingException rme) {
+		} catch (RequiredFieldsMissingException rme) {
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
-		}
-		catch(NotFoundException nfe) {
+		} catch (NotFoundException nfe) {
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
+
 	@DeleteMapping("delete-comment")
 	public Response deleteComment(@PathVariable Long commentId) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
 			return bookService.deleteBookComment(commentId);
-		}
-		catch(RequiredFieldsMissingException rme) {
+		} catch (RequiredFieldsMissingException rme) {
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
-		}
-		catch(NotFoundException nfe) {
+		} catch (NotFoundException nfe) {
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
+		} catch (Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
-		catch(Exception e) {
+		return response;
+	}
+
+	@PostMapping("share")
+	public Response shareBook(@RequestBody BookShare bookShare) {
+		Response response = new Response();
+		try {
+			return bookService.bookShare(bookShare);
+		} catch (RequiredFieldsMissingException rme) {
+			response.setStatus(ErrorConstants.BAD_REQUEST);
+			response.setMessage(rme.getMessage());
+		} catch (NotFoundException nfe) {
+			response.setStatus(ErrorConstants.NOT_FOUND);
+			response.setMessage(nfe.getMessage());
+		} catch (Exception e) {
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}

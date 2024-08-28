@@ -24,4 +24,12 @@ public class UserInterestEnums {
 	    RATING_COUNT
 	}
 	
+	public enum SharedVia{
+		FACEBOOK,
+		WHATSAPP,
+		GMAIL,
+		INSTAGRAM
+	}
+	
 }
+
