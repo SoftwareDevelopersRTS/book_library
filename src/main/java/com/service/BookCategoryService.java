@@ -9,4 +9,7 @@ public interface BookCategoryService {
 	Response addBookCategory(BookCategory bookCategory) throws Exception;
 	
 	Response addMultipleBookCategory(List<BookCategory> bookCategoreis) throws Exception;
+	
+	Response getBookCategoryById(Long bookId) throws Exception;
+	
 }

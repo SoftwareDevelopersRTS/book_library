@@ -6,9 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.bo.Response;
 import com.dao.ObjectDao;
+import com.exceptions.NotFoundException;
+import com.exceptions.RequiredFieldsMissingException;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
+import com.model.Book;
 import com.model.BookCategory;
 import com.service.BookCategoryService;
 import com.utils.RandomCreator;
@@ -84,5 +87,28 @@ public class BookCategoryServieImpl implements BookCategoryService {
 		}
 		return response;
 	}
+
+	@Override
+	public Response getBookCategoryById(Long categoryId) throws Exception {
+		Response response=new Response();
+		try {
+			if(null!=categoryId && categoryId>0) {
+				BookCategory book=objectDao.getObjectById(BookCategory.class,categoryId);
+				if(null!=book) {
+					response.setResult(book);
+					response.setStatus(ErrorConstants.SUCESS);
+					response.setMessage("Book Category Get Sucessfully...");
+				}else {
+					throw new NotFoundException("Book Category Not Found");
+				}
+			}else {
+				throw new RequiredFieldsMissingException("BookCategory Id is missing");
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return response;
+	}
+
 
 }

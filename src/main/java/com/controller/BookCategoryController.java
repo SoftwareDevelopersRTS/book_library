@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bo.PaginationBO;
 import com.bo.Response;
 import com.dao.BookCategoryDao;
+import com.exceptions.NotFoundException;
+import com.exceptions.RequiredFieldsMissingException;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.BookCategory;
@@ -71,6 +74,26 @@ public class BookCategoryController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
+	
+	@PostMapping("get-by-id/{categoryId}")
+	public Response getBookById(@PathVariable Long categoryId) {
+		Response response = new Response();
+		try {
+			return bookCategoryService.getBookCategoryById(categoryId);
+
+		} catch (RequiredFieldsMissingException rme) {
+			response.setStatus(ErrorConstants.BAD_REQUEST);
+			response.setMessage(rme.getMessage());
+		} catch (NotFoundException nfe) {
+			response.setStatus(ErrorConstants.NOT_FOUND);
+			response.setMessage(nfe.getMessage());
+		} catch (Exception e) {
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
