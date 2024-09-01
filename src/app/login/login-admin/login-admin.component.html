@@ -1,0 +1,29 @@
+<section class="main_section">
+  <div class="main_login_section">
+    <div class="sub_login_section">
+      <div class="image_section">
+        <img src="../../../assets/img/book.jfif" alt="Reading Books">
+        <div class="img_text">
+          <p id="main_text">Welcome To RTS Library Management System</p>
+          <p id="sub_text">Streamline your library operations: Easily manage book inventory and member details</p>
+        </div>
+      </div>
+      <div class="form_section">
+        <div class="form_sub_section">
+          <p id="Login_heading">Login</p>
+          <label id="emailLabel" for="email">Email Or Username</label>
+          <input type="text" placeholder="Enter Email Or Username">
+          <label id="passwordLabel" for="password">Password</label>
+          <div id="icon">
+            <i (click)="togglePassword()"  *ngIf="!isPasswordVisible" class="fa-solid fa-eye" aria-hidden="true"></i>
+            <i (click)="togglePassword()" class="fa fa-eye-slash"  *ngIf="isPasswordVisible" aria-hidden="true"></i>
+          </div>
+          <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter Password">
+
+          <p id="forget_pass">Forget Password ?</p>
+          <button>Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
