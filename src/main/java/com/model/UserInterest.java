@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+
 import com.helper.UserInterestEnums.InterestOn;
 import com.helper.UserInterestEnums.CountType;
 import com.helper.UserInterestEnums.InterestAction;

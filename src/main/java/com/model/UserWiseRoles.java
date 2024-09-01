@@ -1,5 +1,6 @@
 package com.model;
 
+import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,24 +13,27 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-
-//While adding book from admin panel will store its hastags also
 @Entity
-@Table(name="book_hashtags")
 @Getter
 @Setter
-public class BookHashTags {
+@Table(name="user_wise_roles")
+public class UserWiseRoles implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1855328018726853100L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long bookHashTagId;
+	@Column(name="user_wise_role_id")
+	private Long userWiseRoleId;
 	
 	@ManyToOne
-	@JoinColumn(name="book_id")
-	private Book book;
+	@JoinColumn(name="system_user_id")
+	private SystemUser systemUser;
 	
-	@Column(name="hashtag")
-	private String hashtag;
-	
-	
+	@ManyToOne
+	@JoinColumn(name="system_user_role")
+	private SystemUserRole systemUserRole;
 }

@@ -81,6 +81,8 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
+		
 
 	</dependencies>
 

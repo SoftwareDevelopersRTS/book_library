@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,48 +15,42 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="book_comment")
 @Getter
 @Setter
-public class BookComment  implements Serializable{
+@Table(name="system_user_role")
+public class SystemUserRole implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6799841587752504653L;
-
+	private static final long serialVersionUID = -2532549922630242636L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long bookCommentId;
+	@Column(name="system_user_role_id")
+	private Long systemUserRoleId;
 	
-	@JoinColumn(name="book_id")
-	@ManyToOne
-	private Book book;
+	@Column(name="role_name",unique=true,nullable=false)
+	private String roleName;
 	
-	@JoinColumn(name="user_id")
-	@ManyToOne
-	private User user;
-	
-	@Column(name = "comment_text", columnDefinition = "LONGTEXT")
-	private String commentText;
+	@Column(name="description",columnDefinition = "LONGTEXT")
+	private String description;
 	
 	@CreationTimestamp
 	@Column(name="created_at")
 	private LocalDateTime createdAt;
 	
-	
 	@UpdateTimestamp
 	@Column(name="updated_at")
 	private LocalDateTime updatedAt;
 	
-	@Transient
-	private Long bookId;
+	@JoinColumn(name="created_by")
+	@ManyToOne
+	private SystemUser createdBy;
 	
-	@Transient
-	private Long userId;
+	@JoinColumn(name="last_modified_by")
+	@ManyToOne
+	private SystemUser lastModifiedBy;
+
+	
 }
