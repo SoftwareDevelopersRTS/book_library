@@ -13,6 +13,7 @@ import com.bo.Response;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.service.UserActivityService;
+import com.utils.MailUtility;
 
 @RestController
 @CrossOrigin
@@ -21,6 +22,9 @@ public class UniqueController {
 	
 	@Autowired
 	private UserActivityService userActivityService;
+	
+	@Autowired
+	private MailUtility mailUtility;
 
 	@PostMapping("user-activity")
 	public Response userActivity(@RequestBody PaginationBO pagination) {
@@ -29,6 +33,7 @@ public class UniqueController {
 			return userActivityService.userActivity(pagination);
 		}
 		catch(Exception e) {
+			mailUtility.sendExceptionEmailToDeveloper(e,"userActivity()");
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);			
 		}

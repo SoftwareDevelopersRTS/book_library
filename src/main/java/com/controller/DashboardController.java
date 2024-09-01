@@ -11,6 +11,7 @@ import com.bo.Response;
 import com.dao.DashboardDao;
 import com.helper.ErrorConstants;
 import com.helper.ErrorMessages;
+import com.utils.MailUtility;
 
 @RestController
 @RequestMapping("/api/dashboard/")
@@ -18,6 +19,9 @@ public class DashboardController {
 	
 	@Autowired
 	private DashboardDao dashboardDao;
+	
+	@Autowired
+	private MailUtility mailUtility;
 	
 	@PostMapping("all-counts")
 	public Response dashboardAllCounts(@RequestBody PaginationBO pagination) {
@@ -28,6 +32,7 @@ public class DashboardController {
 			response.setMessage(ErrorMessages.DATA_RETRIEVED_SUCESSFULLY);
 		}catch(Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"dashboardAllCounts()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(ErrorMessages.INTERNAL_SERVER_ERROR_MESSAGE);
 		}

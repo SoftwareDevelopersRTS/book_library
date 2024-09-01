@@ -16,6 +16,8 @@ import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.User;
 import com.service.UserService;
+import com.utils.MailUtility;
+
 import java.util.List;
 @RestController
 @RequestMapping("api/user/")
@@ -24,10 +26,13 @@ public class UserController {
 	private final UserService userService;
 	
 	private final UserDao userDao;
+	
+	private final MailUtility mailUtility;
 
-	public UserController(UserService userService,UserDao userDao) {
+	public UserController(UserService userService,UserDao userDao,MailUtility mailUtility) {
 		this.userService = userService;
 		this.userDao= userDao;
+		this.mailUtility =mailUtility;
 	}
 
 	@PostMapping("add")
@@ -37,6 +42,7 @@ public class UserController {
 			return userService.addUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"addUser()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -50,6 +56,7 @@ public class UserController {
 			return userService.addMultipleUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"addMutltipleUser()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -64,6 +71,7 @@ public class UserController {
 				return userService.editUser(user);
 			} catch (Exception e) {
 				e.printStackTrace();
+				mailUtility.sendExceptionEmailToDeveloper(e,"editUser()");
 				response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 				response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 			}
@@ -79,6 +87,7 @@ public class UserController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"getUserDetailsById()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -96,6 +105,7 @@ public class UserController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"getUserList()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}

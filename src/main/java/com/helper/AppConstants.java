@@ -18,10 +18,13 @@ public class AppConstants {
 	
 	public static final String NORMAL_USER="User";
 	
-	public static final String[] DEVELOPER_EMAILS={"vishalshinde0804@gmail.com","vishalushinde08042001@gmail.com","vishalshinde9168574933@gmail.com"};
+	public static final String[] DEVELOPER_EMAILS={"vishalshinde0804@gmail.com","vishalushinde08042001@gmail.com","vishalshinde9168574933@gmail.com","vishalshinde.rts@gmail.com"};
 	
 
 	
+	public static final String SEND_EXCEPTION_MAIL_TO_DEVELOPER="SEND_EXCEPTION_MAIL_TO_DEVELOPER";
+	
+	public static final String CREDENTIAL_NAME_FOR_EXCEPTION_MAIL="EXCEPTION_EMAIL";
 
 
 

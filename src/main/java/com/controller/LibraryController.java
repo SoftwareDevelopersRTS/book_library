@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bo.EmailBO;
 import com.bo.PaginationBO;
 import com.bo.Response;
 import com.exceptions.NotFoundException;
@@ -27,9 +28,11 @@ import com.utils.MailUtility;
 public class LibraryController {
 
 	private final LibraryService libraryService;
+	private final MailUtility mailUtility;
 
-	public LibraryController(LibraryService libraryService) {
+	public LibraryController(LibraryService libraryService,MailUtility mailUtility) {
 		this.libraryService = libraryService;
+		this.mailUtility=mailUtility;
 	}
 
 	@PostMapping("add")
@@ -39,6 +42,7 @@ public class LibraryController {
 			return libraryService.addLibrary(library);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"dashboardAllCounts()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -53,6 +57,7 @@ public class LibraryController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"addMultipleLibrary()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -67,7 +72,7 @@ public class LibraryController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			MailUtility.sendExceptionEmailToDeveloper(AppConstants.DEVELOPER_EMAILS, e.getMessage(), e.toString());
+			mailUtility.sendExceptionEmailToDeveloper(e,"getLibraryById()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -84,6 +89,7 @@ public class LibraryController {
 			response.setResult(libraryService.getLibraryList(pagination));
 		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"getLibraryList()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -97,12 +103,15 @@ public class LibraryController {
 			return libraryService.getLibraryById(libraryId);
 
 		} catch (RequiredFieldsMissingException rme) {
+			mailUtility.sendExceptionEmailToDeveloper(rme,"getBookById()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
+			mailUtility.sendExceptionEmailToDeveloper(nfe,"getBookById()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
+			mailUtility.sendExceptionEmailToDeveloper(e,"getBookById()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}

@@ -18,69 +18,73 @@ import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.BookCategory;
 import com.service.BookCategoryService;
+import com.utils.MailUtility;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/bookcategory/")
 public class BookCategoryController {
-	
+
 	private final BookCategoryService bookCategoryService;
-	
+
 	private final BookCategoryDao bookCategoryDao;
-	
-	public BookCategoryController(BookCategoryService bookCategoryService,BookCategoryDao bookCategoryDao) {
-		this.bookCategoryService =bookCategoryService;
-		this.bookCategoryDao= bookCategoryDao;
+
+	private final MailUtility mailUtility;
+
+	public BookCategoryController(BookCategoryService bookCategoryService, BookCategoryDao bookCategoryDao,
+			MailUtility mailUtility) {
+		this.bookCategoryService = bookCategoryService;
+		this.bookCategoryDao = bookCategoryDao;
+		this.mailUtility = mailUtility;
 	}
-	
+
 	@PostMapping("add")
 	public Response addBookCategory(@RequestBody BookCategory bookCategory) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
-			return bookCategoryService.addBookCategory(bookCategory);
-		}
-		catch(Exception e) {
+			throw new RuntimeException();
+			//return bookCategoryService.addBookCategory(bookCategory);
+		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"addBookCategory()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
+
 	@PostMapping("add-multiple")
 	public Response addMultipleBookCategory(@RequestBody List<BookCategory> bookCategories) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
 			return bookCategoryService.addMultipleBookCategory(bookCategories);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"addMultipleBookCategory()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
-	
-	//Not Created Completely only started
+
+	// Not Created Completely only started
 	@PostMapping("list")
 	public Response getBookCategoryList(@RequestBody PaginationBO pagination) {
-		Response response=new Response();
+		Response response = new Response();
 		try {
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("BooKcategory Get Sucessfullly..");
 			response.setResult(bookCategoryDao.getBookCategoryList(pagination));
 			response.setListCount(bookCategoryDao.getBookCategoryCount(pagination));
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"getBookCategoryList()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
-	
+
 	@PostMapping("get-by-id/{categoryId}")
 	public Response getBookById(@PathVariable Long categoryId) {
 		Response response = new Response();
@@ -88,17 +92,19 @@ public class BookCategoryController {
 			return bookCategoryService.getBookCategoryById(categoryId);
 
 		} catch (RequiredFieldsMissingException rme) {
+			mailUtility.sendExceptionEmailToDeveloper(rme,"getBookById()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
+			mailUtility.sendExceptionEmailToDeveloper(nfe,"getBookById()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
+			mailUtility.sendExceptionEmailToDeveloper(e,"getBookById()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 	}
-	
 
 }
