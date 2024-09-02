@@ -1,6 +1,8 @@
 package com.dao.impl;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -78,6 +80,42 @@ public class ObjectDaoImpl  implements ObjectDao {
 		entityManager.remove(entity);
 	}
 
+
+	@Override
+	public <T> List<T> getAllRecords(Class<T> entityClass) {
+	    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+	    Root<T> root = criteriaQuery.from(entityClass);
+	    criteriaQuery.select(root);
+
+	    try {
+	    	return entityManager.createQuery(criteriaQuery).getResultList();
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> getListByTwoParams(Class<T> entity, String param1, Object paramValue1, String param2, Object paramValue2) {
+	    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entity);
+	    Root<T> root = criteriaQuery.from(entity);
+
+	    // Create predicates for each parameter
+	    Predicate predicate1 = criteriaBuilder.equal(root.get(param1), paramValue1);
+	    Predicate predicate2 = criteriaBuilder.equal(root.get(param2), paramValue2);
+
+	    // Combine the predicates using the AND operator
+	    criteriaQuery.where(criteriaBuilder.and(predicate1, predicate2));
+
+	    try {
+	        return entityManager.createQuery(criteriaQuery).getResultList();
+	    } catch (Exception e) {
+	        return Collections.emptyList();
+	    }
+	}
 
 
 }

@@ -1,6 +1,7 @@
 package com.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface ObjectDao {
 
@@ -16,5 +17,8 @@ public interface ObjectDao {
 	
 	public void deleteObject(Object entity);
 
+	public <T> List<T> getAllRecords(Class<T> entityClass);
+	
+	public <T> List<T> getListByTwoParams(Class<T> entity, String param1, Object paramValue1, String param2, Object paramValue2);
 
 }

@@ -43,6 +43,9 @@ public class SystemUser implements Serializable{
 	@Column(name="unique_uid",unique=true,updatable=false)
 	private String uniqueUid;
 	
+	@Column(name="password")
+	private String password;
+	
 	
 	
 	

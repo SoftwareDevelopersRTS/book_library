@@ -1,18 +1,24 @@
 package com.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bo.AuthRequest;
+import com.bo.AuthResponse;
 import com.bo.Response;
 import com.dao.ObjectDao;
-
+import com.exceptions.NotFoundException;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.Address;
+import com.model.SystemUser;
+import com.model.SystemUserRole;
 import com.model.User;
+import com.model.UserWiseRoles;
 import com.service.UserService;
 
 import com.utils.RandomCreator;
@@ -204,15 +210,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Response addMultipleUser(List<User> userList) throws Exception {
 		Response response = new Response();
-		Long sucessCount=0L;
-		Long errorCount=0L;
+		Long sucessCount = 0L;
+		Long errorCount = 0L;
 		if (null != userList && userList.size() > 0) {
 			for (User user : userList) {
 				try {
-					response=addUser(user);
-					if(response.getStatus()==ErrorConstants.SUCESS) {
+					response = addUser(user);
+					if (response.getStatus() == ErrorConstants.SUCESS) {
 						sucessCount++;
-					}else {
+					} else {
 						errorCount++;
 					}
 				} catch (Exception e) {
@@ -223,9 +229,73 @@ public class UserServiceImpl implements UserService {
 
 		response.setResult(null);
 		response.setStatus(ErrorConstants.SUCESS);
-		response.setMessage("Users Added Sucessfully...sucess("+sucessCount+"),failure("+errorCount+")");
+		response.setMessage("Users Added Sucessfully...sucess(" + sucessCount + "),failure(" + errorCount + ")");
 		return response;
 
 	}
 
+	@Override
+	public List<SystemUserRole> allSystemRoles() throws Exception {
+		List<SystemUserRole> allRoles = null;
+		try {
+			allRoles = objectDao.getAllRecords(SystemUserRole.class);
+		} catch (Exception e) {
+			throw e;
+		}
+		return allRoles;
+	}
+
+	@Override
+	public com.bo.AuthResponse systemUserLogin(AuthRequest authRequest) throws Exception {
+		AuthResponse response = new AuthResponse();
+
+		// Validate input
+		if (authRequest == null || authRequest.getEmail() == null || authRequest.getPassword() == null) {
+			throw new NotFoundException("Email or Password is Missing...");
+		}
+
+		if (authRequest.getSystemUserRoleId() == null || authRequest.getSystemUserRoleId() <= 0) {
+			throw new NotFoundException("Please Select Role...");
+		}
+
+		// Fetch the existing system user by email
+		SystemUser existingSystemUserByEmail = objectDao.getObjectByParam(SystemUser.class, "email",
+				authRequest.getEmail());
+		if (existingSystemUserByEmail == null) {
+			throw new NotFoundException("Email Not Found...");
+		}
+
+		// Fetch the selected user role
+		SystemUserRole systemUserRoleSelectedFrontEnd = objectDao.getObjectById(SystemUserRole.class,
+				authRequest.getSystemUserRoleId());
+		if (systemUserRoleSelectedFrontEnd == null) {
+			throw new NotFoundException("Please Select Proper Role... Selected Role Not Found...");
+		}
+
+		// Check if the password exists in the database
+		if (existingSystemUserByEmail.getPassword() == null) {
+			throw new NotFoundException("Password Not Present in DB. Please inform the tech team...");
+		}
+
+		// Fetch user roles for the existing user
+		List<UserWiseRoles> userRolesList = (List<UserWiseRoles>) objectDao.getListByTwoParams(UserWiseRoles.class,
+				"systemUser", existingSystemUserByEmail, "systemUserRole", systemUserRoleSelectedFrontEnd);
+
+		// Find the user role from the list
+		Optional<UserWiseRoles> userRoleOptional = userRolesList.stream().filter(userRoles -> userRoles
+				.getSystemUserRole().getSystemUserRoleId().equals(systemUserRoleSelectedFrontEnd.getSystemUserRoleId()))
+				.findFirst();
+
+		// Validate password
+		String encodedInputPassword = passwordEncoder.encode(authRequest.getPassword());
+		if (userRoleOptional.isPresent() && encodedInputPassword.equals(existingSystemUserByEmail.getPassword())) {
+
+			response.setStatus(ErrorConstants.SUCESS);
+			response.setMessage("User Login Successfully...");
+		} else {
+			throw new NotFoundException("Invalid credentials or role.");
+		}
+
+		return response;
+	}
 }
