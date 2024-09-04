@@ -19,7 +19,10 @@
             <i (click)="togglePassword()" class="fa fa-eye-slash"  *ngIf="isPasswordVisible" aria-hidden="true"></i>
           </div>
           <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter Password">
-
+          <label id="passwordLabel" for="password">Role</label>
+            <ng-select [items]="LibraryRoles" bindLabel="name" bindValue="id" name="role"
+            placeholder="Select Role" [(ngModel)]="adminData.role" [clearable]="false">
+            </ng-select>
           <p id="forget_pass">Forget Password ?</p>
           <button>Login</button>
         </div>

@@ -74,9 +74,10 @@
 .form_section button {
   /* margin-bottom: 20px; */
   padding: 10px;
-  font-size: 14px;
+  font-size: 13.5px;
   /* color: #c7c7c7; */
   margin-top: 5px;
+  font-family: var(--poppinsRegular);
   border-radius: 10px;
   border: 2px solid #c7c7c7;
 
@@ -87,7 +88,7 @@ input:focus{
 input::placeholder{
   color: #c7c7c7;
   font-family: var(--poppinsRegular);
-  font-size: 12px;
+  font-size: 12.5px;
 }
 .form_sub_section{
   display: flex;
@@ -144,3 +145,30 @@ input::placeholder{
   border: none;
 }
 
+.ng-select{
+  margin-top: 5px;
+  font-family: var(--poppinsRegular);
+  font-size: 13.5px;
+}
+::ng-deep .ng-select .ng-placeholder {
+  color: #c7c7c7;
+  font-family: var(--poppinsRegular);
+  font-size: 12.5px;
+}
+
+::ng-deep .ng-select.ng-select-single .ng-select-container {
+  height: 43px;
+  border-radius: 10px;
+  border: 2px solid #c7c7c7 !important;
+  box-shadow: none !important;
+}
+
+/* ::ng-deep .ng-select.ng-select-container .ng-has-value {
+  border-color: #c7c7c7;
+  box-shadow: none;
+}
+
+::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: #c7c7c7;
+  box-shadow: none;
+} */
