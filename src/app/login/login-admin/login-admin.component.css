@@ -1,13 +1,14 @@
-
-.main_section{
+.main_section {
   height: 100%;
 }
+
 .main_login_section {
   background: #E1DAEF;
   width: 100%;
   height: 100vh;
 }
-.sub_login_section{
+
+.sub_login_section {
   padding: 70px;
   display: flex;
   height: -webkit-fill-available;
@@ -23,18 +24,21 @@
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   position: relative;
-  .img_text{
+
+  .img_text {
     position: absolute;
     color: white;
     text-align: center;
     bottom: 100px;
     z-index: 2;
-    #main_text{
-    font-weight: 700;
-    font-size: 20px;
-    font-family: var(--philosopher-Bold);
+
+    #main_text {
+      font-weight: 700;
+      font-size: 20px;
+      font-family: var(--philosopher-Bold);
     }
-    #sub_text{
+
+    #sub_text {
       padding-top: 10px;
       font-weight: 500;
       font-size: 18px;
@@ -50,13 +54,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(43, 43, 43, 0.4); /* Dark overlay */
+  background-color: rgba(43, 43, 43, 0.4);
+  /* Dark overlay */
   z-index: 1;
 }
 
 .image_section img {
   width: 100% !important;
-  /* height: 100vh; */
   object-fit: cover;
 }
 
@@ -67,53 +71,54 @@
   justify-content: center;
   background-color: rgb(255, 255, 255);
   border-top-right-radius: 20px;
-  border-bottom-right-radius:20px;
+  border-bottom-right-radius: 20px;
 }
 
 .form_section input,
 .form_section button {
-  /* margin-bottom: 20px; */
   padding: 10px;
   font-size: 13.5px;
-  /* color: #c7c7c7; */
   margin-top: 5px;
   font-family: var(--poppinsRegular);
   border-radius: 10px;
   border: 2px solid #c7c7c7;
-
 }
-input:focus{
+
+input:focus {
   outline: none;
 }
-input::placeholder{
+
+input::placeholder {
   color: #c7c7c7;
   font-family: var(--poppinsRegular);
   font-size: 12.5px;
 }
-.form_sub_section{
+
+.form_sub_section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 50%;
   margin: auto;
   position: relative;
-  #Login_heading{
+
+  #Login_heading {
     font-family: var(--philosopher-Bold);
     font-weight: bold;
     font-size: 30px;
   }
 
-  #emailLabel{
-     padding-top: 20px;
+  #emailLabel {
+    padding-top: 20px;
   }
 
-  label{
+  label {
     font-family: var(--poppinsSemobold);
     font-size: 12.5px;
     color: #9a36b8;
   }
 
-  #forget_pass{
+  #forget_pass {
     font-family: var(--poppinsSemobold);
     font-size: 12.5px;
     color: #9a36b8;
@@ -121,11 +126,13 @@ input::placeholder{
     margin-top: 6px;
     cursor: pointer;
   }
-  #passwordLabel{
+
+  #passwordLabel {
     margin-top: 20px;
   }
-  #icon{
-    i{
+
+  #icon {
+    i {
       color: #c7c7c7;
       position: absolute;
       right: 15px;
@@ -145,11 +152,12 @@ input::placeholder{
   border: none;
 }
 
-.ng-select{
+.ng-select {
   margin-top: 5px;
   font-family: var(--poppinsRegular);
   font-size: 13.5px;
 }
+
 ::ng-deep .ng-select .ng-placeholder {
   color: #c7c7c7;
   font-family: var(--poppinsRegular);
