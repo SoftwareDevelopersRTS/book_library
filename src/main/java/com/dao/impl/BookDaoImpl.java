@@ -32,7 +32,9 @@ public class BookDaoImpl implements BookDao {
 				if (null != userInterestAlgorithm && null != userInterestAlgorithm.getInterestAlgorithm()
 						&& !userInterestAlgorithm.getInterestAlgorithm().trim().isEmpty()) {
 					InterestAlgorithm jsonToObject=new Gson().fromJson(userInterestAlgorithm.getInterestAlgorithm(), InterestAlgorithm.class);
-					
+					if(null!=jsonToObject && null!=jsonToObject.getFavouriteBookSet() && !jsonToObject.getFavouriteBookSet().isEmpty()) {
+						 query.append(" ORDER BY FIELD(book_id, ").append(jsonToObject.getFavouriteBookSet()).append(") DESC");
+					}
 				}
 			}
 
