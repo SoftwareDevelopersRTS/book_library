@@ -35,7 +35,7 @@ public class UserInterestAlgorithm  implements Serializable {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@Column(name="interest_algorithm",columnDefinition = "LONGTEXT")
+	@Column(name="interest_algorithm",columnDefinition = "json")
 	private String interestAlgorithm;
 	
 	@CreationTimestamp
