@@ -289,7 +289,7 @@ public class UserServiceImpl implements UserService {
 		// Validate password
 		String encodedInputPassword = passwordEncoder.encode(authRequest.getPassword());
 		if (userRoleOptional.isPresent() && encodedInputPassword.equals(existingSystemUserByEmail.getPassword())) {
-
+			response.setResult(userRoleOptional.get());
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("User Login Successfully...");
 		} else {

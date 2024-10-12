@@ -8,6 +8,8 @@ import lombok.Setter;
 public class AuthResponse {
 
 	private Integer status;
-	
+
 	private String message;
+
+	private Object result;
 }

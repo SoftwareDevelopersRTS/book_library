@@ -69,8 +69,7 @@ public class DashboardDaoImpl implements DashboardDao {
 			ps.close();
 			rs.close();
 
-			query = new StringBuffer("SELECT \r\n"
-					+ "    COUNT(user_id) AS total_user_count,\r\n"
+			query = new StringBuffer("SELECT \r\n" + "    COUNT(user_id) AS total_user_count,\r\n"
 					+ "    COUNT(CASE WHEN is_active = true THEN user_id ELSE NULL END) AS active_user_count,\r\n"
 					+ "    COUNT(CASE WHEN is_active = false OR is_active IS NULL THEN user_id ELSE NULL END) AS inactive_user_count\r\n"
 					+ "FROM user;");
@@ -84,6 +83,25 @@ public class DashboardDaoImpl implements DashboardDao {
 						"Total(" + rs.getLong("total_user_count") + ")," + "Active(" + rs.getLong("active_user_count")
 								+ ")," + "Inactive(" + rs.getLong("inactive_user_count") + ")");
 			}
+			ps.close();
+			rs.close();
+
+			query = new StringBuffer("SELECT \r\n" + "    COUNT(library_id) AS total_library,\r\n"
+					+ "    COUNT(CASE WHEN is_active = true THEN library_id ELSE NULL END) AS total_active_library,\r\n"
+					+ "    COUNT(CASE WHEN is_active = false OR is_active IS NULL THEN library_id ELSE NULL END) AS total_inactive_library\r\n"
+					+ "FROM library;");
+
+			ps = con.prepareStatement(query.toString());
+			System.out.println("Dashboard User Count Query---->" + ps.toString());
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				dashboardCountBO.setLibrayCount(
+						"Total(" + rs.getLong("total_library") + ")," + "Active(" + rs.getLong("total_active_library")
+								+ ")," + "Inactive(" + rs.getLong("total_inactive_library") + ")");
+			}
+			ps.close();
+			rs.close();
 
 		} catch (Exception e) {
 

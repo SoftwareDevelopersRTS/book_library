@@ -5,12 +5,12 @@ public class DashboardCountBO {
 	private String booksTotalCount;
 
 	private String booksAvailableCount;
-	
-	private String bookCategoryTotalCount;
-	
-	private String userCount;
-	
 
+	private String bookCategoryTotalCount;
+
+	private String userCount;
+
+	private String librayCount;
 
 	public String getBooksTotalCount() {
 		return booksTotalCount;
@@ -44,6 +44,12 @@ public class DashboardCountBO {
 		this.userCount = userCount;
 	}
 
-	
+	public String getLibrayCount() {
+		return librayCount;
+	}
+
+	public void setLibrayCount(String librayCount) {
+		this.librayCount = librayCount;
+	}
 
 }

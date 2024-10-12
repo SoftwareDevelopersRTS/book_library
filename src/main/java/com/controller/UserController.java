@@ -1,5 +1,6 @@
 package com.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/user/")
+@CrossOrigin
 public class UserController {
 
 	private final UserService userService;
@@ -131,7 +133,7 @@ public class UserController {
 		return response;
 	}
 
-	@PostMapping
+	@PostMapping("login")
 	private AuthResponse systemUserLogin(@RequestBody AuthRequest authRequest) {
 		AuthResponse response = new AuthResponse();
 		try {
