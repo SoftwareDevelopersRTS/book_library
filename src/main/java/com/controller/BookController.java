@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bo.PaginationBO;
 import com.bo.Response;
+import com.dao.BookDao;
 import com.exceptions.DuplicateEntryException;
 import com.exceptions.NotFoundException;
 import com.exceptions.RequiredFieldsMissingException;
@@ -33,17 +34,27 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
-	
+
+	@Autowired
+	private BookDao bookDao;
+
 	@Autowired
 	private MailUtility mailUtility;
 
 	@PostMapping("list")
-	public Response bookList(@RequestBody PaginationBO pagination, @RequestHeader String timezone) {
+	public Response bookList(@RequestBody PaginationBO pagination,
+			@RequestHeader(value = "timezone", required = false) String timezone) {
 		Response response = new Response();
 		try {
-
+			response.setListCount(bookDao.bookListCountAdminPanel(pagination));
+			response.setResult(bookDao.bookListAdminPanel(pagination, timezone));
+			response.setStatus(ErrorConstants.SUCESS);
+			response.setMessage("Book List Get Sucessfully..");
 		} catch (Exception e) {
-
+			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e, "bookList()");
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
 		return response;
 
@@ -57,7 +68,7 @@ public class BookController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			mailUtility.sendExceptionEmailToDeveloper(e,"addBook()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "addBook()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -72,7 +83,7 @@ public class BookController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			mailUtility.sendExceptionEmailToDeveloper(e,"addMultipleBook()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "addMultipleBook()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -85,12 +96,12 @@ public class BookController {
 		try {
 			return bookService.bookLike(bookLike);
 		} catch (DuplicateEntryException de) {
-			mailUtility.sendExceptionEmailToDeveloper(de,"likeBook()");
+			mailUtility.sendExceptionEmailToDeveloper(de, "likeBook()");
 			response.setStatus(ErrorConstants.ALREADY_EXIST);
 			response.setMessage(de.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			mailUtility.sendExceptionEmailToDeveloper(e,"likeBook()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "likeBook()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -103,15 +114,15 @@ public class BookController {
 		try {
 			return bookService.bookComment(bookComment);
 		} catch (RequiredFieldsMissingException rme) {
-			mailUtility.sendExceptionEmailToDeveloper(rme,"commentBook()");
+			mailUtility.sendExceptionEmailToDeveloper(rme, "commentBook()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
-			mailUtility.sendExceptionEmailToDeveloper(nfe,"commentBook()");
+			mailUtility.sendExceptionEmailToDeveloper(nfe, "commentBook()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
-			mailUtility.sendExceptionEmailToDeveloper(e,"commentBook()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "commentBook()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -124,15 +135,15 @@ public class BookController {
 		try {
 			return bookService.deleteBookComment(commentId);
 		} catch (RequiredFieldsMissingException rme) {
-			mailUtility.sendExceptionEmailToDeveloper(rme,"deleteComment()");
+			mailUtility.sendExceptionEmailToDeveloper(rme, "deleteComment()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
-			mailUtility.sendExceptionEmailToDeveloper(nfe,"deleteComment()");
+			mailUtility.sendExceptionEmailToDeveloper(nfe, "deleteComment()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
-			mailUtility.sendExceptionEmailToDeveloper(e,"deleteComment()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "deleteComment()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -147,15 +158,15 @@ public class BookController {
 		} catch (RequiredFieldsMissingException rme) {
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
-			mailUtility.sendExceptionEmailToDeveloper(rme,"shareBook()");
+			mailUtility.sendExceptionEmailToDeveloper(rme, "shareBook()");
 		} catch (NotFoundException nfe) {
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
-			mailUtility.sendExceptionEmailToDeveloper(nfe,"shareBook()");
+			mailUtility.sendExceptionEmailToDeveloper(nfe, "shareBook()");
 		} catch (Exception e) {
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
-			mailUtility.sendExceptionEmailToDeveloper(e,"shareBook()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "shareBook()");
 		}
 		return response;
 	}
@@ -169,15 +180,15 @@ public class BookController {
 		} catch (RequiredFieldsMissingException rme) {
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
-			mailUtility.sendExceptionEmailToDeveloper(rme,"getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(rme, "getBookById()");
 		} catch (NotFoundException nfe) {
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
-			mailUtility.sendExceptionEmailToDeveloper(nfe,"getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(nfe, "getBookById()");
 		} catch (Exception e) {
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
-			mailUtility.sendExceptionEmailToDeveloper(e,"getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "getBookById()");
 		}
 		return response;
 	}

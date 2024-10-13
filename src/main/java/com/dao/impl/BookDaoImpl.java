@@ -65,14 +65,15 @@ public class BookDaoImpl implements BookDao {
 	}
 
 	@Override
-	public List<Book> bookListAdminPanel(PaginationBO pagination) throws Exception {
+	public List<Book> bookListAdminPanel(PaginationBO pagination, String timeZone) throws Exception {
 		Connection con = null;
 		List<Book> books = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			con = dataSource.getConnection();
-			StringBuffer query = new StringBuffer("SELECT * FROM book b LEFT JOIN library l ON b.library_id=l.library_id ");
+			StringBuffer query = new StringBuffer(
+					"SELECT * FROM book b LEFT JOIN library l ON b.library_id=l.library_id ");
 			if (Checker.paginationChecker(pagination)) {
 				query.append(" LIMIT ? OFFSET ?");
 			}
@@ -96,7 +97,7 @@ public class BookDaoImpl implements BookDao {
 				book.setRating(rs.getString("rating"));
 				book.setBookUniqueUid(rs.getString("book_unique_uid"));
 				book.setTotalStock(rs.getInt("total_stock"));
-				book.setAvailableStock(rs.getInt("available_stock"));
+				book.setAvailableStock(rs.getInt("availalble_stock"));
 				book.setIsActive(rs.getBoolean("is_active"));
 				book.setLibraryName(rs.getString("library_name"));
 
@@ -129,6 +130,51 @@ public class BookDaoImpl implements BookDao {
 			}
 		}
 		return books;
+	}
+
+	@Override
+	public Long bookListCountAdminPanel(PaginationBO pagination) throws Exception {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Long totalCount = 0L;
+
+		try {
+			con = dataSource.getConnection();
+			String query = "SELECT COUNT(*) AS total_count FROM book"; 
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				totalCount = rs.getLong("total_count"); 
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return totalCount; 
 	}
 
 }
