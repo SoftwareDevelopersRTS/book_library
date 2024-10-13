@@ -266,24 +266,47 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Response getBookById(Long bookId) throws Exception {
-		Response response=new Response();
+		Response response = new Response();
 		try {
-			if(null!=bookId && bookId>0) {
-				Book book=objectDao.getObjectById(Book.class,bookId);
-				if(null!=book) {
+			if (null != bookId && bookId > 0) {
+				Book book = objectDao.getObjectById(Book.class, bookId);
+				if (null != book) {
 					response.setResult(book);
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Book Get Sucessfully...");
-				}else {
+				} else {
 					throw new NotFoundException("Book Not Found");
 				}
-			}else {
+			} else {
 				throw new RequiredFieldsMissingException("Book Id is missing");
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
 		return response;
 	}
+
+	@Override
+	public Response changeBookStatus(Long bookId) throws Exception {
+	    Response response = new Response();
+
+	    if (bookId == null) {
+	        throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
+	    }
+
+	    Book book = objectDao.getObjectById(Book.class, bookId);
+	    if (book == null) {
+	        throw new NotFoundException("Book Not Found");
+	    }
+
+	    book.setIsActive(!Boolean.TRUE.equals(book.getIsActive()));
+	    objectDao.updateObject(book);
+	    
+	    response.setStatus(ErrorConstants.SUCESS);
+	    response.setMessage("Book Status Changed Successfully");
+
+	    return response;
+	}
+
 
 }

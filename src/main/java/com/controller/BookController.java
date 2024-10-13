@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -189,6 +190,19 @@ public class BookController {
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 			mailUtility.sendExceptionEmailToDeveloper(e, "getBookById()");
+		}
+		return response;
+	}
+
+	@GetMapping("change-book-status/{bookId}")
+	public Response changeBookStatus(@PathVariable Long bookId) {
+		Response response = new Response();
+		try {
+			return bookService.changeBookStatus(bookId);
+		} catch (Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+			mailUtility.sendExceptionEmailToDeveloper(e, "changeBookStatus()");
 		}
 		return response;
 	}
