@@ -18,43 +18,48 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="book_comment")
+@Table(name = "book_comment")
 @Getter
 @Setter
-public class BookComment  implements Serializable{
-	
+public class BookComment implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6799841587752504653L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long bookCommentId;
-	
-	@JoinColumn(name="book_id")
+
+	@JoinColumn(name = "book_id")
 	@ManyToOne
 	private Book book;
-	
-	@JoinColumn(name="user_id")
+
+	@JoinColumn(name = "user_id")
 	@ManyToOne
 	private User user;
-	
+
 	@Column(name = "comment_text", columnDefinition = "LONGTEXT")
 	private String commentText;
-	
+
+	@Column(name = "added_from")
+	private String addedFrom;
+
 	@CreationTimestamp
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	private LocalDateTime createdAt;
-	
-	
+
 	@UpdateTimestamp
-	@Column(name="updated_at")
+	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
-	
+
 	@Transient
 	private Long bookId;
-	
+
 	@Transient
 	private Long userId;
+
+	@Transient
+	private String commentedBy;
 }

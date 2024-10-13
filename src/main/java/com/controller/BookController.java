@@ -206,4 +206,20 @@ public class BookController {
 		}
 		return response;
 	}
+
+	@PostMapping("get-book-comments")
+	public Response getBookComments(@RequestBody PaginationBO pagination) {
+		Response response = new Response();
+		try {
+			response.setStatus(ErrorConstants.SUCESS);
+			response.setResult(bookDao.getBookCommentList(pagination));
+			response.setListCount(bookDao.getBookCommentsCount(pagination));
+			response.setMessage("Book Comments Get Sucesfully...");
+		} catch (Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+			mailUtility.sendExceptionEmailToDeveloper(e, "changeBookStatus()");
+		}
+		return response;
+	}
 }

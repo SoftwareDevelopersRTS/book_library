@@ -18,6 +18,7 @@ import com.dao.ObjectDao;
 import com.google.gson.Gson;
 import com.helper.Checker;
 import com.model.Book;
+import com.model.BookComment;
 import com.model.UserInterestAlgorithm;
 
 @Repository
@@ -141,12 +142,12 @@ public class BookDaoImpl implements BookDao {
 
 		try {
 			con = dataSource.getConnection();
-			String query = "SELECT COUNT(*) AS total_count FROM book"; 
+			String query = "SELECT COUNT(*) AS total_count FROM book";
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				totalCount = rs.getLong("total_count"); 
+				totalCount = rs.getLong("total_count");
 			}
 
 		} catch (Exception e) {
@@ -174,7 +175,132 @@ public class BookDaoImpl implements BookDao {
 				}
 			}
 		}
-		return totalCount; 
+		return totalCount;
+	}
+
+	@Override
+	public List<BookComment> getBookCommentList(PaginationBO pagination) throws Exception {
+		List<BookComment> bookCommentList = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuffer query = new StringBuffer(
+					"SELECT bc.*,u.first_name,u.last_name from  book_comment bc INNER JOIN user u on bc.user_id=u.user_id where book_comment_id is not null ");
+			if (null != pagination.getId() && pagination.getId() > 0) {
+				query.append(" AND bc.book_id= ? ");
+			}
+			
+			if (Checker.paginationChecker(pagination)) {
+				query.append(" LIMIT ? OFFSET ?");
+			}
+
+			ps = con.prepareStatement(query.toString());
+			int count = 1;
+			if (Checker.paginationChecker(pagination)) {
+				ps.setInt(count++, pagination.getNumPerPage());
+				ps.setInt(count++, (pagination.getPageNo() - 1) * pagination.getNumPerPage());
+			}
+			rs = ps.executeQuery();
+			bookCommentList = new ArrayList<>();
+			BookComment bookComment = null;
+			while (rs.next()) {
+				bookComment = new BookComment();
+				bookComment.setBookCommentId(rs.getLong("book_comment_id"));
+				bookComment.setCommentText(rs.getString("comment_text"));
+				bookComment.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
+				String commentedBy = (firstName != null && !firstName.isEmpty() ? firstName : "")
+						+ (lastName != null && !lastName.isEmpty()
+								? (firstName != null && !firstName.isEmpty() ? " " : "") + lastName
+								: "");
+				bookComment.setCommentedBy(commentedBy);
+				bookCommentList.add(bookComment);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return bookCommentList;
+	}
+
+	@Override
+	public Long getBookCommentsCount(PaginationBO pagination) throws Exception {
+		Long commentCount = 0L;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = dataSource.getConnection();
+			StringBuffer query = new StringBuffer(
+					"SELECT COUNT(*) as totalComments FROM book_comment bc INNER JOIN user u ON bc.user_id = u.user_id WHERE bc.book_comment_id IS NOT NULL");
+
+			if (pagination.getId() != null && pagination.getId() > 0) {
+				query.append(" AND bc.book_id = ?");
+			}
+
+			ps = con.prepareStatement(query.toString());
+
+			if (pagination.getId() != null && pagination.getId() > 0) {
+				ps.setLong(1, pagination.getId());
+			}
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				commentCount = rs.getLong("totalComments");
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return commentCount;
 	}
 
 }
