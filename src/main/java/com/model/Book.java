@@ -3,7 +3,6 @@ package com.model;
 import java.io.Serializable;
 import java.util.List;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "book")
-public class Book implements Serializable{
+public class Book implements Serializable {
 
 	/**
 	 * 
@@ -43,33 +42,33 @@ public class Book implements Serializable{
 
 	@Column(name = "rating")
 	private String rating;
-	
-	@Column(name="book_unique_uid",unique=true)
-	private String bookUniqueUid;
-	
-	@Column(name="total_stock")
-	private Integer totalStock;
-	
-	@Column(name="availalble_stock")
-	private Integer availableStock;
-	
-	@Column(name="is_active")
-	private Boolean isActive;
-	
-	@ManyToOne
-	@JoinColumn(name="library_id")
-	private Library library;
-	
 
-	
-	
+	@Column(name = "book_unique_uid", unique = true)
+	private String bookUniqueUid;
+
+	@Column(name = "total_stock")
+	private Integer totalStock;
+
+	@Column(name = "availalble_stock")
+	private Integer availableStock;
+
+	@Column(name = "is_active")
+	private Boolean isActive;
+
+	@ManyToOne
+	@JoinColumn(name = "library_id")
+	private Library library;
+
 	@Transient
 	private List<String> hashTags;
-	
+
 	@Transient
 	private List<Long> bookCategoryList;
-	
+
 	@Transient
 	private Long libId;
+
+	@Transient
+	private String libraryName;
 
 }
