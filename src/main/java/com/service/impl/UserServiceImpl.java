@@ -109,7 +109,6 @@ public class UserServiceImpl implements UserService {
 			if (userNullChecker("EDIT", user)) {
 				User existingUser = objectDao.getObjectById(User.class, user.getUserId());
 				if (null != existingUser) {
-					fileUtility.saveProfileImages(user);
 					if (null != user.getEmail()) {
 						User exstingUserByEmail = objectDao.getObjectByParam(User.class, "email", user.getEmail());
 						if (null != exstingUserByEmail && existingUser.getUserId() != exstingUserByEmail.getUserId()) {
@@ -177,6 +176,7 @@ public class UserServiceImpl implements UserService {
 						}
 					}
 					objectDao.updateObject(existingUser);
+					fileUtility.saveProfileImages(user);
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("User Updated Sucessfully");
 
