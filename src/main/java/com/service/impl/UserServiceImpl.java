@@ -1,5 +1,9 @@
 package com.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +19,14 @@ import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.Address;
+import com.model.CommonAppSetting;
+import com.model.ProfilePicData;
 import com.model.SystemUser;
 import com.model.SystemUserRole;
 import com.model.User;
 import com.model.UserWiseRoles;
 import com.service.UserService;
-
+import com.utils.FileUtility;
 import com.utils.RandomCreator;
 
 @Service
@@ -30,9 +36,12 @@ public class UserServiceImpl implements UserService {
 
 	private final PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(ObjectDao objectDao, PasswordEncoder passwordEncoder) {
+	private final FileUtility fileUtility;
+
+	public UserServiceImpl(ObjectDao objectDao, PasswordEncoder passwordEncoder ,FileUtility fileUtility) {
 		this.objectDao = objectDao;
 		this.passwordEncoder = passwordEncoder;
+		this.fileUtility = fileUtility;
 	}
 
 	@Override
@@ -100,6 +109,7 @@ public class UserServiceImpl implements UserService {
 			if (userNullChecker("EDIT", user)) {
 				User existingUser = objectDao.getObjectById(User.class, user.getUserId());
 				if (null != existingUser) {
+					fileUtility.saveProfileImages(user);
 					if (null != user.getEmail()) {
 						User exstingUserByEmail = objectDao.getObjectByParam(User.class, "email", user.getEmail());
 						if (null != exstingUserByEmail && existingUser.getUserId() != exstingUserByEmail.getUserId()) {
