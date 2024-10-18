@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.dao.ObjectDao;
 import com.helper.AppConstants;
@@ -13,6 +14,7 @@ import com.model.CommonAppSetting;
 import com.model.ProfilePicData;
 import com.model.User;
 
+@Component
 public class FileUtility {
 
 	@Autowired

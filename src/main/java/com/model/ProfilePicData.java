@@ -1,11 +1,17 @@
 package com.model;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +31,9 @@ public class ProfilePicData {
 
 	@Column(name = "user_id")
 	private User user;
+
+	@CreationTimestamp
+	@Column(name = "created_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime createdAt;
 }
