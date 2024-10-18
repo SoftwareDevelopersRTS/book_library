@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	private final FileUtility fileUtility;
 
-	public UserServiceImpl(ObjectDao objectDao, PasswordEncoder passwordEncoder ,FileUtility fileUtility) {
+	public UserServiceImpl(ObjectDao objectDao, PasswordEncoder passwordEncoder, FileUtility fileUtility) {
 		this.objectDao = objectDao;
 		this.passwordEncoder = passwordEncoder;
 		this.fileUtility = fileUtility;
