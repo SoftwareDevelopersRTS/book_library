@@ -85,4 +85,7 @@ public class User implements Serializable {
 	@Transient
 	private String profileImage;
 
+	@Transient
+	private String profileImageUrl;
+
 }

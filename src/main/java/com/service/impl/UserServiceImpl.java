@@ -25,6 +25,7 @@ import com.model.SystemUser;
 import com.model.SystemUserRole;
 import com.model.User;
 import com.model.UserWiseRoles;
+import com.service.ProfilePicDataService;
 import com.service.UserService;
 import com.utils.FileUtility;
 import com.utils.RandomCreator;
@@ -38,10 +39,14 @@ public class UserServiceImpl implements UserService {
 
 	private final FileUtility fileUtility;
 
-	public UserServiceImpl(ObjectDao objectDao, PasswordEncoder passwordEncoder, FileUtility fileUtility) {
+	private final ProfilePicDataService profilePicService;
+
+	public UserServiceImpl(ObjectDao objectDao, PasswordEncoder passwordEncoder, FileUtility fileUtility,
+			ProfilePicDataService profilePicService) {
 		this.objectDao = objectDao;
 		this.passwordEncoder = passwordEncoder;
 		this.fileUtility = fileUtility;
+		this.profilePicService = profilePicService;
 	}
 
 	@Override
@@ -198,6 +203,15 @@ public class UserServiceImpl implements UserService {
 		try {
 			if (null != userId && userId > 0) {
 				User user = objectDao.getObjectById(User.class, userId);
+				ProfilePicData currentProfilePic = profilePicService.getUserCurrentProfilePic(user);
+				if (null != currentProfilePic && null != currentProfilePic.getProfilePicPath()) {
+					CommonAppSetting profileFolder = objectDao.getObjectByParam(CommonAppSetting.class, "settingName",
+							AppConstants.PROFILE_IMAGE_FOLDER);
+					if (null != profileFolder && null != profileFolder.getSettingValue()) {
+						user.setProfileImageUrl(
+								profileFolder.getSettingValue() + currentProfilePic.getProfilePicPath());
+					}
+				}
 				if (null != user) {
 					user.setPassword(null);
 					response.setResult(user);

@@ -116,6 +116,37 @@ public class ObjectDaoImpl  implements ObjectDao {
 	        return Collections.emptyList();
 	    }
 	}
+	
+	
+
+
+	@Override
+	public <T> T getFirstRecordOrderedBy(Class<T> entity, String restrictionParam, Object restrictionValue,
+			String orderByParam, boolean ascending) throws Exception {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entity);
+	    Root<T> root = criteriaQuery.from(entity);
+
+	    // Apply the restriction (filter) based on the provided param and value
+	    Predicate restrictionPredicate = criteriaBuilder.equal(root.get(restrictionParam), restrictionValue);
+	    criteriaQuery.where(restrictionPredicate);
+
+	    // Set the order by condition
+	    if (ascending) {
+	        criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderByParam)));
+	    } else {
+	        criteriaQuery.orderBy(criteriaBuilder.desc(root.get(orderByParam)));
+	    }
+
+	    try {
+	        // Limit the result to 1 record
+	        return entityManager.createQuery(criteriaQuery).setMaxResults(1).getSingleResult();
+	    } catch (Exception e) {
+	        return null; // Handle the exception based on your needs (e.g., logging)
+	    }
+	}
+
+
 
 
 }
