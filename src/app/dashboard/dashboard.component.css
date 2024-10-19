@@ -1,0 +1,126 @@
+/* layout.component.css */
+.layout {
+    display: flex;
+    min-height: 100vh;
+    /* Ensure full height */
+}
+
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    /* Light background color */
+    position: fixed;
+    /* Fix the sidebar in place */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    /* Ensure it's on top of other elements */
+}
+
+.content {
+    margin-left: 200px;
+    /* Leave space for the sidebar */
+    padding: 20px;
+    width: calc(100% - 200px);
+    /* Adjust the width based on sidebar */
+    background-color: #fff;
+    /* Background for content */
+}
+
+body {
+    margin-top: 20px;
+    background: #FAFAFA;
+}
+
+.order-card {
+    color: #fff;
+}
+
+.bg-c-blue {
+    background: linear-gradient(45deg, #4099ff, #73b4ff);
+}
+
+.bg-c-green {
+    background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+}
+
+.bg-c-yellow {
+    background: linear-gradient(45deg, #FFB64D, #ffcb80);
+}
+
+.bg-c-pink {
+    background: linear-gradient(45deg, #FF5370, #ff869a);
+}
+
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+    padding: 25px;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}
+
+
+/* marquee-summary.component.css */
+.marquee {
+    overflow: hidden;              /* Hide the overflow */
+    white-space: nowrap;          /* Prevent text from wrapping */
+    box-sizing: border-box;       /* Include padding and border */
+    width: 100%;                  /* Full width */
+    position: relative;           /* Positioning context */
+    background: #f0f0f0;         /* Background color */
+    padding: 10px 0;             /* Top and bottom padding */
+}
+
+.marquee-content {
+    display: inline-block;        /* Inline block for horizontal scrolling */
+    animation: scroll 20s linear infinite; /* Animate the scrolling; change duration here */
+}
+
+/* Keyframes for scrolling */
+@keyframes scroll {
+    0% { transform: translateX(100%); } /* Start off-screen to the right */
+    100% { transform: translateX(-100%); } /* Move off-screen to the left */
+}
+
+.summary {
+    display: inline-block;         /* Inline block for each summary */
+    margin-right: 50px;           /* Space between summaries */
+    padding: 0 10px;              /* Padding inside the summary */
+    position: relative;            /* Positioning context for the border */
+}
+
+.summary:not(:last-child)::after {
+    content: "";                  /* Add a pseudo-element */
+    display: inline-block;        /* Keep it inline */
+    width: 2px;                  /* Width of the vertical line */
+    height: 100%;                /* Full height of the summary */
+    background-color: #333;      /* Color of the vertical line */
+    position: absolute;           /* Absolute positioning */
+    top: 0;                       /* Align to top */
+    right: -25px;                 /* Adjust space between summary and line */
+}
+.list-styling{
+    border: 2px solid darkseagreen;
+    border-radius: 8px;
+}

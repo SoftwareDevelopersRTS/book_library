@@ -1,0 +1,36 @@
+/* sidebar.component.css */
+.sidebar {
+    width: 200px;
+    height: 100vh; /* Full viewport height */
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:1000;
+    pointer-events: auto;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+  }
+  .active {
+    font-weight: bold;
+    color: #007bff; /* Highlight the active link */
+  }
+
+  .sidebar a.active {
+    background-color: #007bff; /* Highlight color */
+    color: #fff; /* Text color for active */
+}

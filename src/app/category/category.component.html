@@ -1,0 +1,41 @@
+<div class="layout">
+    <app-sidebar></app-sidebar>
+
+    <div class="content">
+        <div class="container mt-4">
+            <h2 class="text-center">Category List({{categoryListCount?categoryListCount:'0'}})</h2>
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category ID</th>
+                            <th>Unique ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <!-- <th>Image Path</th> -->
+                            <th>Is Active</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let category of categoryList | paginate: { itemsPerPage: bookCategoryPagination.numPerPage, currentPage: bookCategoryPagination.pageNo ,totalItems:categoryListCount,id:'p'}">
+                            <td>{{ category.bookCategoryId }}</td>
+                            <td>{{ category.bookCategoryUniqueId }}</td>
+                            <td>{{ category.bookCategoryName }}</td>
+                            <td>{{ category.description ? category.description:"--" }}</td>
+                            <!-- <td>{{ category.categoryImagePath }}</td> -->
+                            <td>{{ category.isActive ? 'Yes' : 'No' }}</td>
+                            <td>{{ category.createdAt | date:'short' }}</td>
+                        </tr>
+                        <tr *ngIf="!categoryList || (categoryList && categoryList.length<=0)" colspan="6" class="p-3">
+                            No Record Found
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
+        </div>
+    </div>
+</div>

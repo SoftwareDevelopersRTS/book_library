@@ -1,0 +1,86 @@
+<!-- layout.component.html -->
+<div class="layout">
+    <app-sidebar></app-sidebar>
+    <div class="content">
+        <div class="container">
+            <div class="row mb-2">
+                <!-- marquee-summary.component.html -->
+                <div class="marquee">
+                    <div class="marquee-content">
+                        <div class="summary">
+                            Book Summary: {{ allCountsBO.booksTotalCount ? allCountsBO.booksTotalCount : '' }}
+                        </div>
+                        <div class="summary">
+                            Category Summary: {{ allCountsBO.bookCategoryTotalCount ? allCountsBO.bookCategoryTotalCount
+                            : '' }}
+                        </div>
+                        <div class="summary">
+                            User Summary: {{ allCountsBO.userCount ? allCountsBO.userCount : '' }}
+                        </div>
+                        <div class="summary">
+                            Library Summary: {{ allCountsBO.librayCount ? allCountsBO.librayCount : '' }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-xl-6 list-styling">
+                    <h6 class="m-b-20">Top Rated Books</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of items | paginate: { itemsPerPage: itemPagination.numPerPage, currentPage: itemPagination.pageNum ,id:'p'}">
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.productName }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
+
+                </div>
+
+
+                <div class="col-md-8 col-xl-6 list-styling">
+                    <h6 class="m-b-20">Top Rated Books</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of items | paginate: { itemsPerPage: itemPagination.numPerPage, currentPage: itemPagination.pageNum ,id:'p'}">
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.productName }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

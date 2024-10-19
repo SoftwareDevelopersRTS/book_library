@@ -1,0 +1,32 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    font-weight: 600;
+}
+
+.form-control, .form-select {
+    border-radius: 5px;
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.text-muted a {
+    text-decoration: none;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    color: #495057;
+}

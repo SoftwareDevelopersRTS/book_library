@@ -1,0 +1,44 @@
+<div class="layout">
+    <app-sidebar></app-sidebar>
+
+    <div class="content">
+        
+        <div class="container mt-4">
+            <h2 class="text-center">Library List({{libraryListCount?libraryListCount:'0'}})</h2>
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Library ID</th>
+                            <th>Unique UID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Is Active</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Is Active Today</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let library of libraryList | paginate: { itemsPerPage: libraryPagination.numPerPage, currentPage: libraryPagination.pageNo ,totalItems:libraryListCount,id:'p'}">
+                            <td>{{ library.libraryId }}</td>
+                            <td>{{ library.libraryUniqueUid }}</td>
+                            <td>{{ library.libraryName }}</td>
+                            <td>{{ library.description ? library.description : '--' }}</td>
+                            <td>{{ library.isActive ? 'Yes' : 'No' }}</td>
+                            <td>{{convertToDate(library.startTime) |  date: 'hh:mm a'}}</td>
+                            <td>{{convertToDate(library.endTime)  | date: 'hh:mm a'}}</td>
+                            <td>{{library.isStartToday}}</td>
+                            <td>{{ library.createdAt | date:'short' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+
+            <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
+        </div>
+    </div>
+</div>
