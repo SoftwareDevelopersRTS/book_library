@@ -2,6 +2,9 @@
     <app-sidebar></app-sidebar>
 
     <div class="content">
+        <div class="container justify-content-end">
+            <button class="btn btn-primary" (click)="openCloseModal('show')">Add Category+</button>
+        </div>
         <div class="container mt-4">
             <h2 class="text-center">Category List({{categoryListCount?categoryListCount:'0'}})</h2>
             <div class="container">
@@ -37,5 +40,61 @@
 
             <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
         </div>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document"> <!-- Use 'modal-lg' for larger modals -->
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                        <button type="button" class="close" (click)="openCloseModal('hide')" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form (ngSubmit)="addCategory()">
+                            <!-- Category Name -->
+                            <div class="form-group mb-2">
+                                <label for="categoryName">Category Name</label>
+                                <input type="text" class="form-control" id="categoryName" name="categoryName"
+                                    [(ngModel)]="category.bookCategoryName" placeholder="Enter Category Name" required>
+                            </div>
+
+                            <!-- Category Description -->
+                            <div class="form-group">
+                                <label for="categoryDescription">Category Description</label>
+                                <textarea class="form-control" id="categoryDescription" name="categoryDescription"
+                                    rows="5" [(ngModel)]="category.description" placeholder="Enter Category Description"
+                                    required></textarea>
+                            </div>
+
+                            <!-- Front and Back Image Inputs in a Single Row -->
+                            <div class="form-row row mt-3">
+                                <!-- Front Image Input -->
+                                <div class="form-group col-12 col-sm-6 col-md-6">
+                                    <label for="frontImage">Front Image</label>
+                                    <input type="file" class="form-control-file" id="frontImage" name="frontImage"
+                                        (change)="onUpload($event, 'frontImage')" accept="image/*" required>
+                                </div>
+
+                                <!-- Back Image Input -->
+                                <div class="form-group col-12 col-sm-6 col-md-6">
+                                    <label for="backImage">Back Image</label>
+                                    <input type="file" class="form-control-file" id="backImage" name="backImage"
+                                        (change)="onUpload($event, 'backImage')" accept="image/*" required>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer mt-3">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>

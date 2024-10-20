@@ -16,6 +16,7 @@ export class CommonService {
     "ADD_BOOK":'api/book/add',
     "CHANGE_BOOK_STATUS":'api/book/change-book-status/',
     "BOOK_CATEGORY_LIST":'api/bookcategory/list',
+     "ADD_BOOK_CATEGORY":'api/bookcategory/add',
     'ALL_BOOK_CATEGORY_LIST':'api/bookcategory/list-all',
     "LIBRARY_LIST":'api/library/list',
     "ALL_LIBRARY_LIST":'api/library/list-all',

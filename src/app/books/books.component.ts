@@ -23,7 +23,7 @@ export class BooksComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    //this.getBooksList();
+    this.getBooksList();
   }
 
   // ngAfterViewInit() {

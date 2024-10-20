@@ -81,10 +81,10 @@ export class AddEditBookComponent implements OnInit {
       try {
         // Call your base64Provider function
         if (fileType === 'frontImage') {
-          this.imageDataBo.encodedFrontImage = await this.base64Provider(file);
+          this.imageDataBo.encodedFrontImage = await this.fileUtil.base64Provider(file);
           console.log('Frontside Image uploaded:', file);
         } else if (fileType === 'backImage') {
-          this.imageDataBo.encodedBackImage = await this.base64Provider(file);
+          this.imageDataBo.encodedBackImage = await this.fileUtil.base64Provider(file);
           console.log('Backside Image uploaded:', file);
         } else if (fileType === 'bookFile') {
           // Handle book file if necessary
@@ -101,18 +101,5 @@ export class AddEditBookComponent implements OnInit {
   }
 
 
-  base64Provider(file: File): Promise<string | null> {
-    if (file) {
-      return this.fileUtil.convertFileToBase64(file)
-        .then((base64String) => {
-          return base64String;
-        })
-        .catch((error) => {
-          console.error('Error converting file to Base64:', error);
-          return null;
-        });
-    }
-    return Promise.resolve(null); // Return null if no file is provided
-  }
-
+ 
 }
