@@ -320,16 +320,21 @@ public class BookServiceImpl implements BookService {
 	}
 
 	private void saveBookImageData(Book book) throws Exception {
+
 		ImageData imageData = new ImageData();
 		if (null != book.getImageDataBo().getEncodedFrontImage()
 				&& !book.getImageDataBo().getEncodedFrontImage().isEmpty()) {
-			imageData.setFrontImagePath(fileUtility.saveBase64Image(book.getImageDataBo().getEncodedFrontImage(),
-					AppConstants.BOOK_IMAGE_FOLDER));
+			String name = fileUtility.saveBase64Image(book.getImageDataBo().getEncodedFrontImage(),
+					AppConstants.BOOK_IMAGE_FOLDER);
+			System.out.println("Fornt Name====>" + name);
+			imageData.setFrontImagePath(name);
 		}
 		if (null != book.getImageDataBo().getEncodedBackImage()
 				&& !book.getImageDataBo().getEncodedBackImage().isEmpty()) {
-			imageData.setBackImagePath(fileUtility.saveBase64Image(book.getImageDataBo().getEncodedFrontImage(),
-					AppConstants.BOOK_IMAGE_FOLDER));
+			String name = fileUtility.saveBase64Image(book.getImageDataBo().getEncodedBackImage(),
+					AppConstants.BOOK_IMAGE_FOLDER);
+			System.out.println("Back Name====>" + name);
+			imageData.setBackImagePath(name);
 		}
 
 		List<String> extraImageList = new ArrayList<String>();
@@ -339,7 +344,9 @@ public class BookServiceImpl implements BookService {
 			}
 		}
 		imageData.setBook(book);
-		imageData.setExtraImages(fileUtility.convertListToJson(extraImageList));
+		if(null!=extraImageList && extraImageList.size()>0) {
+			imageData.setExtraImages(fileUtility.convertListToJson(extraImageList));
+		}
 
 		objectDao.saveObject(imageData);
 

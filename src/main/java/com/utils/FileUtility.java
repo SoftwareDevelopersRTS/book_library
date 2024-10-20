@@ -71,9 +71,11 @@ public class FileUtility {
 		CommonAppSetting profileFolder = objectDao.getObjectByParam(CommonAppSetting.class, "settingName", type);
 		if (null != imageStoreBaseUrl && imageStoreBaseUrl.getSettingValue() != null && null != profileFolder
 				&& profileFolder.getSettingValue() != null) {
+			System.out.println("Inside Fav block");
 			File directoryFile = new File(imageStoreBaseUrl.getSettingValue() + profileFolder.getSettingValue());
 			if (!directoryFile.exists()) {
 				directoryFile.mkdirs();
+				System.out.println("director created Fav block");
 			}
 			String fileName = "image" + "_" + System.currentTimeMillis() + ".png";
 			String filePath = imageStoreBaseUrl.getSettingValue() + profileFolder.getSettingValue() + fileName;
@@ -88,6 +90,7 @@ public class FileUtility {
 				fos.write(imageBytes);
 				fos.flush();
 			} catch (IOException e) {
+				System.out.println("Exception Ocucre");
 				return null;
 			}
 
