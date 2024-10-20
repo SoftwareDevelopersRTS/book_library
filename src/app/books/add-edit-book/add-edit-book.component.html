@@ -1,4 +1,105 @@
 <div class="layout">
     <app-sidebar></app-sidebar>
 
+    <div class="content">
+        <div class="container">
+            <h1 class="text-center mb-4">Add Book</h1>
+
+            <form (ngSubmit)="onSubmit()" #addBookForm="ngForm" class="p-4 shadow-sm bg-light rounded">
+                <!-- Book Title, Author, Pages -->
+                <div class="row mb-3">
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="title" class="form-label">Book Title:</label>
+                        <input type="text" id="title" name="title" [(ngModel)]="book.title" class="form-control"
+                            required placeholder="Enter book title" />
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="author" class="form-label">Author:</label>
+                        <input type="text" id="author" name="author" [(ngModel)]="book.author" class="form-control"
+                            required placeholder="Enter author name" />
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="pages" class="form-label">Pages:</label>
+                        <input type="number" id="pages" name="pages" [(ngModel)]="book.pages" class="form-control"
+                            required placeholder="Enter total pages" />
+                    </div>
+                </div>
+
+                <!-- Rating, Total Stock, Available Stock -->
+                <div class="row mb-3">
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="rating" class="form-label">Rating:</label>
+                        <input type="text" id="rating" name="rating" [(ngModel)]="book.rating" class="form-control"
+                            placeholder="Enter book rating" />
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="totalStock" class="form-label">Total Stock:</label>
+                        <input type="number" id="totalStock" name="totalStock" [(ngModel)]="book.totalStock"
+                            class="form-control" placeholder="Enter total stock" />
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="availableStock" class="form-label">Available Stock:</label>
+                        <input type="number" id="availableStock" name="availableStock" [(ngModel)]="book.availableStock"
+                            class="form-control" placeholder="Enter available stock" />
+                    </div>
+                </div>
+
+                <!-- Library, Category Dropdowns and Is Active Checkbox in the Same Line -->
+                <div class="row mb-3">
+                    <div class="col-md-5 col-sm-12 mb-3">
+                        <label for="library" class="form-label me-5">Library:</label>
+                        <p-dropdown [options]="libraries" optionLabel="libraryName" optionValue="libraryId"
+                            [(ngModel)]="book.libId" name="library" placeholder="Select a Library" required>
+                        </p-dropdown>
+                    </div>
+                
+                    <div class="col-md-5 col-sm-12 mb-3">
+                        <label for="category" class="form-label me-5">Book Category:</label>
+                        <p-multiSelect [options]="categories" optionLabel="bookCategoryName"
+                            optionValue="bookCategoryId" [(ngModel)]="book.bookCategoryList" name="category"
+                            placeholder="Select Categories" required>
+                        </p-multiSelect>
+                    </div>
+                
+                    <div class="col-md-2 col-sm-12 mb-3 d-flex align-items-center">
+                        <input type="checkbox" id="isActive" name="isActive" [(ngModel)]="book.isActive" class="form-check-input me-2" />
+                        <label for="isActive" class="form-check-label">Is Active</label>
+                    </div>
+                </div>
+                
+
+                <!-- File Inputs for Frontside Image, Backside Image, and Book File -->
+                <div class="row mb-3">
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="frontImage" class="form-label">Frontside Image:</label>
+                        <input type="file" id="frontImage" (change)="onUpload($event, 'frontImage')"
+                            accept=".jpg,.jpeg,.png" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="backImage" class="form-label">Backside Image:</label>
+                        <input type="file" id="backImage" (change)="onUpload($event, 'backImage')"
+                            accept=".jpg,.jpeg,.png" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="bookFile" class="form-label">Book File (PDF/EPUB):</label>
+                        <input type="file" id="bookFile" (change)="onUpload($event, 'bookFile')" accept=".pdf,.epub"
+                            class="form-control" />
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <button type="submit" pButton label="Add Book" class="btn btn-primary btn-lg"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

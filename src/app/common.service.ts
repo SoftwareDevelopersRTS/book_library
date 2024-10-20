@@ -13,9 +13,12 @@ export class CommonService {
     "SYSTEM_USER_LOGIN":'api/user/login',
     "DASHBOARD_ALL_COUNTS":'api/dashboard/all-counts',
     "BOOK_LIST":'api/book/list',
+    "ADD_BOOK":'api/book/add',
     "CHANGE_BOOK_STATUS":'api/book/change-book-status/',
     "BOOK_CATEGORY_LIST":'api/bookcategory/list',
+    'ALL_BOOK_CATEGORY_LIST':'api/bookcategory/list-all',
     "LIBRARY_LIST":'api/library/list',
+    "ALL_LIBRARY_LIST":'api/library/list-all',
     "GET_USER_DETAILS_BY_ID":'api/user/details-by-id/',
     "EDIT_PROFILE":"api/user/edit"
   }
