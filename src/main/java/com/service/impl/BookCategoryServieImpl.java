@@ -48,6 +48,11 @@ public class BookCategoryServieImpl implements BookCategoryService {
 					bookCategory.setBookCategoryUniqueId(
 							RandomCreator.generateUID(AppConstants.BOOK_CATEGORY_UID_PREFIX, 8));
 					bookCategory.setBookCategoryName(Utils.normalizeAndCapitalize(bookCategory.getBookCategoryName()));
+					if (null != bookCategory.getIsActive()) {
+						bookCategory.setIsActive(bookCategory.getIsActive());
+					} else {
+						bookCategory.setIsActive(true);
+					}
 					objectDao.saveObject(bookCategory);
 					if (null != bookCategory.getImageDataBo()) {
 						saveBookCategoryImage(bookCategory);

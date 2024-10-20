@@ -85,6 +85,8 @@ public class FileUtility {
 					base64Image = base64Image.replace("data:image/png;base64,", "");
 				} else if (base64Image.startsWith("data:image/jpeg;base64,")) {
 					base64Image = base64Image.replace("data:image/jpeg;base64,", "");
+				}else if (base64Image.startsWith("data:image/webp;base64,")) {
+					base64Image = base64Image.replace("data:image/webp;base64,", "");
 				}
 				byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 				fos.write(imageBytes);
