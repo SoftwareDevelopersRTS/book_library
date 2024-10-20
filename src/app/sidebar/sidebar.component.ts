@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -10,4 +10,15 @@ import { RouterLink } from '@angular/router';
 })
 export class SidebarComponent {
 
+  constructor(private router: Router) {
+    this.logCurrentRoute();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        console.log('Navigation ended:', event);
+      }
+    });
+  }
+  logCurrentRoute() {
+    console.log(this.router.url);
+  }
 }
