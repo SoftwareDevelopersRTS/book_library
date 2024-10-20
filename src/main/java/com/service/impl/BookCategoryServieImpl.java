@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +14,9 @@ import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.Book;
 import com.model.BookCategory;
+import com.model.ImageData;
 import com.service.BookCategoryService;
+import com.utils.FileUtility;
 import com.utils.RandomCreator;
 import com.utils.Utils;
 
@@ -22,8 +25,11 @@ public class BookCategoryServieImpl implements BookCategoryService {
 
 	private final ObjectDao objectDao;
 
-	public BookCategoryServieImpl(ObjectDao objectDao) {
+	private final FileUtility fileUtility;
+
+	public BookCategoryServieImpl(ObjectDao objectDao, FileUtility fileUtility) {
 		this.objectDao = objectDao;
+		this.fileUtility = fileUtility;
 	}
 
 	@Override
@@ -43,6 +49,9 @@ public class BookCategoryServieImpl implements BookCategoryService {
 							RandomCreator.generateUID(AppConstants.BOOK_CATEGORY_UID_PREFIX, 8));
 					bookCategory.setBookCategoryName(Utils.normalizeAndCapitalize(bookCategory.getBookCategoryName()));
 					objectDao.saveObject(bookCategory);
+					if (null != bookCategory.getImageDataBo()) {
+						saveBookCategoryImage(bookCategory);
+					}
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Category Added Sucessfully..");
 					response.setResult(bookCategory.getBookCategoryId());
@@ -90,25 +99,58 @@ public class BookCategoryServieImpl implements BookCategoryService {
 
 	@Override
 	public Response getBookCategoryById(Long categoryId) throws Exception {
-		Response response=new Response();
+		Response response = new Response();
 		try {
-			if(null!=categoryId && categoryId>0) {
-				BookCategory book=objectDao.getObjectById(BookCategory.class,categoryId);
-				if(null!=book) {
+			if (null != categoryId && categoryId > 0) {
+				BookCategory book = objectDao.getObjectById(BookCategory.class, categoryId);
+				if (null != book) {
 					response.setResult(book);
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Book Category Get Sucessfully...");
-				}else {
+				} else {
 					throw new NotFoundException("Book Category Not Found");
 				}
-			}else {
+			} else {
 				throw new RequiredFieldsMissingException("BookCategory Id is missing");
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
 		return response;
 	}
 
+	private void saveBookCategoryImage(BookCategory bookCategory) throws Exception {
+
+		ImageData imageData = new ImageData();
+		if (null != bookCategory.getImageDataBo().getEncodedFrontImage()
+				&& !bookCategory.getImageDataBo().getEncodedFrontImage().isEmpty()) {
+			String name = fileUtility.saveBase64Image(bookCategory.getImageDataBo().getEncodedFrontImage(),
+					AppConstants.BOOK_CATEGORY_IMAGE_FOLDER);
+			System.out.println("Fornt Name====>" + name);
+			imageData.setFrontImagePath(name);
+		}
+		if (null != bookCategory.getImageDataBo().getEncodedBackImage()
+				&& !bookCategory.getImageDataBo().getEncodedBackImage().isEmpty()) {
+			String name = fileUtility.saveBase64Image(bookCategory.getImageDataBo().getEncodedBackImage(),
+					AppConstants.BOOK_CATEGORY_IMAGE_FOLDER);
+			System.out.println("Back Name====>" + name);
+			imageData.setBackImagePath(name);
+		}
+
+		List<String> extraImageList = new ArrayList<String>();
+		if (null != bookCategory.getImageDataBo().getExtraImages()
+				&& bookCategory.getImageDataBo().getExtraImages().size() > 0) {
+			for (String str : bookCategory.getImageDataBo().getExtraImages()) {
+				extraImageList.add(fileUtility.saveBase64Image(str, AppConstants.BOOK_CATEGORY_IMAGE_FOLDER));
+			}
+		}
+		imageData.setBookCategory(bookCategory);
+		if (null != extraImageList && extraImageList.size() > 0) {
+			imageData.setExtraImages(fileUtility.convertListToJson(extraImageList));
+		}
+
+		objectDao.saveObject(imageData);
+
+	}
 
 }

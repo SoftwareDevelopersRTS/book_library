@@ -43,8 +43,7 @@ public class BookCategoryController {
 	public Response addBookCategory(@RequestBody BookCategory bookCategory) {
 		Response response = new Response();
 		try {
-			throw new RuntimeException();
-			// return bookCategoryService.addBookCategory(bookCategory);
+			 return bookCategoryService.addBookCategory(bookCategory);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mailUtility.sendExceptionEmailToDeveloper(e, "addBookCategory()");
