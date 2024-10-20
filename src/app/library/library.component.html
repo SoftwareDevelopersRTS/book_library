@@ -2,7 +2,9 @@
     <app-sidebar></app-sidebar>
 
     <div class="content">
-        
+        <div class="container justify-content-end">
+            <button class="btn btn-primary" (click)="openCloseModal('show')">Add Library+</button>
+        </div>
         <div class="container mt-4">
             <h2 class="text-center">Library List({{libraryListCount?libraryListCount:'0'}})</h2>
             <div class="container">
@@ -28,17 +30,99 @@
                             <td>{{ library.libraryName }}</td>
                             <td>{{ library.description ? library.description : '--' }}</td>
                             <td>{{ library.isActive ? 'Yes' : 'No' }}</td>
-                            <td>{{convertToDate(library.startTime) |  date: 'hh:mm a'}}</td>
-                            <td>{{convertToDate(library.endTime)  | date: 'hh:mm a'}}</td>
+                            <td>{{convertToDate(library.startTime) | date: 'hh:mm a'}}</td>
+                            <td>{{convertToDate(library.endTime) | date: 'hh:mm a'}}</td>
                             <td>{{library.isStartToday}}</td>
                             <td>{{ library.createdAt | date:'short' }}</td>
                         </tr>
                     </tbody>
                 </table>
-                
+
             </div>
 
             <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document"> <!-- Use 'modal-lg' for larger modals -->
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                        <button type="button" class="close" (click)="openCloseModal('hide')" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form (ngSubmit)="addLibrary()">
+                            <!-- Category Name -->
+                            <div class="form-group mb-2">
+                                <label for="categoryName">Library Name</label>
+                                <input type="text" class="form-control" id="categoryName" name="categoryName"
+                                    [(ngModel)]="library.libraryName" placeholder="Enter Library Name" required>
+                            </div>
+
+                            <!-- Category Description -->
+                            <div class="form-group mb-3">
+                                <label for="categoryDescription">Library Description</label>
+                                <textarea class="form-control" id="categoryDescription" name="categoryDescription"
+                                    rows="5" [(ngModel)]="library.description" placeholder="Enter Description"
+                                    required>
+                              </textarea>
+                            </div>
+
+                            <!-- Address Section -->
+                            <h5>Address Information</h5>
+                            <div class="form-row row">
+                                <!-- Street -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="street">Street</label>
+                                    <input type="text" class="form-control" id="street" name="street"
+                                        [(ngModel)]="address.street" placeholder="Enter Street" required>
+                                </div>
+
+                                <!-- City -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" id="city" name="city"
+                                        [(ngModel)]="address.city" placeholder="Enter City" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row row">
+                                <!-- State -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="state">State</label>
+                                    <input type="text" class="form-control" id="state" name="state"
+                                        [(ngModel)]="address.state" placeholder="Enter State" required>
+                                </div>
+
+                                <!-- Zip Code -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="zipCode">Zip Code</label>
+                                    <input type="text" class="form-control" id="zipCode" name="zipCode"
+                                        [(ngModel)]="address.zipCode" placeholder="Enter Zip Code" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row row">
+                                <!-- Country -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" name="country"
+                                        [(ngModel)]="address.country" placeholder="Enter Country" required>
+                                </div>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer mt-3">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -4,11 +4,12 @@ import { CommonService } from '../common.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-
+import { FormsModule } from '@angular/forms';
+declare var $: any;
 @Component({
   selector: 'app-library',
   standalone: true,
-  imports: [SidebarComponent, CommonModule, NgxPaginationModule],
+  imports: [SidebarComponent, CommonModule, NgxPaginationModule, FormsModule],
   templateUrl: './library.component.html',
   styleUrl: './library.component.css'
 })
@@ -17,6 +18,8 @@ export class LibraryComponent implements OnInit {
   libraryPagination: any = { pageNo: 1, numPerPage: 10 }
   libraryList: any[] = [];
   libraryListCount: number = 0;
+  library: any = {};
+  address: any = {};
   constructor(private common: CommonService) {
 
   }
@@ -37,9 +40,22 @@ export class LibraryComponent implements OnInit {
     )
   }
 
+  openCloseModal(type: string) {
+    $('#myModal').modal(type);
+  }
   changePage(pageNo: any) {
     this.libraryPagination.pageNo = pageNo;
     this.getLibraryList();
+  }
+
+  addLibrary() {
+    this.library.address = this.address;
+    this.common.postRequest(this.common.SERVER_URL['ADD_LIBRARY'], this.library).subscribe(
+      (response) => {
+
+      }
+    );
+
   }
 
   convertToDate(timeString: string): Date {
