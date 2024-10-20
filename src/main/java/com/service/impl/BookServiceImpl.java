@@ -48,15 +48,17 @@ public class BookServiceImpl implements BookService {
 				book.setBookUniqueUid(RandomCreator.generateUID(AppConstants.BOOK_UID_PREFIX, 8));
 				objectDao.saveObject(book);
 
-				if (null != book.getImageDataBo()) {
-					saveBookImageData(book);
+				if (null != book.getBookCategoryList() && book.getBookCategoryList().size() > 0) {
+					System.out.println("Inside bookCategoryList");
+					saveBookAndBookCategory(book.getBookCategoryList(), book);
 				}
 				if (null != book.getHashTags() && book.getHashTags().size() > 0) {
 					saveBookHashtags(book.getHashTags(), book);
 				}
-				if (null != book.getBookCategoryList() && book.getBookCategoryList().size() > 0) {
-					saveBookAndBookCategory(book.getBookCategoryList(), book);
+				if (null != book.getImageDataBo()) {
+					saveBookImageData(book);
 				}
+
 				response.setStatus(ErrorConstants.SUCESS);
 				response.setMessage("Book Added Sucessfully");
 				response.setResult(book.getBookId());

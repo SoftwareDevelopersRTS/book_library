@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,8 +26,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="library")
-public class Library  implements Serializable{
+@Table(name = "library")
+public class Library implements Serializable {
 
 	/**
 	 * 
@@ -34,45 +35,44 @@ public class Library  implements Serializable{
 	private static final long serialVersionUID = -7393379513430463785L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="library_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "library_id")
 	private Long libraryId;
-	
-	@Column(name="library_name", unique=true,nullable = false)
+
+	@Column(name = "library_name", unique = true, nullable = false)
 	private String libraryName;
-	
-	@Column(name="library_unique_uid",unique=true)
+
+	@Column(name = "library_unique_uid", unique = true)
 	private String libraryUniqueUid;
-	
-	
+
 	@OneToOne
-	@JoinColumn(name="address_id", nullable = false)
+	@JoinColumn(name = "address_id", nullable = false)
 	private Address address;
-	
-	@Column(name="rating")
+
+	@Column(name = "rating")
 	private Float rating;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private Boolean isActive;
-	
-	@Column(name="start_time")
+
+	@Column(name = "start_time")
 	private Time startTime;
-	
-	@Column(name="end_time")
+
+	@Column(name = "end_time")
 	private Time endTime;
-	
-	@Column(name="is_start_today")
+
+	@Column(name = "is_start_today")
 	private Boolean isStartToday;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	private LocalDateTime createdAt;
-	
-	@Column(name="description",columnDefinition = "LONGTEXT")
+
+	@Column(name = "description", columnDefinition = "LONGTEXT")
 	private String description;
-	
-	
+
 	@OneToMany(mappedBy = "library")
+	@JsonIgnore
 	private List<Book> books;
 }
