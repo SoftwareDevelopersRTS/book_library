@@ -96,6 +96,22 @@ public class LibraryController {
 		return response;
 	}
 	
+	@GetMapping("list-all")
+	public Response getAllLibraryList() {
+		Response response = new Response();
+		try {
+			response.setStatus(ErrorConstants.SUCESS);
+			response.setMessage("Libraries Get Sucessfully...");
+			response.setResult(libraryService.getAllLibraryList());
+		} catch (Exception e) {
+			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e,"getLibraryList()");
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+	
 	@PostMapping("get-by-id/{libraryId}")
 	public Response getBookById(@PathVariable Long libraryId) {
 		Response response = new Response();

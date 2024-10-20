@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,10 +44,10 @@ public class BookCategoryController {
 		Response response = new Response();
 		try {
 			throw new RuntimeException();
-			//return bookCategoryService.addBookCategory(bookCategory);
+			// return bookCategoryService.addBookCategory(bookCategory);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mailUtility.sendExceptionEmailToDeveloper(e,"addBookCategory()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "addBookCategory()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -60,7 +61,7 @@ public class BookCategoryController {
 			return bookCategoryService.addMultipleBookCategory(bookCategories);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mailUtility.sendExceptionEmailToDeveloper(e,"addMultipleBookCategory()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "addMultipleBookCategory()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -78,7 +79,23 @@ public class BookCategoryController {
 			response.setListCount(bookCategoryDao.getBookCategoryCount(pagination));
 		} catch (Exception e) {
 			e.printStackTrace();
-			mailUtility.sendExceptionEmailToDeveloper(e,"getBookCategoryList()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "getBookCategoryList()");
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
+
+	@GetMapping("list-all")
+	public Response getAllBookCategory() {
+		Response response = new Response();
+		try {
+			response.setStatus(ErrorConstants.SUCESS);
+			response.setMessage("BooKcategory Get Sucessfullly..");
+			response.setResult(bookCategoryDao.getAllBookCategoryList());
+		} catch (Exception e) {
+			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e, "getBookCategoryList()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
@@ -92,15 +109,15 @@ public class BookCategoryController {
 			return bookCategoryService.getBookCategoryById(categoryId);
 
 		} catch (RequiredFieldsMissingException rme) {
-			mailUtility.sendExceptionEmailToDeveloper(rme,"getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(rme, "getBookById()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
-			mailUtility.sendExceptionEmailToDeveloper(nfe,"getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(nfe, "getBookById()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
-			mailUtility.sendExceptionEmailToDeveloper(e,"getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "getBookById()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}

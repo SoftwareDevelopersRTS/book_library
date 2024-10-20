@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bo.PaginationBO;
+import com.bo.Response;
 import com.dao.BookCategoryDao;
+import com.dao.ObjectDao;
 import com.helper.Checker;
 import com.model.BookCategory;
 
@@ -21,6 +23,9 @@ public class BookCategoryDaoImpl implements BookCategoryDao {
 
 	@Autowired
 	private DataSource dataSource;
+
+	@Autowired
+	private ObjectDao objectDao;
 
 	@Override
 	public List<BookCategory> getBookCategoryList(PaginationBO pagination) throws Exception {
@@ -129,6 +134,11 @@ public class BookCategoryDaoImpl implements BookCategoryDao {
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public List<BookCategory> getAllBookCategoryList() throws Exception {
+		return objectDao.getAllRecords(BookCategory.class);
 	}
 
 }

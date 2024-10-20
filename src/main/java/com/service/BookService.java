@@ -5,6 +5,7 @@ import com.model.Book;
 import com.model.BookComment;
 import com.model.BookLike;
 import com.model.BookShare;
+import com.model.Library;
 
 import java.util.List;
 
@@ -31,5 +32,7 @@ public interface BookService {
 	Response getBookById(Long bookId) throws Exception;
 
 	Response changeBookStatus(Long bookId) throws Exception;
+
+	
 
 }

@@ -18,5 +18,7 @@ public interface LibraryService {
 	
 	Long getLibraryCount(PaginationBO pagination) throws Exception;
 	
+	List<Library> getAllLibraryList() throws Exception;
+	
 	
 }

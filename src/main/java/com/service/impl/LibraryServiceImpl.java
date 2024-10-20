@@ -131,5 +131,13 @@ public class LibraryServiceImpl implements LibraryService {
 	public Long getLibraryCount(PaginationBO pagination) throws Exception {
 		return libraryDao.getLibraryCount(pagination);
 	}
+	
+	
+	@Override
+	public List<Library> getAllLibraryList() throws Exception {
+		return objectDao.getAllRecords(Library.class);
+	}
+
+	
 
 }
