@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,11 @@ import com.model.BookComment;
 import com.model.BookHashTags;
 import com.model.BookLike;
 import com.model.BookShare;
+import com.model.ImageData;
 import com.model.Library;
 import com.model.User;
 import com.service.BookService;
+import com.utils.FileUtility;
 import com.utils.RandomCreator;
 
 @Service
@@ -30,6 +33,9 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	private ObjectDao objectDao;
+
+	@Autowired
+	private FileUtility fileUtility;
 
 	@Override
 	public Response addBook(Book book) throws Exception {
@@ -42,6 +48,9 @@ public class BookServiceImpl implements BookService {
 				book.setBookUniqueUid(RandomCreator.generateUID(AppConstants.BOOK_UID_PREFIX, 8));
 				objectDao.saveObject(book);
 
+				if (null != book.getImageDataBo()) {
+					saveBookImageData(book);
+				}
 				if (null != book.getHashTags() && book.getHashTags().size() > 0) {
 					saveBookHashtags(book.getHashTags(), book);
 				}
@@ -288,25 +297,50 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Response changeBookStatus(Long bookId) throws Exception {
-	    Response response = new Response();
+		Response response = new Response();
 
-	    if (bookId == null) {
-	        throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
-	    }
+		if (bookId == null) {
+			throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
+		}
 
-	    Book book = objectDao.getObjectById(Book.class, bookId);
-	    if (book == null) {
-	        throw new NotFoundException("Book Not Found");
-	    }
+		Book book = objectDao.getObjectById(Book.class, bookId);
+		if (book == null) {
+			throw new NotFoundException("Book Not Found");
+		}
 
-	    book.setIsActive(!Boolean.TRUE.equals(book.getIsActive()));
-	    objectDao.updateObject(book);
-	    
-	    response.setStatus(ErrorConstants.SUCESS);
-	    response.setMessage("Book Status Changed Successfully");
+		book.setIsActive(!Boolean.TRUE.equals(book.getIsActive()));
+		objectDao.updateObject(book);
 
-	    return response;
+		response.setStatus(ErrorConstants.SUCESS);
+		response.setMessage("Book Status Changed Successfully");
+
+		return response;
 	}
 
+	private void saveBookImageData(Book book) throws Exception {
+		ImageData imageData = new ImageData();
+		if (null != book.getImageDataBo().getEncodedFrontImage()
+				&& !book.getImageDataBo().getEncodedFrontImage().isEmpty()) {
+			imageData.setFrontImagePath(fileUtility.saveBase64Image(book.getImageDataBo().getEncodedFrontImage(),
+					AppConstants.BOOK_IMAGE_FOLDER));
+		}
+		if (null != book.getImageDataBo().getEncodedBackImage()
+				&& !book.getImageDataBo().getEncodedBackImage().isEmpty()) {
+			imageData.setBackImagePath(fileUtility.saveBase64Image(book.getImageDataBo().getEncodedFrontImage(),
+					AppConstants.BOOK_IMAGE_FOLDER));
+		}
+
+		List<String> extraImageList = new ArrayList<String>();
+		if (null != book.getImageDataBo().getExtraImages() && book.getImageDataBo().getExtraImages().size() > 0) {
+			for (String str : book.getImageDataBo().getExtraImages()) {
+				extraImageList.add(fileUtility.saveBase64Image(str, AppConstants.BOOK_IMAGE_FOLDER));
+			}
+		}
+		imageData.setBook(book);
+		imageData.setExtraImages(fileUtility.convertListToJson(extraImageList));
+
+		objectDao.saveObject(imageData);
+
+	}
 
 }

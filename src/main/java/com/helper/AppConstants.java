@@ -23,8 +23,14 @@ public class AppConstants {
 
 	public static final String CREDENTIAL_NAME_FOR_EXCEPTION_MAIL = "EXCEPTION_EMAIL";
 
+	// Image related
+
 	public static final String IMAGE_BASE_PATH = "IMAGE_BASE_PATH";
 
 	public static final String PROFILE_IMAGE_FOLDER = "PROFILE_IMAGE_FOLDER";
+
+	public static final String BOOK_IMAGE_FOLDER = "BOOK_IMAGE_FOLDER";
+
+	public static final String BOOK_CATEGORY_IMAGE_FOLDER = "BOOK_CATEGORY_IMAGE_FOLDER";
 
 }
