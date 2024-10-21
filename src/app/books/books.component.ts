@@ -46,7 +46,7 @@ export class BooksComponent implements OnInit {
     this.common.getRequest(this.common.SERVER_URL['CHANGE_BOOK_STATUS'] + bookId).subscribe(
       (response: any) => {
         if (response.status == STATUS_CODES.SUCCESS) {
-
+          this.getBooksList()
         }
       }
     )
@@ -55,6 +55,12 @@ export class BooksComponent implements OnInit {
   changePage(pageNo: any) {
     this.bookListPagination.pageNo = pageNo;
     this.getBooksList();
+  }
+
+  getBookById(bookId: number) {
+    this.common.getRequest(this.common.SERVER_URL['GET_BOOK_BY_ID'] + bookId).subscribe((response: any) => {
+
+    })
   }
 
   openClosePopups(popupName: string, actionType: string, forWhat: string, extraId: number) {

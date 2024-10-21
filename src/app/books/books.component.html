@@ -12,44 +12,51 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Book ID</th>
+            <th>ID</th>
+            <th>UID</th>
             <th>Title</th>
             <th>Author</th>
             <th>Pages</th>
             <!-- <th>Rating</th> -->
-            <th>Unique ID</th>
-            <th>Total Stock</th>
-            <th>Available Stock</th>
+
+            <th>Stock</th>
             <th>Comments</th>
+            <th>Edit</th>
             <th>Active</th>
-            <th>Library Name</th>
+            <th>Library</th>
           </tr>
         </thead>
         <tbody>
           <tr
             *ngFor="let book of books  | paginate: { itemsPerPage: bookListPagination.numPerPage, currentPage: bookListPagination.pageNo ,totalItems:bookListCount,id:'p'}">
             <td>{{ book.bookId }}</td>
+            <td>{{ book.bookUniqueUid }}</td>
             <td>{{ book.title }}</td>
             <td>{{ book.author }}</td>
             <td>{{ book.pages }}</td>
             <!-- <td>{{ book.rating || 'N/A' }}</td> -->
-            <td>{{ book.bookUniqueUid }}</td>
-            <td>{{ book.totalStock }}</td>
-            <td>{{ book.availableStock }}</td>
+            <td>{{ book.availableStock }}/{{ book.totalStock }}</td>
             <td (click)="openClosePopups('comments','show','comments',book.bookId)">Comments</td>
-            <td><button (click)="changeBookStatus(book.bookId)" [ngClass]="{'active': book.isActive}"
-                style="color:blue">
-                <i [ngClass]="{'fa fa-toggle-on': book.isActive, 'fa fa-toggle-off': !book.isActive}"></i>
-              </button>
 
+            <td><i class="fas fa-pencil-alt"></i></td>
+            <td >
+              <span (click)="changeBookStatus(book.bookId)" *ngIf="book.isActive" style="cursor: pointer;">
+                <i class='fa fa-toggle-on text-success'></i>
+              </span>
+              <span (click)="changeBookStatus(book.bookId)" *ngIf="!book.isActive" style="cursor: pointer;">
+                <i class='fa fa-toggle-off text-danger' style="color:red"></i>
+              </span>
             </td>
+
+
             <td>{{ book.libraryName }}</td>
           </tr>
         </tbody>
       </table>
       <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
     </div>
-    <div class="modal fade" id="comments" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="comments" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">

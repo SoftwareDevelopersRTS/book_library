@@ -14,6 +14,7 @@ export class CommonService {
     "DASHBOARD_ALL_COUNTS":'api/dashboard/all-counts',
     "BOOK_LIST":'api/book/list',
     "ADD_BOOK":'api/book/add',
+    "GET_BOOK_BY_ID":'api/book/get-by-id/',
     "GET_BOOK_COMMENTS":"api/book/get-book-comments",
     "CHANGE_BOOK_STATUS":'api/book/change-book-status/',
     "BOOK_CATEGORY_LIST":'api/bookcategory/list',
