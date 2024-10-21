@@ -10,7 +10,9 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
 
+  tab: any;
   constructor(private router: Router) {
+    this.tab = 'dashboard';
     this.logCurrentRoute();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -20,5 +22,13 @@ export class SidebarComponent {
   }
   logCurrentRoute() {
     console.log(this.router.url);
+  }
+
+  isActiveTab(tab: string): boolean {
+    return this.tab === tab; // Check if this tab is active
+  }
+
+  setActiveTab(tab: string): void {
+    this.tab = tab; // Update the active tab
   }
 }

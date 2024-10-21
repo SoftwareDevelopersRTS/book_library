@@ -27,10 +27,10 @@
   }
   .active {
     font-weight: bold;
-    color: #007bff; /* Highlight the active link */
-  }
+    color: #007bff !important; /* Highlight the active link */
+}
 
-  .sidebar a.active {
-    background-color: #007bff; /* Highlight color */
-    color: #fff; /* Text color for active */
+.sidebar a.active {
+    background-color: #007bff !important; /* Highlight color */
+    color: #fff !important; /* Text color for active */
 }

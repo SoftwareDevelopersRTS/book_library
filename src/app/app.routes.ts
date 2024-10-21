@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { BooksComponent } from './books/books.component';
@@ -8,6 +8,7 @@ import { UserComponent } from './user/user.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddEditBookComponent } from './books/add-edit-book/add-edit-book.component';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -30,3 +31,9 @@ export const routes: Routes = [
         path: 'add-edit-book', component: AddEditBookComponent
     }
 ];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+  })
+  export class AppRoutingModule { }

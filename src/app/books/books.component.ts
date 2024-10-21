@@ -17,6 +17,7 @@ declare var $: any;
 })
 export class BooksComponent implements OnInit {
   bookListPagination: any = { pageNo: 1, numPerPage: 10 }
+  bookCommentPagination: any = { pageNo: 1, numPerPage: 10 }
   books: any = [];
   bookListCount: number = 0;
   constructor(private common: CommonService, private router: Router) {
@@ -56,9 +57,16 @@ export class BooksComponent implements OnInit {
     this.getBooksList();
   }
 
-  openBookComment(bookId: number) {
+  openClosePopups(popupName: string, actionType: string, forWhat: string, extraId: number) {
+    $('#' + popupName).modal(actionType);
+    if (forWhat === 'comments') {
+      this.getBookComments();
+    }
+  }
+  getBookComments() {
+    this.common.postRequest(this.common.SERVER_URL['GET_BOOK_COMMENTS'], this.bookCommentPagination).subscribe((response: any) => {
 
-    //jQuery("#myModal").modal('show')
+    })
   }
   goToAddEditBookPage() {
     this.router.navigate(['/add-edit-book']);
