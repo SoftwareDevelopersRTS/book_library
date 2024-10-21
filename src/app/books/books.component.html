@@ -38,7 +38,7 @@
             <td>{{ book.availableStock }}/{{ book.totalStock }}</td>
             <td (click)="openClosePopups('comments','show','comments',book.bookId)">Comments</td>
 
-            <td><i class="fas fa-pencil-alt"></i></td>
+            <td><i class="fas fa-pencil-alt" (click)="editBook(book)"></i></td>
             <td >
               <span (click)="changeBookStatus(book.bookId)" *ngIf="book.isActive" style="cursor: pointer;">
                 <i class='fa fa-toggle-on text-success'></i>

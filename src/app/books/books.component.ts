@@ -63,6 +63,10 @@ export class BooksComponent implements OnInit {
     })
   }
 
+  editBook(book: any) {
+    this.router.navigateByUrl('/add-edit-book', { state: { book } });
+  }
+
   openClosePopups(popupName: string, actionType: string, forWhat: string, extraId: number) {
     $('#' + popupName).modal(actionType);
     if (forWhat === 'comments') {

@@ -10,6 +10,7 @@ import { CommonService } from '../../common.service';
 import { STATUS_CODES } from '../../app.constants';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FileutilService } from '../../fileutil.service';
+import { ActivatedRoute, Router } from '@angular/router';
 // import { BrowserModule } from '@angular/platform-browser';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @Component({
@@ -37,8 +38,16 @@ export class AddEditBookComponent implements OnInit {
   categories: any[] = []
   imageDataBo: any = {};
 
-  constructor(private common: CommonService, private fileUtil: FileutilService) {
-
+  constructor(private common: CommonService, private fileUtil: FileutilService,private router:Router) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras && navigation.extras.state) {
+      this.book = navigation.extras.state['book'];
+    } else {
+      // Handle the case where no state is passed (e.g., if accessed directly via URL)
+      console.error('No book data passed');
+    }
+    console.log("thiis.book=======>,",this.book);
+    
   }
   ngOnInit(): void {
     this.getBookCategoryList();
@@ -74,10 +83,10 @@ export class AddEditBookComponent implements OnInit {
 
   async onUpload(event: Event, fileType: string) {
     const input = event.target as HTMLInputElement; // Cast the event target to HTMLInputElement
-  
+
     if (input.files && input.files.length > 0) {
       const file = input.files[0]; // Get the first file
-  
+
       try {
         // Call your base64Provider function
         if (fileType === 'frontImage') {
@@ -89,7 +98,7 @@ export class AddEditBookComponent implements OnInit {
         } else if (fileType === 'bookFile') {
           // Handle book file if necessary
         }
-  
+
         console.log("this.book.imageDataBo.encodedFrontImage----------->" + this.imageDataBo.encodedFrontImage);
         console.log("this.book.imageDataBo.encodedBackImage----------->" + this.imageDataBo.encodedBackImage);
       } catch (error) {
@@ -101,5 +110,5 @@ export class AddEditBookComponent implements OnInit {
   }
 
 
- 
+
 }
