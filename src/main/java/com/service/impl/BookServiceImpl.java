@@ -197,6 +197,7 @@ public class BookServiceImpl implements BookService {
 								bookComment.getBookCommentId());
 						comment.setBook(book);
 						comment.setUser(user);
+						comment.setAddedFrom(bookComment.getAddedFrom());
 						comment.setCommentText(bookComment.getCommentText());
 						objectDao.updateObject(comment);
 						response.setStatus(ErrorConstants.SUCESS);
@@ -205,6 +206,7 @@ public class BookServiceImpl implements BookService {
 
 						bookComment.setBook(book);
 						bookComment.setUser(user);
+						bookComment.setAddedFrom(bookComment.getAddedFrom());
 						objectDao.saveObject(bookComment);
 						response.setStatus(ErrorConstants.SUCESS);
 						response.setMessage("Comment Added Sucessfully...");
