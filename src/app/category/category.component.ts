@@ -97,7 +97,10 @@ export class CategoryComponent implements OnInit {
   addEditCategory() {
     if (this.category.bookCategoryId && this.category.bookCategoryUniqueId) {
       this.common.postRequest(this.common.SERVER_URL['EDIT_BOOK_CATEGORY'], this.category).subscribe(
-        (response) => {
+        (response:any) => {
+          if(response.status==200){
+            this.openCloseModal('hide')
+          }
 
         }
       );
@@ -105,7 +108,9 @@ export class CategoryComponent implements OnInit {
       this.category.imageDataBo = this.imageDataBo;
       this.common.postRequest(this.common.SERVER_URL['ADD_BOOK_CATEGORY'], this.category).subscribe(
         (response) => {
-
+          if(response.status==200){
+            this.openCloseModal('hide')
+          }
         }
       );
     }
