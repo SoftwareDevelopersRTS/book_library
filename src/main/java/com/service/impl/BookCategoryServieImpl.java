@@ -45,6 +45,7 @@ public class BookCategoryServieImpl implements BookCategoryService {
 					response.setStatus(ErrorConstants.ALREADY_EXIST);
 					response.setMessage("Category Name Already Present..");
 				} else {
+					bookCategory.setDescription(bookCategory.getDescription());
 					bookCategory.setBookCategoryUniqueId(
 							RandomCreator.generateUID(AppConstants.BOOK_CATEGORY_UID_PREFIX, 8));
 					bookCategory.setBookCategoryName(Utils.normalizeAndCapitalize(bookCategory.getBookCategoryName()));
@@ -94,6 +95,7 @@ public class BookCategoryServieImpl implements BookCategoryService {
 				} else {
 //					bookCategory.setBookCategoryUniqueId(
 //							RandomCreator.generateUID(AppConstants.BOOK_CATEGORY_UID_PREFIX, 8));
+					existingById.setDescription(bookCategory.getDescription());
 					existingById.setBookCategoryName(Utils.normalizeAndCapitalize(bookCategory.getBookCategoryName()));
 					if (null != bookCategory.getIsActive()) {
 						existingById.setIsActive(bookCategory.getIsActive());
