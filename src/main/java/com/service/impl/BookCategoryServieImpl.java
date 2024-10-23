@@ -131,14 +131,12 @@ public class BookCategoryServieImpl implements BookCategoryService {
 				&& !bookCategory.getImageDataBo().getEncodedFrontImage().isEmpty()) {
 			String name = fileUtility.saveBase64Image(bookCategory.getImageDataBo().getEncodedFrontImage(),
 					AppConstants.BOOK_CATEGORY_IMAGE_FOLDER);
-			System.out.println("Fornt Name====>" + name);
 			imageData.setFrontImagePath(name);
 		}
 		if (null != bookCategory.getImageDataBo().getEncodedBackImage()
 				&& !bookCategory.getImageDataBo().getEncodedBackImage().isEmpty()) {
 			String name = fileUtility.saveBase64Image(bookCategory.getImageDataBo().getEncodedBackImage(),
 					AppConstants.BOOK_CATEGORY_IMAGE_FOLDER);
-			System.out.println("Back Name====>" + name);
 			imageData.setBackImagePath(name);
 		}
 
@@ -156,6 +154,28 @@ public class BookCategoryServieImpl implements BookCategoryService {
 
 		objectDao.saveObject(imageData);
 
+	}
+
+	@Override
+	public Response changeBookCategoryStatus(Long bookCategoryId) throws Exception {
+		Response response = new Response();
+
+		if (bookCategoryId == null) {
+			throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
+		}
+
+		BookCategory bookCategory = objectDao.getObjectById(BookCategory.class, bookCategoryId);
+		if (bookCategory == null) {
+			throw new NotFoundException("Book Not Found");
+		}
+
+		bookCategory.setIsActive(!Boolean.TRUE.equals(bookCategory.getIsActive()));
+		objectDao.updateObject(bookCategory);
+
+		response.setStatus(ErrorConstants.SUCESS);
+		response.setMessage("Book Status Changed Successfully");
+
+		return response;
 	}
 
 }

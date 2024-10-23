@@ -122,5 +122,19 @@ public class BookCategoryController {
 		}
 		return response;
 	}
+	
+	@GetMapping("change-book-category-status/{bookCategoryId}")
+	public Response changeBookCategoryStatus(@PathVariable Long bookCategoryId) {
+		Response response = new Response();
+		try {
+			return bookCategoryService.changeBookCategoryStatus(bookCategoryId);
+		} catch (Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+			mailUtility.sendExceptionEmailToDeveloper(e, "changeBookCategoryStatus()");
+		}
+		return response;
+	}
+
 
 }
