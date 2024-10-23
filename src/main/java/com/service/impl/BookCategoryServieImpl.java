@@ -73,6 +73,53 @@ public class BookCategoryServieImpl implements BookCategoryService {
 	}
 
 	@Override
+	public Response editBookCategory(BookCategory bookCategory) throws Exception {
+		Response response = new Response();
+		try {
+			if (null != bookCategory && null != bookCategory.getBookCategoryName()
+					&& bookCategory.getBookCategoryId() != null && bookCategory.getBookCategoryId() > 0
+					&& !bookCategory.getBookCategoryName().isEmpty()
+					&& !bookCategory.getBookCategoryName().trim().isEmpty()) {
+				BookCategory existingCategoryByName = objectDao.getObjectByParam(BookCategory.class, "bookCategoryName",
+						bookCategory.getBookCategoryName());
+				BookCategory existingById = objectDao.getObjectById(BookCategory.class,
+						bookCategory.getBookCategoryId());
+				if (null == existingById) {
+					throw new RequiredFieldsMissingException("Book Category Not Found");
+				}
+				if (null != existingCategoryByName
+						&& existingById.getBookCategoryId() != existingCategoryByName.getBookCategoryId()) {
+					response.setStatus(ErrorConstants.ALREADY_EXIST);
+					response.setMessage("Category Name Already Present..");
+				} else {
+//					bookCategory.setBookCategoryUniqueId(
+//							RandomCreator.generateUID(AppConstants.BOOK_CATEGORY_UID_PREFIX, 8));
+					existingById.setBookCategoryName(Utils.normalizeAndCapitalize(bookCategory.getBookCategoryName()));
+					if (null != bookCategory.getIsActive()) {
+						existingById.setIsActive(bookCategory.getIsActive());
+					} else {
+						existingById.setIsActive(true);
+					}
+					objectDao.updateObject(existingById);
+					if (null != bookCategory.getImageDataBo()) {
+						saveBookCategoryImage(existingById);
+					}
+					response.setStatus(ErrorConstants.SUCESS);
+					response.setMessage("Category Added Sucessfully..");
+					response.setResult(bookCategory.getBookCategoryId());
+				}
+			} else {
+				response.setStatus(ErrorConstants.BAD_REQUEST);
+				response.setMessage(CommonMessages.REQUIRED_FIELD_MISSING);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return response;
+	}
+
+	@Override
 	public Response addMultipleBookCategory(List<BookCategory> bookCategories) throws Exception {
 		Response response = new Response();
 		int sucessCount = 0;

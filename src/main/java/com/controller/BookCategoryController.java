@@ -52,6 +52,20 @@ public class BookCategoryController {
 		}
 		return response;
 	}
+	
+	@PostMapping("edit")
+	public Response editBookCategory(@RequestBody BookCategory bookCategory) {
+		Response response = new Response();
+		try {
+			 return bookCategoryService.editBookCategory(bookCategory);
+		} catch (Exception e) {
+			e.printStackTrace();
+			mailUtility.sendExceptionEmailToDeveloper(e, "editBookCategory()");
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+		}
+		return response;
+	}
 
 	@PostMapping("add-multiple")
 	public Response addMultipleBookCategory(@RequestBody List<BookCategory> bookCategories) {

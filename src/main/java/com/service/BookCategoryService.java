@@ -7,6 +7,8 @@ import java.util.List;
 public interface BookCategoryService {
 
 	Response addBookCategory(BookCategory bookCategory) throws Exception;
+	
+	Response editBookCategory(BookCategory bookCategory) throws Exception;
 
 	Response addMultipleBookCategory(List<BookCategory> bookCategoreis) throws Exception;
 
