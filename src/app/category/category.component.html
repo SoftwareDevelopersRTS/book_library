@@ -16,6 +16,7 @@
                             <th>Name</th>
                             <th>Description</th>
                             <!-- <th>Image Path</th> -->
+                            <th>Edit</th>
                             <th>Is Active</th>
                             <th>Created At</th>
                         </tr>
@@ -28,7 +29,17 @@
                             <td>{{ category.bookCategoryName }}</td>
                             <td>{{ category.description ? category.description:"--" }}</td>
                             <!-- <td>{{ category.categoryImagePath }}</td> -->
-                            <td>{{ category.isActive ? 'Yes' : 'No' }}</td>
+                            <td><i class="fas fa-pencil-alt" (click)="editBookCategory(category)"></i></td>
+                            <td>
+                                <span (click)="changeBookCategoryStatus(category.bookCategoryId)"
+                                    *ngIf="category.isActive" style="cursor: pointer;">
+                                    <i class='fa fa-toggle-on text-success'></i>
+                                </span>
+                                <span (click)="changeBookCategoryStatus(category.bookCategoryId)" *ngIf="!category.isActive"
+                                    style="cursor: pointer;">
+                                    <i class='fa fa-toggle-off text-danger' style="color:red"></i>
+                                </span>
+                            </td>
                             <td>{{ category.createdAt | date:'short' }}</td>
                         </tr>
                         <tr *ngIf="!categoryList || (categoryList && categoryList.length<=0)" colspan="6" class="p-3">
@@ -46,13 +57,13 @@
             <div class="modal-dialog modal-lg" role="document"> <!-- Use 'modal-lg' for larger modals -->
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ category.bookCategoryId && category.bookCategoryUniqueId ? 'Edit Category' : 'Add Category' }}</h5>
                         <button type="button" class="close" (click)="openCloseModal('hide')" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form (ngSubmit)="addCategory()">
+                        <form (ngSubmit)="addEditCategory()">
                             <!-- Category Name -->
                             <div class="form-group mb-2">
                                 <label for="categoryName">Category Name</label>
