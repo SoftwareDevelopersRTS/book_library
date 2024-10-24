@@ -54,6 +54,9 @@ public class BookComment implements Serializable {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
+	@Column(name = "is_disabled", columnDefinition = "BOOLEAN DEFAULT false")
+	private Boolean isDisabled;
+
 	@Transient
 	private Long bookId;
 

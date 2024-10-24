@@ -191,17 +191,23 @@ public class BookDaoImpl implements BookDao {
 			if (null != pagination.getId() && pagination.getId() > 0) {
 				query.append(" AND bc.book_id= ? ");
 			}
-			
+
 			if (Checker.paginationChecker(pagination)) {
+				System.out.print("INside first");
 				query.append(" LIMIT ? OFFSET ?");
 			}
 
 			ps = con.prepareStatement(query.toString());
 			int count = 1;
+			if (null != pagination.getId() && pagination.getId() > 0) {
+				ps.setLong(count++, pagination.getId());
+			}
 			if (Checker.paginationChecker(pagination)) {
+				System.out.print("INside first");
 				ps.setInt(count++, pagination.getNumPerPage());
 				ps.setInt(count++, (pagination.getPageNo() - 1) * pagination.getNumPerPage());
 			}
+			System.out.println("Query For Comment List==>" + ps.toString());
 			rs = ps.executeQuery();
 			bookCommentList = new ArrayList<>();
 			BookComment bookComment = null;
@@ -217,6 +223,8 @@ public class BookDaoImpl implements BookDao {
 								? (firstName != null && !firstName.isEmpty() ? " " : "") + lastName
 								: "");
 				bookComment.setCommentedBy(commentedBy);
+				bookComment.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+				bookComment.setIsDisabled(rs.getBoolean("is_disabled"));
 				bookCommentList.add(bookComment);
 			}
 

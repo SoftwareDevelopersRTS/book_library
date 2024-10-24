@@ -115,14 +115,17 @@ public class BookController {
 		try {
 			return bookService.bookComment(bookComment);
 		} catch (RequiredFieldsMissingException rme) {
+			rme.printStackTrace();
 			mailUtility.sendExceptionEmailToDeveloper(rme, "commentBook()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
+			nfe.printStackTrace();
 			mailUtility.sendExceptionEmailToDeveloper(nfe, "commentBook()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
+			e.printStackTrace();
 			mailUtility.sendExceptionEmailToDeveloper(e, "commentBook()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
