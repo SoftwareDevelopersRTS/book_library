@@ -109,6 +109,10 @@ export class AddEditBookComponent implements OnInit {
     }
   }
 
+  redirectBack(){
+    this.router.navigate(['books']);
+  }
+
 
 
 }

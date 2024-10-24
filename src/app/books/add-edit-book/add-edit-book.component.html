@@ -3,6 +3,8 @@
 
     <div class="content">
         <div class="container">
+            <h3 (click)="redirectBack()" style="cursor: pointer;"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </h3>
             <h1 class="text-center mb-4">Add Book</h1>
 
             <form (ngSubmit)="onSubmit()" #addBookForm="ngForm" class="p-4 shadow-sm bg-light rounded">
@@ -56,7 +58,7 @@
                             [(ngModel)]="book.libId" name="library" placeholder="Select a Library" required>
                         </p-dropdown>
                     </div>
-                
+
                     <div class="col-md-5 col-sm-12 mb-3">
                         <label for="category" class="form-label me-5">Book Category:</label>
                         <p-multiSelect [options]="categories" optionLabel="bookCategoryName"
@@ -64,13 +66,14 @@
                             placeholder="Select Categories" required>
                         </p-multiSelect>
                     </div>
-                
+
                     <div class="col-md-2 col-sm-12 mb-3 d-flex align-items-center">
-                        <input type="checkbox" id="isActive" name="isActive" [(ngModel)]="book.isActive" class="form-check-input me-2" />
+                        <input type="checkbox" id="isActive" name="isActive" [(ngModel)]="book.isActive"
+                            class="form-check-input me-2" />
                         <label for="isActive" class="form-check-label">Is Active</label>
                     </div>
                 </div>
-                
+
 
                 <!-- File Inputs for Frontside Image, Backside Image, and Book File -->
                 <div class="row mb-3">
