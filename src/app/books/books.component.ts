@@ -19,7 +19,10 @@ export class BooksComponent implements OnInit {
   bookListPagination: any = { pageNo: 1, numPerPage: 10 }
   bookCommentPagination: any = { pageNo: 1, numPerPage: 10 }
   books: any = [];
+  comments: any = [];
   bookListCount: number = 0;
+  commentCount: number = 0;
+  currentBookId: any;
   constructor(private common: CommonService, private router: Router) {
 
   }
@@ -52,9 +55,14 @@ export class BooksComponent implements OnInit {
     )
 
   }
-  changePage(pageNo: any) {
-    this.bookListPagination.pageNo = pageNo;
-    this.getBooksList();
+  changePage(pageNo: any, type: string) {
+    if (type == 'comment') {
+      this.bookCommentPagination.pageNo = pageNo;
+      this.getBookComments();
+    } else {
+      this.bookListPagination.pageNo = pageNo;
+      this.getBooksList();
+    }
   }
 
   getBookById(bookId: number) {
@@ -69,13 +77,21 @@ export class BooksComponent implements OnInit {
 
   openClosePopups(popupName: string, actionType: string, forWhat: string, extraId: number) {
     $('#' + popupName).modal(actionType);
-    if (forWhat === 'comments') {
+    if (actionType == 'show' && forWhat === 'comments') {
+      this.comments = [];
+      this.commentCount = 0;
+      this.currentBookId = extraId
       this.getBookComments();
     }
   }
-  getBookComments() {
-    this.common.postRequest(this.common.SERVER_URL['GET_BOOK_COMMENTS'], this.bookCommentPagination).subscribe((response: any) => {
 
+  getBookComments() {
+    this.bookCommentPagination.id = this.currentBookId
+    this.common.postRequest(this.common.SERVER_URL['GET_BOOK_COMMENTS'], this.bookCommentPagination).subscribe((response: any) => {
+      if (response.status == 200) {
+        this.comments = response.result;
+        this.commentCount = response.listCount;
+      }
     })
   }
   goToAddEditBookPage() {
