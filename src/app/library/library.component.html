@@ -38,7 +38,8 @@
                               </td>
                             <td>{{library.startTime}}-{{library.endTime}}</td>
                             
-                            <td>{{library.isStartToday}}</td>
+                            <td *ngIf="library.isStartToday"><i class="fa fa-check" aria-hidden="true"></i></td>
+                            <td *ngIf="!library.isStartToday"><i class="fa fa-times" aria-hidden="true"></i></td>
                             <td>{{ library.createdAt | date:'short' }}</td>
                         </tr>
                     </tbody>

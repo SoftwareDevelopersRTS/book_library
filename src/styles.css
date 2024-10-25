@@ -55,4 +55,10 @@
     background-color: #3399ff;
     color: #ffffff; 
   }
-  
+
+  .fa-check{
+    color:green
+  }
+  .fa-times{
+    color: red;
+  }

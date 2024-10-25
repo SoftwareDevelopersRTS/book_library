@@ -60,7 +60,7 @@ export class LibraryComponent implements OnInit {
 
 
   changeLibraryStatus(bookId: number) {
-    this.common.getRequest(this.common.SERVER_URL['CHANGE_BOOK_STATUS'] + bookId).subscribe(
+    this.common.getRequest(this.common.SERVER_URL['CHANGE_LIBRARY_STATUS'] + bookId).subscribe(
       (response: any) => {
         if (response.status == STATUS_CODES.SUCCESS) {
           this.getLibraryList()
