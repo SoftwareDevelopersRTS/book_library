@@ -133,7 +133,7 @@ public class BookController {
 		return response;
 	}
 
-	@DeleteMapping("delete-comment")
+	@DeleteMapping("delete-comment/{commentId}")
 	public Response deleteComment(@PathVariable Long commentId) {
 		Response response = new Response();
 		try {
