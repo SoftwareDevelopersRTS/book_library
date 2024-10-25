@@ -58,10 +58,15 @@ export class LibraryComponent implements OnInit {
 
   }
 
-  convertToDate(timeString: string): Date {
-    const date = new Date();
-    const [hours, minutes] = timeString.split(':').map(Number);
-    date.setHours(hours, minutes, 0, 0); // Set hours and minutes
-    return date; // Return the Date object
+
+  changeLibraryStatus(bookId: number) {
+    this.common.getRequest(this.common.SERVER_URL['CHANGE_BOOK_STATUS'] + bookId).subscribe(
+      (response: any) => {
+        if (response.status == STATUS_CODES.SUCCESS) {
+          this.getLibraryList()
+        }
+      }
+    )
+
   }
 }

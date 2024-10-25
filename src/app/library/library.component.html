@@ -15,9 +15,8 @@
                             <th>Unique UID</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Is Active</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Status</th>
+                            <th>Start/End Time</th>
                             <th>Is Active Today</th>
                             <th>Created At</th>
                         </tr>
@@ -29,9 +28,16 @@
                             <td>{{ library.libraryUniqueUid }}</td>
                             <td>{{ library.libraryName }}</td>
                             <td>{{ library.description ? library.description : '--' }}</td>
-                            <td>{{ library.isActive ? 'Yes' : 'No' }}</td>
-                            <td>{{convertToDate(library.startTime) | date: 'hh:mm a'}}</td>
-                            <td>{{convertToDate(library.endTime) | date: 'hh:mm a'}}</td>
+                            <td>
+                                <span (click)="changeLibraryStatus(library.libraryId)" *ngIf="library.isActive" style="cursor: pointer;">
+                                  <i class='fa fa-toggle-on text-success'></i>
+                                </span>
+                                <span (click)="changeLibraryStatus(library.libraryId)" *ngIf="!library.isActive" style="cursor: pointer;">
+                                  <i class='fa fa-toggle-off text-danger' style="color:red"></i>
+                                </span>
+                              </td>
+                            <td>{{library.startTime}}-{{library.endTime}}</td>
+                            
                             <td>{{library.isStartToday}}</td>
                             <td>{{ library.createdAt | date:'short' }}</td>
                         </tr>

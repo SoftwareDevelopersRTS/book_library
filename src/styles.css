@@ -27,3 +27,32 @@
     background-color: #fff;
     /* Background for content */
 }
+
+/* Light background with dark text selection */
+::selection {
+    background-color: #ffe680;
+    /* Soft yellow background */
+    color: #333333;
+    /* Dark grey text */
+}
+
+/* For Firefox, which requires the -moz- prefix */
+::-moz-selection {
+    background-color: #ffe680;
+    color: #333333;
+}
+
+/* ::selection {
+    background-color: #d6baff;
+    color: white;           
+  }
+  ::selection {
+    background-color: #001f3f; 
+    color: #dcdcdc;           
+  }
+   */
+   ::selection {
+    background-color: #3399ff;
+    color: #ffffff; 
+  }
+  
