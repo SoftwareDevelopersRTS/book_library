@@ -11,10 +11,13 @@
                     <h4 class="text-center">System User Login</h4>
                     <form (ngSubmit)="sysytemUserLogin()">
                         <div class="mb-3">
-                            <label for="role" class="form-label">Select Role:</label>
+                            <!-- <label for="role" class="form-label">Select Role:</label> -->
                             <!-- <ng-select [items]="allSecurityRoles" bindLabel="roleName" bindValue="systemUserRoleId"
                                 [(ngModel)]="loginInfo.systemUserRoleId" [multiple]="false" [clearable]="false" name="systemUserRoleId">
                             </ng-select> -->
+                            <p-dropdown [options]="allSecurityRoles" optionLabel="roleName" optionValue="systemUserRoleId"
+                            [(ngModel)]="loginInfo.systemUserRoleId" name="library" placeholder="Select Role" required>
+                        </p-dropdown>
                         </div>
 
                         <div class="mb-3">

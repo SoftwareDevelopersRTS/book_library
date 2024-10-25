@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonService } from '../common.service';
 import {STATUS_CODES  } from '../app.constants';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,DropdownModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
