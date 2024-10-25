@@ -29,17 +29,19 @@
                             <td>{{ library.libraryName }}</td>
                             <td>{{ library.description ? library.description : '--' }}</td>
                             <td>
-                                <span (click)="changeLibraryStatus(library.libraryId)" *ngIf="library.isActive" style="cursor: pointer;">
-                                  <i class='fa fa-toggle-on text-success'></i>
+                                <span (click)="changeLibraryStatus(library.libraryId)" *ngIf="library.isActive"
+                                    style="cursor: pointer;">
+                                    <i class='fa fa-toggle-on text-success'></i>
                                 </span>
-                                <span (click)="changeLibraryStatus(library.libraryId)" *ngIf="!library.isActive" style="cursor: pointer;">
-                                  <i class='fa fa-toggle-off text-danger' style="color:red"></i>
+                                <span (click)="changeLibraryStatus(library.libraryId)" *ngIf="!library.isActive"
+                                    style="cursor: pointer;">
+                                    <i class='fa fa-toggle-off text-danger' style="color:red"></i>
                                 </span>
-                              </td>
+                            </td>
                             <td>{{library.startTime}}-{{library.endTime}}</td>
-                            
+
                             <td *ngIf="library.isStartToday"><i class="fa fa-check" aria-hidden="true"></i></td>
-                            <td *ngIf="!library.isStartToday"><i class="fa fa-times" aria-hidden="true"></i></td>
+                            <td *ngIf="!library.isStartToday"><i class="fa fa-times" aria-hidden="true"></i> </td>
                             <td>{{ library.createdAt | date:'short' }}</td>
                         </tr>
                     </tbody>
@@ -72,9 +74,24 @@
                             <div class="form-group mb-3">
                                 <label for="categoryDescription">Library Description</label>
                                 <textarea class="form-control" id="categoryDescription" name="categoryDescription"
-                                    rows="5" [(ngModel)]="library.description" placeholder="Enter Description"
-                                    required>
+                                    rows="5" [(ngModel)]="library.description" placeholder="Enter Description" required>
                               </textarea>
+                            </div>
+                            <h5>Time Information</h5>
+                            <div class="form-row row">
+                                <!-- Start Time -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="startTime">Start Time</label>
+                                    <input type="time" class="form-control" id="startTime" name="startTime"
+                                        [(ngModel)]="library.startTime" required>
+                                </div>
+
+                                <!-- End Time -->
+                                <div class="form-group col-12 col-md-6 mb-3">
+                                    <label for="endTime">End Time</label>
+                                    <input type="time" class="form-control" id="endTime" name="endTime"
+                                        [(ngModel)]="library.endTime" required>
+                                </div>
                             </div>
 
                             <!-- Address Section -->
