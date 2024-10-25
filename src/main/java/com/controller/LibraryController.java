@@ -133,4 +133,17 @@ public class LibraryController {
 		}
 		return response;
 	}
+	
+	@GetMapping("change-library-status/{libraryId}")
+	public Response changeBookStatus(@PathVariable Long libraryId) {
+		Response response = new Response();
+		try {
+			return libraryService.changeLibraryStatus(libraryId);
+		} catch (Exception e) {
+			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
+			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
+			mailUtility.sendExceptionEmailToDeveloper(e, "changeBookStatus()");
+		}
+		return response;
+	}
 }

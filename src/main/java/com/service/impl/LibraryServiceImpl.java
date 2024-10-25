@@ -10,9 +10,12 @@ import com.bo.PaginationBO;
 import com.bo.Response;
 import com.dao.LibraryDao;
 import com.dao.ObjectDao;
+import com.exceptions.NotFoundException;
+import com.exceptions.RequiredFieldsMissingException;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
+import com.model.Book;
 import com.model.BookCategory;
 import com.model.Library;
 import com.service.LibraryService;
@@ -71,10 +74,10 @@ public class LibraryServiceImpl implements LibraryService {
 		Response response = new Response();
 		int sucessCount = 0;
 		int errorCount = 0;
-		int length=0;
+		int length = 0;
 		try {
 			if (null != libraryList && libraryList.size() > 0) {
-				length=libraryList.size();
+				length = libraryList.size();
 				for (Library library : libraryList) {
 					response = addLibrary(library);
 					if (response.getStatus() == ErrorConstants.SUCESS) {
@@ -90,8 +93,8 @@ public class LibraryServiceImpl implements LibraryService {
 			}
 			response.setResult(null);
 			response.setStatus(ErrorConstants.SUCESS);
-			response.setMessage(
-					"Libraries Added Sucessfully...Total("+length+"),Sucess(" + sucessCount + "),Failure(" + errorCount + ")");
+			response.setMessage("Libraries Added Sucessfully...Total(" + length + "),Sucess(" + sucessCount
+					+ "),Failure(" + errorCount + ")");
 		} catch (Exception e) {
 			throw e;
 		}
@@ -131,13 +134,32 @@ public class LibraryServiceImpl implements LibraryService {
 	public Long getLibraryCount(PaginationBO pagination) throws Exception {
 		return libraryDao.getLibraryCount(pagination);
 	}
-	
-	
+
 	@Override
 	public List<Library> getAllLibraryList() throws Exception {
 		return objectDao.getAllRecords(Library.class);
 	}
 
-	
+	@Override
+	public Response changeLibraryStatus(Long libraryId) throws Exception {
+		Response response = new Response();
+
+		if (libraryId == null) {
+			throw new RequiredFieldsMissingException(CommonMessages.REQUIRED_FIELD_MISSING);
+		}
+
+		Library library = objectDao.getObjectById(Library.class, libraryId);
+		if (library == null) {
+			throw new NotFoundException("Library Not Found");
+		}
+
+		library.setIsActive(!Boolean.TRUE.equals(library.getIsActive()));
+		objectDao.updateObject(library);
+
+		response.setStatus(ErrorConstants.SUCESS);
+		response.setMessage("Library Status Changed Successfully");
+
+		return response;
+	}
 
 }
