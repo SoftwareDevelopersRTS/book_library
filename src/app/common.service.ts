@@ -18,6 +18,7 @@ export class CommonService {
     "GET_BOOK_BY_ID":'api/book/get-by-id/',
     "GET_BOOK_CATEGORY_BY_ID":'api/bookcategory/get-by-id/',
     "GET_BOOK_COMMENTS":"api/book/get-book-comments",
+    "DELETE_COMMENT":"api/book/delete-comment/",
     "CHANGE_BOOK_STATUS":'api/book/change-book-status/',
     "CHANGE_BOOK_CATEGORY_STATUS":'api/bookcategory/change-book-category-status/',
     "BOOK_CATEGORY_LIST":'api/bookcategory/list',

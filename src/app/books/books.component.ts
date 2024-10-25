@@ -16,7 +16,7 @@ declare var $: any;
   styleUrl: './books.component.css'
 })
 export class BooksComponent implements OnInit {
-  bookListPagination: any = { pageNo: 1, numPerPage: 10 }
+  bookListPagination: any = { pageNo: 1, numPerPage: 12 }
   bookCommentPagination: any = { pageNo: 1, numPerPage: 10 }
   books: any = [];
   comments: any = [];
@@ -91,6 +91,14 @@ export class BooksComponent implements OnInit {
       if (response.status == 200) {
         this.comments = response.result;
         this.commentCount = response.listCount;
+      }
+    })
+  }
+  deleteComment(commentId: number) {
+    this.common.deleteRequest(this.common.SERVER_URL['DELETE_COMMENT'] + commentId).subscribe((response: any) => {
+      if (response.status = 200) {
+
+        this.getBookComments()
       }
     })
   }
