@@ -1,17 +1,38 @@
-
 <body>
 
     <div class="container-fluid mb-3 ">
         <div class="row pt-2 first-block">
             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-8 p-2">
-                <div class="form-container">
+                <div class="form-container glassmorphic">
                     <h4 class="text-center">System User Login</h4>
                     <form (ngSubmit)="sysytemUserLogin()">
                         <div class="mb-3">
-                            <!-- <label for="role" class="form-label">Select Role:</label> -->
-                            <!-- <ng-select [items]="allSecurityRoles" bindLabel="roleName" bindValue="systemUserRoleId"
-                                [(ngModel)]="loginInfo.systemUserRoleId" [multiple]="false" [clearable]="false" name="systemUserRoleId">
-                            </ng-select> -->
+                            <p-dropdown [options]="allSecurityRoles" optionLabel="roleName"
+                                optionValue="systemUserRoleId" [(ngModel)]="loginInfo.systemUserRoleId" name="library"
+                                placeholder="Select Role" required>
+                            </p-dropdown>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Username:</label>
+                            <input type="text" id="email" name="email" class="form-control" required
+                                [(ngModel)]="loginInfo.email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required
+                                [(ngModel)]="loginInfo.password">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+
+                <!-- <div class="form-container">
+                    <h4 class="text-center">System User Login</h4>
+                    <form (ngSubmit)="sysytemUserLogin()">
+                        <div class="mb-3">
                             <p-dropdown [options]="allSecurityRoles" optionLabel="roleName"
                                 optionValue="systemUserRoleId" [(ngModel)]="loginInfo.systemUserRoleId" name="library" 
                                 placeholder="Select Role" required>
@@ -32,7 +53,7 @@
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
                     </form>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

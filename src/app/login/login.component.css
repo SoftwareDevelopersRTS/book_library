@@ -25,3 +25,35 @@ body {
 h4 {
     margin-bottom: 20px;
 }
+
+.glassmorphic {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+}
+
+.form-container h4 {
+    color: #ffffff; /* Adjust text color to stand out */
+}
+
+.form-container .form-label {
+    color: rgba(255, 255, 255, 0.8); /* Light text color */
+}
+
+.form-container input,
+.form-container p-dropdown {
+    background: rgba(255, 255, 255, 0.15); /* Semi-transparent inputs */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.form-container .btn-primary {
+    background: rgba(0, 123, 255, 0.8);
+    border: none;
+}
