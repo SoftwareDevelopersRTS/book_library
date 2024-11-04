@@ -5,8 +5,12 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.enums.ImageSavedOn;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,17 +30,15 @@ public class ImageData {
 
 	@Column(name = "front_image_path")
 	private String frontImagePath;
-	
 
 	@Column(name = "back_image_path")
 	private String backImagePath;
-	
-	@Column(name="book_pdf_path")
+
+	@Column(name = "book_pdf_path")
 	private String bookPdfPath;
-	
-	@Column(name="extra_images",columnDefinition = "json")
+
+	@Column(name = "extra_images", columnDefinition = "json")
 	private String extraImages;
-	
 
 	@ManyToOne
 	@JoinColumn(name = "book_id")
@@ -45,7 +47,7 @@ public class ImageData {
 	@ManyToOne
 	@JoinColumn(name = "book_category_id")
 	private BookCategory bookCategory;
-	
+
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
@@ -54,5 +56,8 @@ public class ImageData {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "image_saved_on")
+	private ImageSavedOn imageSavedOn;
 
 }
