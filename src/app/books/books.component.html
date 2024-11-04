@@ -36,7 +36,10 @@
             <td>{{ book.pages }}</td>
             <!-- <td>{{ book.rating || 'N/A' }}</td> -->
             <td>{{ book.availableStock }}/{{ book.totalStock }}</td>
-            <td (click)="openClosePopups('comments','show','comments',book.bookId)">Comments</td>
+            <td (click)="openClosePopups('comments', 'show', 'comments', book.bookId)" style="cursor: pointer;">
+              Comments
+            </td>
+
 
             <td><i class="fas fa-pencil-alt" (click)="editBook(book)"></i></td>
             <td>
