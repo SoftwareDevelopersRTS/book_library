@@ -10,15 +10,21 @@ export class FileutilService {
   convertFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
+  
       reader.onloadend = () => {
-        resolve(reader.result as string);
+        // Remove the "data:image/webp;base64," prefix if necessary
+        const base64String = (reader.result as string).split(",")[1];
+        resolve(base64String);
       };
+  
       reader.onerror = (error) => {
         reject(error);
       };
+  
       reader.readAsDataURL(file);
     });
   }
+  
   base64Provider(file: File): Promise<string | null> {
     if (file) {
       return this.convertFileToBase64(file)

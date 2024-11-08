@@ -51,51 +51,83 @@ export class CategoryComponent implements OnInit {
   }
 
 
-  async onUpload(event: Event, fileType: string) {
-    const input = event.target as HTMLInputElement; // Cast the event target to HTMLInputElement
+  // async onUpload(event: Event, fileType: string) {
+  //   console.log("Inside onupload method");
+    
+  //   const input = event.target as HTMLInputElement; // Cast the event target to HTMLInputElement
 
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0]; // Get the first file
+
+  //     try {
+  //       // Use a switch statement for cleaner control flow over fileType
+  //       switch (fileType) {
+  //         case 'frontImage':
+  //           this.imageDataBo.encodedFrontImage = await this.fileUtil.base64Provider(file);
+  //           console.log('Frontside Image uploaded:', file);
+  //           break;
+
+  //         case 'backImage':
+  //           this.imageDataBo.encodedBackImage = await this.fileUtil.base64Provider(file);
+  //           console.log('Backside Image uploaded:', file);
+  //           break;
+
+  //         case 'bookFile':
+  //           // Handle book file if necessary
+  //           console.log('Book file uploaded:', file);
+  //           break;
+
+  //         default:
+  //           console.error('Unknown fileType:', fileType);
+  //           break;
+  //       }
+
+  //       // Log the uploaded image data
+  //       console.log("Encoded Front Image:", this.imageDataBo.encodedFrontImage);
+  //       console.log("Encoded Back Image:", this.imageDataBo.encodedBackImage);
+
+  //     } catch (error) {
+  //       console.error('Error during file upload:', error);
+  //     }
+
+  //   } else {
+  //     console.error('No file selected');
+  //   }
+  // }
+  onUpload(event: Event, fileType: string): void {
+    console.log("File upload triggered:", fileType);
+    const input = event.target as HTMLInputElement;
+  
     if (input.files && input.files.length > 0) {
-      const file = input.files[0]; // Get the first file
-
-      try {
-        // Use a switch statement for cleaner control flow over fileType
-        switch (fileType) {
-          case 'frontImage':
-            this.imageDataBo.encodedFrontImage = await this.fileUtil.base64Provider(file);
-            console.log('Frontside Image uploaded:', file);
-            break;
-
-          case 'backImage':
-            this.imageDataBo.encodedBackImage = await this.fileUtil.base64Provider(file);
-            console.log('Backside Image uploaded:', file);
-            break;
-
-          case 'bookFile':
-            // Handle book file if necessary
-            console.log('Book file uploaded:', file);
-            break;
-
-          default:
-            console.error('Unknown fileType:', fileType);
-            break;
-        }
-
-        // Log the uploaded image data
-        console.log("Encoded Front Image:", this.imageDataBo.encodedFrontImage);
-        console.log("Encoded Back Image:", this.imageDataBo.encodedBackImage);
-
-      } catch (error) {
-        console.error('Error during file upload:', error);
-      }
-
+      const file = input.files[0];
+      
+      // Use .then() to handle the async base64Provider call
+      this.fileUtil.base64Provider(file)
+        .then((base64String:any) => {
+          if (base64String) {
+            if (fileType === 'frontImage') {
+              this.imageDataBo.encodedFrontImage = base64String;
+              console.log('Encoded Front Image:', this.imageDataBo.encodedFrontImage);
+            } else if (fileType === 'backImage') {
+              this.imageDataBo.encodedBackImage = base64String;
+              console.log('Encoded Back Image:', this.imageDataBo.encodedBackImage);
+            }
+          }
+        })
+        .catch((error:any) => {
+          console.error('Error during file upload:', error);
+        });
+  
     } else {
       console.error('No file selected');
     }
   }
+  
 
 
   addEditCategory() {
     if (this.category.bookCategoryId && this.category.bookCategoryUniqueId) {
+      this.category.imageDataBo = this.imageDataBo;
       this.common.postRequest(this.common.SERVER_URL['EDIT_BOOK_CATEGORY'], this.category).subscribe(
         (response:any) => {
           if(response.status==200){
