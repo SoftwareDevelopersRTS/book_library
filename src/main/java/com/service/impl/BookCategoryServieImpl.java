@@ -104,7 +104,7 @@ public class BookCategoryServieImpl implements BookCategoryService {
 					}
 					objectDao.updateObject(existingById);
 					if (null != bookCategory.getImageDataBo()) {
-						saveBookCategoryImage(existingById);
+						saveBookCategoryImage(bookCategory);
 					}
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Category Added Sucessfully..");
@@ -201,7 +201,7 @@ public class BookCategoryServieImpl implements BookCategoryService {
 			imageData.setExtraImages(fileUtility.convertListToJson(extraImageList));
 		}
 
-		objectDao.saveObject(imageData);
+		objectDao.updateObject(imageData);
 
 	}
 
