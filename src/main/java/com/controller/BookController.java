@@ -175,7 +175,7 @@ public class BookController {
 		return response;
 	}
 
-	@PostMapping("get-by-id/{bookId}")
+	@GetMapping("get-by-id/{bookId}")
 	public Response getBookById(@PathVariable Long bookId) {
 		Response response = new Response();
 		try {
