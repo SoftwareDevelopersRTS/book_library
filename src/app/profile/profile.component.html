@@ -32,17 +32,17 @@
                             <!-- User Information Form -->
                             <div class="col-md-9">
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="userId" class="form-label">User Id</label>
                                         <input type="number" name="userId" class="form-control" id="userId"
                                             [(ngModel)]="userInfo.userId">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="firstName" class="form-label">First Name</label>
                                         <input type="text" name="firstName" class="form-control" id="firstName"
                                             [(ngModel)]="userInfo.firstName">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="lastName" class="form-label">Last Name</label>
                                         <input type="text" class="form-control" id="lastName" name="lastName"
                                             [(ngModel)]="userInfo.lastName">
@@ -55,10 +55,23 @@
                                         <input type="email" class="form-control" id="email" name="email"
                                             [(ngModel)]="userInfo.email">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <label for="phone" class="form-label">Phone</label>
                                         <input type="text" class="form-control" id="phone" name="mobile"
                                             [(ngModel)]="userInfo.mobile">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="dob" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="dob" name="birthDate"
+                                            [(ngModel)]="userInfo.birthDate">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="gender" class="form-label">Gender</label>
+                                        <select class="form-select" id="gender" name="gender"
+                                            [(ngModel)]="userInfo.gender">
+                                            <option value="Male" selected>Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -97,64 +110,9 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="dob" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" id="dob" name="birthDate"
-                                            [(ngModel)]="userInfo.birthDate">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="language" class="form-label">Language</label>
-                                        <select class="form-select" id="language" name="language">
-                                            <option value="English" selected>English</option>
-                                            <option value="Spanish">Spanish</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="gender" class="form-label">Gender</label>
-                                        <select class="form-select" id="gender" name="gender"
-                                            [(ngModel)]="userInfo.gender">
-                                            <option value="Male" selected>Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password"
-                                            value="********">
-                                        <small class="text-muted"><a href="#">Change Password</a></small>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="twitter" class="form-label">Twitter</label>
-                                        <input type="text" class="form-control" id="twitter" name="twitter"
-                                            value="twitter.com/envato">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="linkedin" class="form-label">LinkedIn</label>
-                                        <input type="text" class="form-control" id="linkedin" name="linkedin"
-                                            value="linkedin.com/envato">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="facebook" class="form-label">Facebook</label>
-                                        <input type="text" class="form-control" id="facebook" name="facebook"
-                                            value="facebook.com/envato">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="google" class="form-label">Google</label>
-                                        <input type="text" class="form-control" id="google" name="google"
-                                            value="zachary Ruiz">
-                                    </div>
-                                </div>
-
+                             
                                 <!-- Save Button -->
                                 <div class="d-flex justify-content-end">
                                     <button class="btn btn-success" (click)="updateUserProfile()"

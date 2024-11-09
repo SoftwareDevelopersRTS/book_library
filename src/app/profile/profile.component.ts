@@ -7,7 +7,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule,SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -38,20 +38,29 @@ export class ProfileComponent implements OnInit {
       reader.onload = (e: any) => {
         // Assign full base64 string (including prefix) to userInfo.profileImage
         this.userInfo.profileImage = e.target.result;
-        
+
         // Optionally, update profileImageUrl for real-time preview
         this.userInfo.profileImageUrl = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   }
-  
+
 
   getProfileImageUrl(): string {
     if (this.userInfo && this.userInfo.profileImageUrl) {
+
       return `assets/${this.userInfo.profileImageUrl}`;
     } else {
-      return 'assets/profile-placeholder.jpg';
+      if (this.userInfo.gender) {
+        if (this.userInfo.gender == "Male") {
+          return 'assets/defualtProfileImages/defualtProfileImage_male2.png';
+        } else {
+          return 'assets/defualtProfileImages/defaultProfileImage_female.jpg';
+        }
+      } else {
+        return 'assets/defualtProfileImages/defualtProfileImage.png';
+      }
     }
   }
 }
