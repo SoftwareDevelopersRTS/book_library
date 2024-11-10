@@ -116,21 +116,21 @@ public class BookCategoryController {
 	}
 
 	@PostMapping("get-by-id/{categoryId}")
-	public Response getBookById(@PathVariable Long categoryId) {
+	public Response getBookCategoryById(@PathVariable Long categoryId) {
 		Response response = new Response();
 		try {
 			return bookCategoryService.getBookCategoryById(categoryId);
 
 		} catch (RequiredFieldsMissingException rme) {
-			mailUtility.sendExceptionEmailToDeveloper(rme, "getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(rme, "getBookCategoryById()");
 			response.setStatus(ErrorConstants.BAD_REQUEST);
 			response.setMessage(rme.getMessage());
 		} catch (NotFoundException nfe) {
-			mailUtility.sendExceptionEmailToDeveloper(nfe, "getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(nfe, "getBookCategoryById()");
 			response.setStatus(ErrorConstants.NOT_FOUND);
 			response.setMessage(nfe.getMessage());
 		} catch (Exception e) {
-			mailUtility.sendExceptionEmailToDeveloper(e, "getBookById()");
+			mailUtility.sendExceptionEmailToDeveloper(e, "getBookCategoryById()");
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 		}
