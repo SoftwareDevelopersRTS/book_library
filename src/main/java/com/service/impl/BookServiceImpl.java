@@ -2,6 +2,7 @@ package com.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -284,6 +285,15 @@ public class BookServiceImpl implements BookService {
 			if (null != bookId && bookId > 0) {
 				Book book = objectDao.getObjectById(Book.class, bookId);
 				if (null != book) {
+					
+					List<Long> bookCategoryIds = objectDao
+						    .getListByOneParam(BookAndBookCategory.class, "book", book)
+						    .stream()
+						    .map(b -> b.getBookCategory().getBookCategoryId())
+						    .collect(Collectors.toList());
+
+						book.setBookCategoryList(bookCategoryIds);
+
 					response.setResult(book);
 					response.setStatus(ErrorConstants.SUCESS);
 					response.setMessage("Book Get Sucessfully...");

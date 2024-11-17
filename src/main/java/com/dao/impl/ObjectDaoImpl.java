@@ -119,6 +119,27 @@ public class ObjectDaoImpl implements ObjectDao {
 			return Collections.emptyList();
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> getListByOneParam(Class<T> entity, String param, Object paramValue) {
+	    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entity);
+	    Root<T> root = criteriaQuery.from(entity);
+
+	    // Create predicate for the parameter
+	    Predicate predicate = criteriaBuilder.equal(root.get(param), paramValue);
+
+	    // Apply the predicate to the query
+	    criteriaQuery.where(predicate);
+
+	    try {
+	        return entityManager.createQuery(criteriaQuery).getResultList();
+	    } catch (Exception e) {
+	        return Collections.emptyList();
+	    }
+	}
+
 
 	@Override
 	public <T> T getFirstRecordOrderedBy(Class<T> entity, String restrictionParam, Object restrictionValue,
