@@ -301,24 +301,39 @@ public class UserServiceImpl implements UserService {
 				maxLoginFailedAttemptAllowed = AppConstants.THREE;
 			}
 
+			existingSystemUserByEmail.setFailedLoginAttempt(existingSystemUserByEmail.getFailedLoginAttempt() != null
+					? existingSystemUserByEmail.getFailedLoginAttempt()
+					: AppConstants.ZERO);
+
 			if (maxLoginFailedAttemptAllowed <= existingSystemUserByEmail.getFailedLoginAttempt()) {
-				LocalDateTime lockExpirationTime;
-				CommonAppSetting maxLoginBlockTimeSetting = objectDao.getObjectByParam(CommonAppSetting.class,
-						"settingName", AppConstants.FAILED_LOGIN_LOCK_DURATION_IN_MINUTES);
-				if (null != maxLoginBlockTimeSetting && maxLoginBlockTimeSetting.getSettingValue() != null) {
-					lockExpirationTime = LocalDateTime.now()
-							.plusMinutes(Integer.parseInt(maxLoginBlockTimeSetting.getSettingValue()));
+
+				LocalDateTime currentDateTime = LocalDateTime.now();
+				if (existingSystemUserByEmail.getIdLockExpirationTime() != null
+						&& existingSystemUserByEmail.getIdLockExpirationTime().isBefore(currentDateTime)) {
+					existingSystemUserByEmail.setFailedLoginAttempt(AppConstants.ZERO);
+					existingSystemUserByEmail.setIdLockExpirationTime(null);
+					objectDao.updateObject(existingSystemUserByEmail);
+
 				} else {
-					lockExpirationTime = LocalDateTime.now().plusMinutes(AppConstants.TEN);
+					LocalDateTime lockExpirationTime;
+					CommonAppSetting maxLoginBlockTimeSetting = objectDao.getObjectByParam(CommonAppSetting.class,
+							"settingName", AppConstants.FAILED_LOGIN_LOCK_DURATION_IN_MINUTES);
+					if (null != maxLoginBlockTimeSetting && maxLoginBlockTimeSetting.getSettingValue() != null) {
+						lockExpirationTime = LocalDateTime.now()
+								.plusMinutes(Integer.parseInt(maxLoginBlockTimeSetting.getSettingValue()));
+					} else {
+						lockExpirationTime = LocalDateTime.now().plusMinutes(AppConstants.TEN);
+					}
+
+					existingSystemUserByEmail.setIdLockExpirationTime(
+							existingSystemUserByEmail.getIdLockExpirationTime() == null ? lockExpirationTime
+									: existingSystemUserByEmail.getIdLockExpirationTime());
+
+					objectDao.updateObject(existingSystemUserByEmail);
+					throw new NotFoundException(
+							"Your account has been temporarily locked due to multiple failed login attempts. Your account will be unlocked at "
+									+ lockExpirationTime + ". Please try again later.");
 				}
-
-				existingSystemUserByEmail.setIdLockExpirationTime(lockExpirationTime);
-
-				objectDao.updateObject(existingSystemUserByEmail);
-				throw new NotFoundException(
-						"Your account has been temporarily locked due to multiple failed login attempts. Your account will be unlocked at "
-								+ lockExpirationTime + ". Please try again later.");
-
 			}
 
 		}
