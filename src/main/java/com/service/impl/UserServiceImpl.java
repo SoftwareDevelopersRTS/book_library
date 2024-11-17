@@ -3,6 +3,7 @@ package com.service.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -287,6 +288,39 @@ public class UserServiceImpl implements UserService {
 				authRequest.getEmail());
 		if (existingSystemUserByEmail == null) {
 			throw new NotFoundException("Email Not Found...");
+		} else {
+			// IF user present with given Email the want to check login attampts if exiads
+			// limit then will throgh exception
+
+			Integer maxLoginFailedAttemptAllowed;
+			CommonAppSetting maxLoginAttamptCountSetting = objectDao.getObjectByParam(CommonAppSetting.class,
+					"settingName", AppConstants.MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED);
+			if (null != maxLoginAttamptCountSetting && maxLoginAttamptCountSetting.getSettingValue() != null) {
+				maxLoginFailedAttemptAllowed = Integer.parseInt(maxLoginAttamptCountSetting.getSettingValue());
+			} else {
+				maxLoginFailedAttemptAllowed = AppConstants.THREE;
+			}
+
+			if (maxLoginFailedAttemptAllowed <= existingSystemUserByEmail.getFailedLoginAttempt()) {
+				LocalDateTime lockExpirationTime;
+				CommonAppSetting maxLoginBlockTimeSetting = objectDao.getObjectByParam(CommonAppSetting.class,
+						"settingName", AppConstants.FAILED_LOGIN_LOCK_DURATION_IN_MINUTES);
+				if (null != maxLoginBlockTimeSetting && maxLoginBlockTimeSetting.getSettingValue() != null) {
+					lockExpirationTime = LocalDateTime.now()
+							.plusMinutes(Integer.parseInt(maxLoginBlockTimeSetting.getSettingValue()));
+				} else {
+					lockExpirationTime = LocalDateTime.now().plusMinutes(AppConstants.TEN);
+				}
+
+				existingSystemUserByEmail.setIdLockExpirationTime(lockExpirationTime);
+
+				objectDao.updateObject(existingSystemUserByEmail);
+				throw new NotFoundException(
+						"Your account has been temporarily locked due to multiple failed login attempts. Your account will be unlocked at "
+								+ lockExpirationTime + ". Please try again later.");
+
+			}
+
 		}
 
 		// Fetch the selected user role
@@ -313,10 +347,20 @@ public class UserServiceImpl implements UserService {
 		// Validate password
 		String encodedInputPassword = passwordEncoder.encode(authRequest.getPassword());
 		if (userRoleOptional.isPresent() && encodedInputPassword.equals(existingSystemUserByEmail.getPassword())) {
+			existingSystemUserByEmail.setFailedLoginAttempt(AppConstants.ZERO);
+			existingSystemUserByEmail.setIdLockExpirationTime(null);
 			response.setResult(userRoleOptional.get());
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("User Login Successfully...");
+			objectDao.updateObject(existingSystemUserByEmail);
+
 		} else {
+			existingSystemUserByEmail
+					.setFailedLoginAttempt(existingSystemUserByEmail.getFailedLoginAttempt() == null ? AppConstants.ONE
+							: (existingSystemUserByEmail.getFailedLoginAttempt() + AppConstants.ONE));
+
+			objectDao.updateObject(existingSystemUserByEmail);
+
 			throw new NotFoundException("Invalid credentials or role.");
 		}
 

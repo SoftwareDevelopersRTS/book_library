@@ -33,4 +33,19 @@ public class AppConstants {
 
 	public static final String BOOK_CATEGORY_IMAGE_FOLDER = "BOOK_CATEGORY_IMAGE_FOLDER";
 
+	// Numbers
+
+	public static final Integer ZERO = 0;
+
+	public static final Integer ONE = 1;
+
+	public static final Integer THREE = 3;
+
+	public static final Integer TEN = 10;
+
+	// Setting for max login attempt
+	public static final String MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED = "MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED";
+
+	public static final String FAILED_LOGIN_LOCK_DURATION_IN_MINUTES = "FAILED_LOGIN_LOCK_DURATION_IN_MINUTES";
+
 }
