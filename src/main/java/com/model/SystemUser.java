@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,10 +49,13 @@ public class SystemUser implements Serializable {
 	@Column(name = "last_login_date_time")
 	private LocalDateTime lastLoginDateTime;
 
-	@Column(name = "failed_login_attempt",columnDefinition = "INTEGER DEFAULT 0")
+	@Column(name = "failed_login_attempt", columnDefinition = "INTEGER DEFAULT 0")
 	private Integer failedLoginAttempt;
 
 	@Column(name = "id_lock_expiration_time")
 	private LocalDateTime idLockExpirationTime;
+
+	@Transient
+	private Long roleId;
 
 }

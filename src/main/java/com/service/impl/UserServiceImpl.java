@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 				}
 				user.setUserType(AppConstants.NORMAL_USER);
 				user.setIsActive(true);
-				user.setUserUniqueUID(RandomCreator.generateUID(AppConstants.USER_UID_PREFIX, 8));
+				user.setUserUniqueUID(RandomCreator.generateUID(AppConstants.SYSTEM_USER_PREFIX, 8));
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 				objectDao.saveObject(user);

@@ -8,6 +8,8 @@ public class AppConstants {
 	public static final String BOOK_CATEGORY_UID_PREFIX = "BOOKCAT";
 
 	public static final String USER_UID_PREFIX = "USR";
+	
+	public static final String SYSTEM_USER_PREFIX="SYSTEM_USR";
 
 	public static String LIBRARY_UID_PREFIX = "LIB";
 
