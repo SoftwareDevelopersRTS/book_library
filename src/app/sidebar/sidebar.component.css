@@ -25,12 +25,16 @@
     color: #333;
     font-size: 16px;
   }
+  .sidebar ul li a:active{
+    padding:10px
+  }
   .active {
     font-weight: bold;
-    color: #007bff !important; /* Highlight the active link */
+    color: #007bff !important; 
+    border-radius: 6px
 }
-
+/* 
 .sidebar a.active {
-    background-color: #007bff !important; /* Highlight color */
-    color: #fff !important; /* Text color for active */
-}
+    background-color: #007bff !important; 
+    color: #fff !important;
+} */

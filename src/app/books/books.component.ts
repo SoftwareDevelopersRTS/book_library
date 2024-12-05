@@ -72,8 +72,9 @@ export class BooksComponent implements OnInit {
   }
 
   editBook(book: any) {
-    this.router.navigateByUrl('/add-edit-book', { state: { book } });
+    this.router.navigate(['/add-edit-book'], { queryParams: { bookId: book.bookId } });
   }
+  
 
   openClosePopups(popupName: string, actionType: string, forWhat: string, extraId: number) {
     $('#' + popupName).modal(actionType);

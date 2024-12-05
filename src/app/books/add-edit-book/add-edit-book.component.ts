@@ -10,7 +10,7 @@ import { CommonService } from '../../common.service';
 import { STATUS_CODES } from '../../app.constants';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FileutilService } from '../../fileutil.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 // import { BrowserModule } from '@angular/platform-browser';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @Component({
@@ -38,16 +38,13 @@ export class AddEditBookComponent implements OnInit {
   categories: any[] = []
   imageDataBo: any = {};
 
-  constructor(private common: CommonService, private fileUtil: FileutilService,private router:Router) {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras && navigation.extras.state) {
-      this.book = navigation.extras.state['book'];
-    } else {
-      // Handle the case where no state is passed (e.g., if accessed directly via URL)
-      console.error('No book data passed');
-    }
-    console.log("thiis.book=======>,",this.book);
-    
+  constructor(private common: CommonService, private fileUtil: FileutilService, private route: ActivatedRoute,private router:Router) {
+    this.route.queryParams.subscribe(params => {
+      const bookId = params['bookId'];
+      console.log('Book ID:', bookId);
+      this.getBookDetails(bookId);
+    });
+
   }
   ngOnInit(): void {
     this.getBookCategoryList();
@@ -109,8 +106,19 @@ export class AddEditBookComponent implements OnInit {
     }
   }
 
-  redirectBack(){
+  redirectBack() {
     this.router.navigate(['books']);
+  }
+
+  getBookDetails(bookId: number) {
+    this.common.getRequest(this.common.SERVER_URL['GET_BOOK_BY_ID'] + bookId).subscribe((response: any) => {
+      if (response.status == 200) {
+        this.book = response.result;
+        this.book.libId=this.book.library.libraryId;
+      }
+    }, (error) => {
+
+    })
   }
 
 
