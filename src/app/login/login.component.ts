@@ -2,14 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../common.service';
-import {STATUS_CODES  } from '../app.constants';
+import { STATUS_CODES } from '../app.constants';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownModule } from 'primeng/dropdown';
+import { SoundService } from '../sound.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule,DropdownModule],
+  imports: [CommonModule, FormsModule, DropdownModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   allSecurityRoles: any[] = [];
   loginInfo: any = {};
 
-  constructor(private common: CommonService) {
+  constructor(private common: CommonService, private soundService: SoundService) {
 
   }
   ngOnInit(): void {
@@ -40,10 +41,18 @@ export class LoginComponent implements OnInit {
   sysytemUserLogin() {
     console.log(JSON.stringify(this.loginInfo))
     this.common.postRequest(this.common.SERVER_URL['SYSTEM_USER_LOGIN'], this.loginInfo).subscribe(
-      (response) => {
-
+      (response: any) => {
+        if (response.status == 200) {
+          this.soundService.playSound('LOGIN_SUCESS_SOUND');
+        } else {
+          this.soundService.playSound('LOGIN_FAILURE_SOUND')
+        }
+      }, (error) => {
+        this.soundService.playSound('LOGIN_FAILURE_SOUND')
       }
     );
   }
+
+
 
 }
