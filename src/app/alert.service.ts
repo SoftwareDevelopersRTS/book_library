@@ -21,25 +21,18 @@ export class AlertService {
       text,
       icon,
       confirmButtonText,
-      ...options // Merge additional options
+      ...options 
     });
   }
 
-  /**
-   * Shows a success alert with the provided title and text.
-   * @param title - Title of the success alert
-   * @param text - Text content of the success alert
-   */
+
   showSuccessAlert(title: string, text: string): void {
     this.showAlert(title, text, 'success');
   }
-
-  /**
-   * Shows a failure alert with the provided title and text.
-   * @param title - Title of the failure alert
-   * @param text - Text content of the failure alert
-   */
   showFailureAlert(title: string, text: string): void {
     this.showAlert(title, text, 'error');
+  }
+  showWarningAlert(title: string, message: string): void {
+    this.showAlert(title, message, 'warning');
   }
 }
