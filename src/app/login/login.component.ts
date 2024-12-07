@@ -6,6 +6,7 @@ import { STATUS_CODES } from '../app.constants';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownModule } from 'primeng/dropdown';
 import { SoundService } from '../sound.service';
+import { AlertService } from '../alert.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   allSecurityRoles: any[] = [];
   loginInfo: any = {};
 
-  constructor(private common: CommonService, private soundService: SoundService) {
+  constructor(private common: CommonService, private soundService: SoundService, private alert: AlertService) {
 
   }
   ngOnInit(): void {
@@ -43,11 +44,14 @@ export class LoginComponent implements OnInit {
     this.common.postRequest(this.common.SERVER_URL['SYSTEM_USER_LOGIN'], this.loginInfo).subscribe(
       (response: any) => {
         if (response.status == 200) {
+          this.alert.showSuccessAlert('', response.message)
           this.soundService.playSound('LOGIN_SUCESS_SOUND');
         } else {
+          this.alert.showFailureAlert("", response.message)
           this.soundService.playSound('LOGIN_FAILURE_SOUND')
         }
       }, (error) => {
+        this.alert.showFailureAlert("", "Something Went wrong try again");
         this.soundService.playSound('LOGIN_FAILURE_SOUND')
       }
     );
