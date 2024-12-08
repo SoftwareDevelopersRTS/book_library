@@ -46,6 +46,9 @@ public class SystemUser implements Serializable {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "gender")
+	private String gender;
+
 	@Column(name = "last_login_date_time")
 	private LocalDateTime lastLoginDateTime;
 
