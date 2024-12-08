@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bo.PaginationBO;
 import com.bo.Response;
 import com.dao.ObjectDao;
+import com.dao.SecurityUserDao;
 import com.exceptions.DuplicateEntryException;
 import com.exceptions.NotFoundException;
 import com.exceptions.RequiredFieldsMissingException;
@@ -27,6 +28,9 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private SecurityUserDao securityUserDao;
 
 	@Override
 	public Response addEditSystemUser(SystemUser systemUser) throws Exception {
@@ -67,14 +71,12 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 
 	@Override
 	public List<SystemUser> employeeList(PaginationBO pagination) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return securityUserDao.employeeList(pagination);
 	}
 
 	@Override
 	public Long employeeListCount(PaginationBO pagination) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return securityUserDao.employeeListCount(pagination);
 	}
 
 }
