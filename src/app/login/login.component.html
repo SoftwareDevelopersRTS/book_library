@@ -21,8 +21,14 @@
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Password:</label>
-                            <input type="password" id="password" name="password" class="form-control" required
-                                [(ngModel)]="loginInfo.password">
+                            <div class="input-group">
+                                <input [type]="passwordDataType" id="password" name="password" class="form-control"
+                                    required [(ngModel)]="loginInfo.password">
+                                <span class="input-group-text" (click)="togglePassword()">
+                                    <i
+                                        [class]="passwordDataType === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+                                </span>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>

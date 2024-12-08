@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   allSecurityRoles: any[] = [];
   loginInfo: any = {};
 
-  constructor(private common: CommonService, private soundService: SoundService, private alert: AlertService,private router:Router) {
+  constructor(private common: CommonService, private soundService: SoundService, private alert: AlertService, private router: Router) {
 
   }
   ngOnInit(): void {
@@ -59,6 +59,9 @@ export class LoginComponent implements OnInit {
     );
   }
 
-
+  passwordDataType: string = 'password';
+  togglePassword() {
+    this.passwordDataType == 'text' ? this.passwordDataType = 'password' : this.passwordDataType = 'text';
+  }
 
 }
