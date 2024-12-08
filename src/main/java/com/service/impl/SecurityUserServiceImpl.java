@@ -1,9 +1,12 @@
 package com.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bo.PaginationBO;
 import com.bo.Response;
 import com.dao.ObjectDao;
 import com.exceptions.DuplicateEntryException;
@@ -60,6 +63,18 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 			throw e;
 		}
 		return response;
+	}
+
+	@Override
+	public List<SystemUser> employeeList(PaginationBO pagination) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long employeeListCount(PaginationBO pagination) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
