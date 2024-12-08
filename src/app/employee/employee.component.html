@@ -2,7 +2,43 @@
     <app-sidebar></app-sidebar>
     <div class="content">
         <div class="container">
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Unique UID</th>
+                            <th>Last Login</th>
 
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let employee of employeeList | paginate: { itemsPerPage: employeeListPagination.numPerPage, currentPage: employeeListPagination.pageNo ,totalItems:employeeCount,id:'p'}">
+                            <td>{{ employee.systemUserId }}</td>
+                            <td>{{ employee.firstName }}</td>
+                            <td>{{ employee.lastName }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td>{{ employee.mobile }}</td>
+                            <td>{{ employee.uniqueUid ? employee.uniqueUid : "--"}}</td>
+                            <td>{{ employee.lastLoginDateTime ? employee.lastLoginDateTime : "--" }}</td>
+
+
+
+                        </tr>
+                        <tr *ngIf="!employeeList || (employeeList && employeeList.length<=0)" colspan="6" class="p-3">
+                            No Record Found
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
         </div>
     </div>
 </div>
