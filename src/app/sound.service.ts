@@ -9,7 +9,8 @@ export class SoundService {
 
   SOUND_URLS:any={
     "LOGIN_SUCESS_SOUND":"LOGIN_SUCESS_SOUND.mp3",
-    "LOGIN_FAILURE_SOUND":"LOGIN_FAILURE_SOUND.mp3"
+    "LOGIN_FAILURE_SOUND":"LOGIN_FAILURE_SOUND.mp3",
+    "CLICK_SOUND":"CLICK_SOUND.mp3"
   }
   constructor() { }
 

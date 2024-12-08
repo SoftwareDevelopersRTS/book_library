@@ -11,6 +11,7 @@ import { AddEditBookComponent } from './books/add-edit-book/add-edit-book.compon
 import { NgModule } from '@angular/core';
 import { AuthGuard } from './auth.guard';
 import { EmployeeComponent } from './employee/employee.component';
+import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
     // { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -42,7 +43,8 @@ export const routes: Routes = [
     { path: 'sidebar', component: SidebarComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'add-edit-book', component: AddEditBookComponent },
-    { path: 'employee', component: EmployeeComponent }
+    { path: 'employee', component: EmployeeComponent },
+    { path: 'settings', component: SettingsComponent }
 
 ];
 
