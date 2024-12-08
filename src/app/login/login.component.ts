@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
 
   passwordDataType: string = 'password';
   togglePassword() {
+    this.soundService.playSound('CLICK_SOUND')
     this.passwordDataType == 'text' ? this.passwordDataType = 'password' : this.passwordDataType = 'text';
   }
 
