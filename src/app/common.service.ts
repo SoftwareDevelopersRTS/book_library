@@ -30,7 +30,9 @@ export class CommonService {
     "CHANGE_LIBRARY_STATUS":'api/library/change-library-status/',
     "ADD_LIBRARY":'api/library/add',
     "GET_USER_DETAILS_BY_ID":'api/user/details-by-id/',
-    "EDIT_PROFILE":"api/user/edit"
+    "EDIT_PROFILE":"api/user/edit",
+
+    "EMPLOYEE_LIST":"api/security-user/list"
   }
   constructor(private httpClient: HttpClient) { }
 
