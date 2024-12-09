@@ -42,7 +42,10 @@ public class SecurityUserDaoImpl implements SecurityUserDao {
 				user.setLastName(rs.getString("last_name"));
 				user.setEmail(rs.getString("email"));
 				user.setMobile(rs.getString("mobile"));
-				// user.setLastLoginDateTime((LocalDateTime)(rs.getDate("last_login_date_time")));
+				user.setUniqueUid(rs.getString("unique_uid"));
+				user.setLastLoginDateTime(null != rs.getTimestamp("last_login_date_time")
+						? (rs.getTimestamp("last_login_date_time").toLocalDateTime())
+						: null);
 				employeeList.add(user);
 			}
 

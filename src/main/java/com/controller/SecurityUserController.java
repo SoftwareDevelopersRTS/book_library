@@ -50,6 +50,7 @@ public class SecurityUserController {
 			response.setResult(securityUserService.employeeList(pagination));
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.setStatus(ErrorConstants.INTERNAL_SERVER_ERROR);
 			response.setMessage(CommonMessages.SOMETHING_WENT_WRONG_TRY_AGAIN);
 			mailUtility.sendExceptionEmailToDeveloper(e, "employeeList()");
