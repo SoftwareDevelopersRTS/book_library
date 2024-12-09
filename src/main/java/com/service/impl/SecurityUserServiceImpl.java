@@ -17,6 +17,7 @@ import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.SystemUser;
+import com.model.SystemUserRole;
 import com.service.SecurityUserService;
 import com.utils.RandomCreator;
 
@@ -56,6 +57,7 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 				if (null != existingUserByMobile) {
 					throw new DuplicateEntryException("Mobile Already Registered", ErrorConstants.ALREADY_EXIST);
 				}
+				systemUser.setRole(objectDao.getObjectById(SystemUserRole.class, systemUser.getRoleId()));
 				systemUser.setPassword(passwordEncoder.encode(systemUser.getPassword()));
 				systemUser.setUniqueUid(RandomCreator.generateUID(AppConstants.USER_UID_PREFIX, 8));
 				objectDao.saveObject(systemUser);

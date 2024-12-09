@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Getter;
@@ -57,6 +59,10 @@ public class SystemUser implements Serializable {
 
 	@Column(name = "id_lock_expiration_time")
 	private LocalDateTime idLockExpirationTime;
+
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private SystemUserRole role;
 
 	@Transient
 	private Long roleId;
