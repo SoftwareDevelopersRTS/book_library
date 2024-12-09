@@ -2,43 +2,121 @@
     <app-sidebar></app-sidebar>
     <div class="content">
         <div class="container">
-            <div class="container">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Unique UID</th>
-                            <th>Last Login</th>
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            *ngFor="let employee of employeeList | paginate: { itemsPerPage: employeeListPagination.numPerPage, currentPage: employeeListPagination.pageNo ,totalItems:employeeCount,id:'p'}">
-                            <td>{{ employee.systemUserId }}</td>
-                            <td>{{ employee.firstName }}</td>
-                            <td>{{ employee.lastName }}</td>
-                            <td>{{ employee.email }}</td>
-                            <td>{{ employee.mobile }}</td>
-                            <td>{{ employee.uniqueUid ? employee.uniqueUid : "--"}}</td>
-                            <td>{{ employee.lastLoginDateTime ? employee.lastLoginDateTime : "--" }}</td>
-
-
-
-                        </tr>
-                        <tr *ngIf="!employeeList || (employeeList && employeeList.length<=0)" colspan="6" class="p-3">
-                            No Record Found
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="col-2"> <button type="button" class="btn btn-primary"
+                        (click)="toggleEmployeeForm('show')">Add Employee</button></div>
             </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Unique UID</th>
+                        <th>Last Login</th>
 
-            <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let employee of employeeList | paginate: { itemsPerPage: employeeListPagination.numPerPage, currentPage: employeeListPagination.pageNo ,totalItems:employeeCount,id:'p'}">
+                        <td>{{ employee.systemUserId }}</td>
+                        <td>{{ employee.firstName }}</td>
+                        <td>{{ employee.lastName }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.mobile }}</td>
+                        <td>{{ employee.uniqueUid ? employee.uniqueUid : "--"}}</td>
+                        <td>{{ employee.lastLoginDateTime ? employee.lastLoginDateTime : "--" }}</td>
+
+
+
+                    </tr>
+                    <tr *ngIf="!employeeList || (employeeList && employeeList.length<=0)" colspan="6" class="p-3">
+                        No Record Found
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pagination-controls (pageChange)="changePage($event)" id="p"></pagination-controls>
+
+        <div class="modal fade" id="employeeForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+                        <button type="button" class="close" (click)="toggleEmployeeForm('hide')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form (ngSubmit)="addEmployee()">
+                            <!-- First Name -->
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName"
+                                    placeholder="Enter First Name" [(ngModel)]="employee.firstName" required>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName"
+                                    placeholder="Enter Last Name" [(ngModel)]="employee.lastName" required>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select class="form-control" id="gender" name="gender" [(ngModel)]="employee.gender"
+                                    required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <!-- Mobile -->
+                            <div class="form-group">
+                                <label for="mobile">Mobile</label>
+                                <input type="tel" class="form-control" id="mobile" name="mobile"
+                                    placeholder="Enter Mobile Number" pattern="[0-9]{10}" [(ngModel)]="employee.mobile"
+                                    required>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter Email" [(ngModel)]="employee.email" required>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Enter Password" [(ngModel)]="employee.password" required>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <p-dropdown [options]="allSecurityRoles" optionLabel="roleName"
+                                    optionValue="systemUserRoleId" [(ngModel)]="employee.systemUserRoleId"
+                                    name="library" placeholder="Select Role" required>
+                                </p-dropdown>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

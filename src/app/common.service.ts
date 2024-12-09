@@ -32,6 +32,7 @@ export class CommonService {
     "GET_USER_DETAILS_BY_ID":'api/user/details-by-id/',
     "EDIT_PROFILE":"api/user/edit",
 
+    "ADD_EMPLOYEE":"api/security-user/add-edit",
     "EMPLOYEE_LIST":"api/security-user/list"
   }
   constructor(private httpClient: HttpClient) { }
