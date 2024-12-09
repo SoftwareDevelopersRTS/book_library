@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DropdownModule } from 'primeng/dropdown';
+import { SoundService } from '../sound.service';
+import { AlertService } from '../alert.service';
 declare var $: any;
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [SidebarComponent, FormsModule, CommonModule, NgxPaginationModule,DropdownModule],
+  imports: [SidebarComponent, FormsModule, CommonModule, NgxPaginationModule, DropdownModule],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css'
 })
@@ -20,7 +22,7 @@ export class EmployeeComponent implements OnInit {
   employeeCount: number = 0;
   employee: any = {};
   allSecurityRoles: any = [];
-  constructor(private common: CommonService) {
+  constructor(private common: CommonService, private sound: SoundService, private alert: AlertService) {
 
   }
   ngOnInit(): void {
@@ -65,7 +67,19 @@ export class EmployeeComponent implements OnInit {
   addEmployee() {
     this.common.postRequest(this.common.SERVER_URL['ADD_EMPLOYEE'], this.employee).subscribe(
       (response) => {
+        if (response.status == 200) {
+          this.sound.playSound('LOGIN_SUCESS_SOUND')
+          this.alert.showSuccessAlert(response.message, '');
+          this.toggleEmployeeForm('hide');
+          this.getEmployeeList();
 
+        } else {
+          this.sound.playSound('LOGIN_FAILURE_SOUND')
+          this.alert.showWarningAlert(response.message, '');
+        }
+      }, (error) => {
+        this.sound.playSound('LOGIN_FAILURE_SOUND')
+        this.alert.showWarningAlert("Something Went Wrong Try Again", '');
       }
     )
   }
