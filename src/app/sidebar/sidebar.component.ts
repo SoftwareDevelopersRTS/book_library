@@ -40,4 +40,7 @@ export class SidebarComponent {
     this.tab = tab; // Update the active tab
   }
 
+  logOut(){
+    this.router.navigateByUrl('login')
+  }
 }
