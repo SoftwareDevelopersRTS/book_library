@@ -47,6 +47,7 @@ export class EmployeeComponent implements OnInit {
   }
   toggleEmployeeForm(type: string) {
     if (type == 'show') {
+      this.employee = {};
       this.getAllSecurityRoles();
     }
     $('#employeeForm').modal(type);
