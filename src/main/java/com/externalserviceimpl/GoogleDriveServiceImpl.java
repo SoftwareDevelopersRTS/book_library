@@ -1,6 +1,8 @@
 package com.externalserviceimpl;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -45,6 +47,21 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		setFilePermissions(uploadedFileId);
 
 		return uploadedFileId;
+	}
+
+	@Override
+	public String uploadFile(java.io.File filePath) throws IOException {
+		// Infer the MIME type using Files.probeContentType
+		Path path = filePath.toPath();
+		String mimeType = Files.probeContentType(path);
+
+		if (mimeType == null) {
+			// Default MIME type if unable to determine
+			mimeType = "application/octet-stream";
+		}
+
+		// Call the original method with inferred MIME type
+		return uploadFile(filePath, mimeType);
 	}
 
 	private void setFilePermissions(String fileId) throws IOException {

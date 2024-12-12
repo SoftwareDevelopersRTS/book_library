@@ -139,4 +139,11 @@ public class FileUtility {
 
 		return file;
 	}
+
+	public static File convertBase64ToFile(String base64String) throws IOException {
+
+		String fileName = String.valueOf(System.currentTimeMillis());
+
+		return convertBase64ToFile(base64String, fileName);
+	}
 }

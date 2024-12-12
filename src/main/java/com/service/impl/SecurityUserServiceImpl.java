@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import com.dao.SecurityUserDao;
 import com.exceptions.DuplicateEntryException;
 import com.exceptions.NotFoundException;
 import com.exceptions.RequiredFieldsMissingException;
+import com.externalservice.GoogleDriveService;
 import com.helper.AppConstants;
 import com.helper.CommonMessages;
 import com.helper.ErrorConstants;
 import com.model.SystemUser;
 import com.model.SystemUserRole;
 import com.service.SecurityUserService;
+import com.utils.FileUtility;
 import com.utils.RandomCreator;
 
 @Service
@@ -33,6 +36,9 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 	@Autowired
 	private SecurityUserDao securityUserDao;
 
+	@Autowired
+	private GoogleDriveService googleDriveService;
+
 	@Override
 	public Response addEditSystemUser(SystemUser systemUser) throws Exception {
 		Response response = new Response();
@@ -46,6 +52,12 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 			}
 			if (systemUser.getSystemUserId() != null && systemUser.getSystemUserId() > 0) {
 				SystemUser existingSystemUser = objectDao.getObjectById(SystemUser.class, systemUser.getSystemUserId());
+				File file = FileUtility.convertBase64ToFile(systemUser.getBase64ProfileImage());
+
+				String fileId = googleDriveService.uploadFile(file);
+				System.out.println("FileId=========>"+fileId);
+				existingSystemUser.setProfileImageDriveFileId(fileId);
+				objectDao.updateObject(existingSystemUser);
 			} else {
 				SystemUser existingUserByEmail = objectDao.getObjectByParam(SystemUser.class, "email",
 						systemUser.getEmail());

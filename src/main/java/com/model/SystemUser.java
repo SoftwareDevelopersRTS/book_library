@@ -64,6 +64,12 @@ public class SystemUser implements Serializable {
 	@JoinColumn(name = "role_id")
 	private SystemUserRole role;
 
+	@Column(name = "profile_image_drive_file_id")
+	private String profileImageDriveFileId;
+
+	@Transient
+	private String base64ProfileImage;
+
 	@Transient
 	private Long roleId;
 
