@@ -8,8 +8,8 @@ public class AppConstants {
 	public static final String BOOK_CATEGORY_UID_PREFIX = "BOOKCAT";
 
 	public static final String USER_UID_PREFIX = "USR";
-	
-	public static final String SYSTEM_USER_PREFIX="SYSTEM_USR";
+
+	public static final String SYSTEM_USER_PREFIX = "SYSTEM_USR";
 
 	public static String LIBRARY_UID_PREFIX = "LIB";
 
@@ -49,5 +49,11 @@ public class AppConstants {
 	public static final String MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED = "MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED";
 
 	public static final String FAILED_LOGIN_LOCK_DURATION_IN_MINUTES = "FAILED_LOGIN_LOCK_DURATION_IN_MINUTES";
+
+	public static final String TEMPORARY_FILE_PATH = "src/main/resources/temporary_files";
+
+	public static final String GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON = "GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON";
+
+	public static final String GOOGLE_DRIVE_APPLICATION_NAME = "Book Library New";
 
 }

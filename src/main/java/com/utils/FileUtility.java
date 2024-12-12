@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dao.ObjectDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -87,7 +88,7 @@ public class FileUtility {
 					base64Image = base64Image.replace("data:image/png;base64,", "");
 				} else if (base64Image.startsWith("data:image/jpeg;base64,")) {
 					base64Image = base64Image.replace("data:image/jpeg;base64,", "");
-				}else if (base64Image.startsWith("data:image/webp;base64,")) {
+				} else if (base64Image.startsWith("data:image/webp;base64,")) {
 					base64Image = base64Image.replace("data:image/webp;base64,", "");
 				}
 				byte[] imageBytes = Base64.getDecoder().decode(base64Image);
@@ -114,5 +115,28 @@ public class FileUtility {
 			e.printStackTrace(); // Handle this exception as needed
 			return null;
 		}
+	}
+
+	public static File convertMultiPartToFile(MultipartFile file) throws IOException {
+		File convFile = new File(file.getOriginalFilename());
+		try (FileOutputStream fos = new FileOutputStream(convFile)) {
+			fos.write(file.getBytes());
+		}
+		return convFile;
+	}
+
+	public static File convertBase64ToFile(String base64String, String fileName) throws IOException {
+
+		byte[] decodedBytes = Base64.getDecoder().decode(base64String);
+		File directory = new File(AppConstants.TEMPORARY_FILE_PATH);
+		if (!directory.exists()) {
+			directory.mkdirs();
+		}
+		File file = new File(directory, fileName);
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			fos.write(decodedBytes);
+		}
+
+		return file;
 	}
 }

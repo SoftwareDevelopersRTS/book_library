@@ -12,33 +12,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="common_app_setting")
+@Table(name = "common_app_setting")
 @Getter
 @Setter
-public class CommonAppSetting implements Serializable{
-	
+public class CommonAppSetting implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5436134640186687168L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="common_app_setting_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "common_app_setting_id")
 	private Long commonAppSettingId;
-	
-	@Column(name="description",columnDefinition = "LONGTEXT")
+
+	@Column(name = "description", columnDefinition = "LONGTEXT")
 	private String description;
-	
-	@Column(name="setting_name",unique=true)
+
+	@Column(name = "setting_name", unique = true)
 	private String settingName;
-	
-	@Column(name="setting_type")
+
+	@Column(name = "setting_type")
 	private String settingType;
-	
-	@Column(name="setting_value")
+
+	@Column(name = "setting_value", columnDefinition = "LONGTEXT")
 	private String settingValue;
-	
-	
 
 }
