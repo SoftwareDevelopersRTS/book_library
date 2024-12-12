@@ -31,7 +31,7 @@ public class CommonAppSettingController {
 		try {
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("Common App Setting List Get Sucessfully...");
-			response.setResult(commonAppSettingDao.getCommonAppSettingListCount(pagination));
+			response.setResult(commonAppSettingDao.getCommonAppSettingList(pagination));
 			response.setListCount(commonAppSettingDao.getCommonAppSettingListCount(pagination));
 		} catch (Exception e) {
 			e.printStackTrace();
