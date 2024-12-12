@@ -46,6 +46,9 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         if (response.status == 200) {
           this.alert.showSuccessAlert('', response.message);
+          if (response.result) {
+            localStorage.setItem('userInfo', JSON.stringify(response.result));
+          }
           this.soundService.playSound('LOGIN_SUCESS_SOUND');
           this.router.navigateByUrl('/dashboard')
         } else {

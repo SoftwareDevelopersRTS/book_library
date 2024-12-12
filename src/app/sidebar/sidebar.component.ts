@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterModule,CommonModule],
+  imports: [RouterLink, RouterModule, CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -48,14 +48,15 @@ export class SidebarComponent implements OnInit {
   }
 
   logOut() {
+    localStorage.clear();
     this.router.navigateByUrl('login')
   }
   onOffSound() {
-    if(this.isPlaySound && this.isPlaySound=='true'){
+    if (this.isPlaySound && this.isPlaySound == 'true') {
       this.sound.onOffSound('on')
-    }else{
+    } else {
       this.sound.onOffSound('off')
     }
-   
+
   }
 }

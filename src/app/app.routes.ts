@@ -34,17 +34,17 @@ export const routes: Routes = [
     // }
     // { path: 'employee', component: EmployeeComponent,canActivate: [AuthGuard] }
     { path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: 'dashboard', component: DashboardComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'books', component: BooksComponent },
-    { path: 'category', component: CategoryComponent },
-    { path: 'library', component: LibraryComponent },
-    { path: 'user', component: UserComponent },
-    { path: 'sidebar', component: SidebarComponent },
-    { path: 'profile', component: ProfileComponent },
-    { path: 'add-edit-book', component: AddEditBookComponent },
-    { path: 'employee', component: EmployeeComponent },
-    { path: 'settings', component: SettingsComponent }
+    { path: 'books', component: BooksComponent, canActivate: [AuthGuard] },
+    { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
+    { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
+    { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+    { path: 'sidebar', component: SidebarComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'add-edit-book', component: AddEditBookComponent, canActivate: [AuthGuard] },
+    { path: 'employee', component: EmployeeComponent, canActivate: [AuthGuard] },
+    { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 
 ];
 
