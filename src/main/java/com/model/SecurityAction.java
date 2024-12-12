@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +16,11 @@ import lombok.Setter;
 @Setter
 @Entity
 public class SecurityAction implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8733159569790262205L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +39,9 @@ public class SecurityAction implements Serializable {
 	@Column(name = "display_action_name")
 	private String displayActionName;
 
-	@Column(name = "module")
-	private String module;
+	@ManyToOne
+	@JoinColumn(name = "module_id")
+	private Module module;
 
 	@Column(name = "is_active")
 	private Boolean isActive;
