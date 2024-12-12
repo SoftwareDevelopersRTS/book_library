@@ -33,7 +33,10 @@ export class CommonService {
     "EDIT_PROFILE":"api/user/edit",
 
     "ADD_EMPLOYEE":"api/security-user/add-edit",
-    "EMPLOYEE_LIST":"api/security-user/list"
+    "EMPLOYEE_LIST":"api/security-user/list",
+
+    //Common App Setting
+    "COMMON_APP_SETTING_LIST":"api/common-app-setting/list"
   }
   constructor(private httpClient: HttpClient) { }
 

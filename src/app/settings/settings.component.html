@@ -3,10 +3,77 @@
 
     <div class="content">
 
-        <div class="container mt-5">
+        <!-- <div class="container mt-5">
             <p>This is just for current use and not implemented more</p>
             <button class="btn btn-primary me-3" (click)="enableSound('on')">Enable Sound</button>
             <button class="btn btn-primary" (click)="enableSound('off')">Disable Sound</button>
+        </div> -->
+        <div class="container">
+            <ul class="nav">
+                <a class="nav-link" [class.active]="selectedTab=='common_app_setting'"
+                    (click)="selectTab('common_app_setting')">
+                    Common App Setting
+                </a>
+
+                <li class="nav-item">
+                    <a class="nav-link" (click)="selectTab('user_roles')">User Roles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="selectTab('role_actions')">Role Actions</a>
+                </li>
+            </ul>
+
+            <div *ngIf="selectedTab=='common_app_setting'" class="container-fluid">
+                <div class="container mt-4">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Setting Name</th>
+                                <th>Description</th>
+                                <th>Setting Type</th>
+                                <th>Setting Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let setting of commonAppSettingList; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ setting.settingName }}</td>
+                                <td>{{ setting.description }}</td>
+                                <td>{{ setting.settingType }}</td>
+                                <td>{{ setting.settingValue }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           
+            <div *ngIf="selectedTab=='user_roles'" class="container-fluid">
+                <div class="container mt-4">
+                    <table class="table table-bordered table-striped">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th>#</th>
+                          <th>Role Name</th>
+                          <th>Description</th>
+                          <th>Created At</th>
+                          <th>Updated At</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let role of roles; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ role.roleName }}</td>
+                          <td>{{ role.description }}</td>
+                          <td>{{ role.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                          <td>{{ role.updatedAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+            </div>
+
         </div>
     </div>
 </div>

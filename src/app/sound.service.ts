@@ -7,13 +7,16 @@ export class SoundService {
 
   BASE_SOUND_URL: string = "assets/sounds/";
 
-  isPlaySound: boolean = false;
+  isPlaySound: boolean;
   SOUND_URLS: any = {
     "LOGIN_SUCESS_SOUND": "LOGIN_SUCESS_SOUND.mp3",
     "LOGIN_FAILURE_SOUND": "LOGIN_FAILURE_SOUND.mp3",
     "CLICK_SOUND": "CLICK_SOUND.mp3"
   }
-  constructor() { }
+  constructor() {
+    const savedPlaySound = localStorage.getItem('isPlaySound');
+    this.isPlaySound = savedPlaySound == 'true';
+  }
 
   soundProvider(type: string): string | null {
     if (this.SOUND_URLS[type]) {
@@ -38,9 +41,13 @@ export class SoundService {
   }
   onOffSound(type: string) {
     if (type == 'on') {
-      this.isPlaySound = true;
+     // this.isPlaySound = true;
+     localStorage.setItem("isPlaySound","true")
     } else {
-      this.isPlaySound = false;
+      //this.isPlaySound = false;
+      localStorage.setItem("isPlaySound","false")
     }
   }
+
+  
 }

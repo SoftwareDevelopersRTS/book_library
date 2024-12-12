@@ -32,5 +32,15 @@
         <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
       </a>
     </li>
+    <li>
+      <a (click)="onOffSound()">
+        <span *ngIf="isPlaySound=='true'">
+          <img src="assets/volume_off.jpg" style="width: 20px; height: 20px;">
+        </span>
+        <span *ngIf="isPlaySound=='false'">
+          <img src="assets/volume_on.jpg" style="width: 20px; height: 20px;">
+        </span>
+      </a>
+    </li>
   </ul>
 </nav>
