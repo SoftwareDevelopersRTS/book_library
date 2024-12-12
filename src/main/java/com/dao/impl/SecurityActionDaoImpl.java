@@ -29,9 +29,9 @@ public class SecurityActionDaoImpl implements SecurityActionDao {
 			moduleList = new ArrayList<>();
 			moduleList = objectDao.getAllRecords(Module.class);
 
-			for (Module module : moduleList) {
-				module.setSecurityActionList(objectDao.getListByOneParam(SecurityAction.class, "module", module));
-			}
+//			for (Module module : moduleList) {
+//				module.setSecurityActionList(objectDao.getListByOneParam(SecurityAction.class, "module", module));
+//			}
 
 		} catch (Exception e) {
 			throw e;
