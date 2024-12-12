@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateUserProfile() {
-    this.common.putRequest(this.common.SERVER_URL['EDIT_PROFILE'], this.userInfo).subscribe()
+    this.common.postRequest(this.common.SERVER_URL['ADD_EMPLOYEE'], this.userInfo).subscribe()
   }
 
   onFileSelected(event: any): void {
@@ -37,10 +37,10 @@ export class ProfileComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         // Assign full base64 string (including prefix) to userInfo.profileImage
-        this.userInfo.profileImage = e.target.result;
+        this.userInfo.base64ProfileImage = e.target.result;
 
         // Optionally, update profileImageUrl for real-time preview
-        this.userInfo.profileImageUrl = e.target.result;
+        this.userInfo.base64ProfileImage = e.target.result;
       };
       reader.readAsDataURL(file);
     }
