@@ -349,22 +349,13 @@ public class UserServiceImpl implements UserService {
 		if (existingSystemUserByEmail.getPassword() == null) {
 			throw new NotFoundException("Password Not Present in DB. Please inform the tech team...");
 		}
-
-		// Fetch user roles for the existing user
-		List<UserWiseRoles> userRolesList = (List<UserWiseRoles>) objectDao.getListByTwoParams(UserWiseRoles.class,
-				"systemUser", existingSystemUserByEmail, "systemUserRole", systemUserRoleSelectedFrontEnd);
-
-		// Find the user role from the list
-		Optional<UserWiseRoles> userRoleOptional = userRolesList.stream().filter(userRoles -> userRoles
-				.getSystemUserRole().getSystemUserRoleId().equals(systemUserRoleSelectedFrontEnd.getSystemUserRoleId()))
-				.findFirst();
-
-		// Validate password
-		String encodedInputPassword = passwordEncoder.encode(authRequest.getPassword());
-		if (userRoleOptional.isPresent() && encodedInputPassword.equals(existingSystemUserByEmail.getPassword())) {
+		Boolean isPasswordSame = passwordEncoder.matches(authRequest.getPassword(),
+				existingSystemUserByEmail.getPassword());
+		if (isPasswordSame
+				&& existingSystemUserByEmail.getRole().getSystemUserRoleId() == authRequest.getSystemUserRoleId()) {
 			existingSystemUserByEmail.setFailedLoginAttempt(AppConstants.ZERO);
 			existingSystemUserByEmail.setIdLockExpirationTime(null);
-			response.setResult(userRoleOptional.get());
+			response.setResult(existingSystemUserByEmail);
 			response.setStatus(ErrorConstants.SUCESS);
 			response.setMessage("User Login Successfully...");
 			objectDao.updateObject(existingSystemUserByEmail);
