@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -330,9 +332,12 @@ public class UserServiceImpl implements UserService {
 									: existingSystemUserByEmail.getIdLockExpirationTime());
 
 					objectDao.updateObject(existingSystemUserByEmail);
+
+					DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
+					String lockExpirationTimeStr = lockExpirationTime.format(dateFormatter);
 					throw new NotFoundException(
 							"Your account has been temporarily locked due to multiple failed login attempts. Your account will be unlocked at "
-									+ lockExpirationTime + ". Please try again later.");
+									+ lockExpirationTimeStr + ". Please try again later.");
 				}
 			}
 
