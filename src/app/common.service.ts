@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class CommonService {
 
-  public BASE_URL: string = 'http://localhost:8080/';
+  // public BASE_URL: string = 'http://localhost:8080/';
+
+  public BASE_URL: string = 'https://book-library-cvw0.onrender.com/';
   public SERVER_URL: any = {
     "ALL_SECURITY_ROLES": 'api/user/all-security-roles',
     "SYSTEM_USER_LOGIN":'api/user/login',
